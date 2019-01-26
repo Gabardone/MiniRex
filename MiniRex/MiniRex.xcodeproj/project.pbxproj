@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		082A84F321E70942007D5498 /* PublishedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F221E70942007D5498 /* PublishedValue.swift */; };
+		082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* NotificationPublisher.swift */; };
+		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
+		083835B421EE56C000949CA8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B321EE56C000949CA8 /* Publisher.swift */; };
 		0842AB59218687F50091A811 /* MiniRex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0842AB4F218687F50091A811 /* MiniRex.framework */; };
 		0842AB5E218687F50091A811 /* MiniRexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0842AB5D218687F50091A811 /* MiniRexTests.swift */; };
 		0842AB60218687F50091A811 /* MiniRex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0842AB52218687F50091A811 /* MiniRex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		08A8BF99220D145D0060F4AA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF98220D145D0060F4AA /* Logging.swift */; };
+		08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */; };
+		08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD637C218978720052D6F7 /* KVOPublisher.swift */; };
+		08DD8AAF22051C04004E97B3 /* Publisher+UpdateTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8AAE22051C04004E97B3 /* Publisher+UpdateTransformer.swift */; };
+		D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +32,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		082A84F221E70942007D5498 /* PublishedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValue.swift; sourceTree = "<group>"; };
+		082A84F421E888A2007D5498 /* NotificationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPublisher.swift; sourceTree = "<group>"; };
+		083835B121ED2BEE00949CA8 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		083835B321EE56C000949CA8 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		0842AB4F218687F50091A811 /* MiniRex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiniRex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0842AB52218687F50091A811 /* MiniRex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiniRex.h; sourceTree = "<group>"; };
 		0842AB53218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0842AB58218687F50091A811 /* MiniRexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniRexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0842AB5D218687F50091A811 /* MiniRexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniRexTests.swift; sourceTree = "<group>"; };
 		0842AB5F218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08A8BF98220D145D0060F4AA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+ConstantValue.swift"; sourceTree = "<group>"; };
+		08CD637C218978720052D6F7 /* KVOPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisher.swift; sourceTree = "<group>"; };
+		08DD8AAE22051C04004E97B3 /* Publisher+UpdateTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+UpdateTransformer.swift"; sourceTree = "<group>"; };
+		D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +89,16 @@
 		0842AB51218687F50091A811 /* MiniRex */ = {
 			isa = PBXGroup;
 			children = (
-				0842AB52218687F50091A811 /* MiniRex.h */,
 				0842AB53218687F50091A811 /* Info.plist */,
+				08CD637C218978720052D6F7 /* KVOPublisher.swift */,
+				08A8BF98220D145D0060F4AA /* Logging.swift */,
+				0842AB52218687F50091A811 /* MiniRex.h */,
+				082A84F421E888A2007D5498 /* NotificationPublisher.swift */,
+				082A84F221E70942007D5498 /* PublishedValue.swift */,
+				083835B321EE56C000949CA8 /* Publisher.swift */,
+				08DD8AAE22051C04004E97B3 /* Publisher+UpdateTransformer.swift */,
+				083835B121ED2BEE00949CA8 /* Subscription.swift */,
+				08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */,
 			);
 			path = MiniRex;
 			sourceTree = "<group>";
@@ -82,6 +108,7 @@
 			children = (
 				0842AB5D218687F50091A811 /* MiniRexTests.swift */,
 				0842AB5F218687F50091A811 /* Info.plist */,
+				D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */,
 			);
 			path = MiniRexTests;
 			sourceTree = "<group>";
@@ -148,6 +175,7 @@
 				TargetAttributes = {
 					0842AB4E218687F50091A811 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1010;
 					};
 					0842AB57218687F50091A811 = {
 						CreatedOnToolsVersion = 10.0;
@@ -194,6 +222,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */,
+				082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */,
+				08A8BF99220D145D0060F4AA /* Logging.swift in Sources */,
+				08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */,
+				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
+				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
+				082A84F321E70942007D5498 /* PublishedValue.swift in Sources */,
+				08DD8AAF22051C04004E97B3 /* Publisher+UpdateTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0842AB5E218687F50091A811 /* MiniRexTests.swift in Sources */,
+				D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +377,7 @@
 		0842AB64218687F50091A811 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -359,6 +397,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.omv.MiniRex;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -366,6 +405,7 @@
 		0842AB65218687F50091A811 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -392,6 +432,7 @@
 		0842AB67218687F50091A811 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L9B56QWQ3Y;
@@ -410,6 +451,7 @@
 		0842AB68218687F50091A811 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L9B56QWQ3Y;

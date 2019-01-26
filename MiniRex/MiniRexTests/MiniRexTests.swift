@@ -9,6 +9,13 @@
 import XCTest
 @testable import MiniRex
 
+class TestClass {
+
+    deinit {
+        print("I'm going away...")
+    }
+}
+
 class MiniRexTests: XCTestCase {
 
     override func setUp() {
@@ -20,15 +27,14 @@ class MiniRexTests: XCTestCase {
     }
 
     func testExample() {
+
+        var strongReference: TestClass? = TestClass()
+        weak var weakReference: TestClass? = strongReference
+
+
+        strongReference = nil
+        print("This is my weakness: \(String(describing: weakReference))")
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
