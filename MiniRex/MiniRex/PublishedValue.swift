@@ -25,6 +25,14 @@ import os
 public class PublishedValue<Value> where Value: Equatable {
 
     /**
+     A PublishedValue requires an initial value to set up.
+     - Parameter initialValue: The initial value to store in the value property.
+     */
+    public init(withInitialValue initialValue: Value) {
+        self.value = initialValue
+    }
+
+    /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
@@ -93,12 +101,4 @@ public class PublishedValue<Value> where Value: Equatable {
             return subscription
         })
     }()
-
-    /**
-     A PublishedValue requires an initial value to set up.
-     - Parameter initialValue: The initial value to store in the value property.
-     */
-    init(withInitialValue initialValue: Value) {
-        self.value = initialValue
-    }
 }
