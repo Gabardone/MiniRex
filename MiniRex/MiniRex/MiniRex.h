@@ -6,7 +6,7 @@
 //  Copyright © 2018 Óscar Morales Vivó. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for MiniRex.
 FOUNDATION_EXPORT double MiniRexVersionNumber;

@@ -28,8 +28,10 @@ extension Publisher {
     fileprivate init<Root, Value>(forKVOObservationOf object: Root, keyPath: KeyPath<Root, Value>, keyValueObservingOptions options: NSKeyValueObservingOptions) where Root: NSObject, Update == (Root, NSKeyValueObservedChange<Value>) {
         self.init { [weak weakObject = object] (updateBlock) -> Subscription in
             guard let object = weakObject else {
+                if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
+                    os_log("Subscribing to KVO updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
+                }
                 //  Return a dummy subscription, the original object no longer exists.
-                os_log(.error, log: OSLog.miniRex, "Subscribing to KVO updates for a freed object")
                 return Subscription(withUnsubscriber: {})
             }
 
@@ -82,8 +84,10 @@ extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
     fileprivate init(forKVOObservationOf object: NSObject, keyPathString: String, keyValueObservingOptions: NSKeyValueObservingOptions) {
         self.init { [weak weakObject = object] (updateBlock) -> Subscription in
             guard let object = weakObject else {
+                if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
+                    os_log("Subscribing to KVO updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
+                }
                 //  Return a dummy subscription, the original object no longer exists.
-                os_log(.error, log: OSLog.miniRex, "Subscribing to KVO updates for a freed object")
                 return Subscription(withUnsubscriber: {})
             }
 
