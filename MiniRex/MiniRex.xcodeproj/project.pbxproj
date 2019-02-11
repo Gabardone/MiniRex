@@ -12,7 +12,6 @@
 		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
 		083835B421EE56C000949CA8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B321EE56C000949CA8 /* Publisher.swift */; };
 		0842AB59218687F50091A811 /* MiniRex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0842AB4F218687F50091A811 /* MiniRex.framework */; };
-		0842AB5E218687F50091A811 /* MiniRexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0842AB5D218687F50091A811 /* MiniRexTests.swift */; };
 		0842AB60218687F50091A811 /* MiniRex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0842AB52218687F50091A811 /* MiniRex.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08A8BF99220D145D0060F4AA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF98220D145D0060F4AA /* Logging.swift */; };
 		08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */; };
@@ -40,7 +39,6 @@
 		0842AB52218687F50091A811 /* MiniRex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiniRex.h; sourceTree = "<group>"; };
 		0842AB53218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0842AB58218687F50091A811 /* MiniRexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniRexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0842AB5D218687F50091A811 /* MiniRexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniRexTests.swift; sourceTree = "<group>"; };
 		0842AB5F218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08A8BF98220D145D0060F4AA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+ConstantValue.swift"; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 		0842AB5C218687F50091A811 /* MiniRexTests */ = {
 			isa = PBXGroup;
 			children = (
-				0842AB5D218687F50091A811 /* MiniRexTests.swift */,
 				0842AB5F218687F50091A811 /* Info.plist */,
 				D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */,
 			);
@@ -237,7 +234,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0842AB5E218687F50091A811 /* MiniRexTests.swift in Sources */,
 				D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

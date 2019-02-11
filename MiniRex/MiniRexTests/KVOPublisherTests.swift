@@ -12,7 +12,11 @@ import XCTest
 
 class TestNSObject: NSObject {
 
-    @objc dynamic var integer: Int = 7
+    static let initialValue = 7
+
+    @objc dynamic var integer: Int = initialValue
+
+    @objc dynamic var array: [Int] = [initialValue]
 
     deinit {
         print("I'm going awaaaaay")
@@ -22,48 +26,94 @@ class TestNSObject: NSObject {
 
 class KVOPublisherTests: XCTestCase {
 
+    var testObject: TestNSObject!
+
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+
+        testObject = TestNSObject()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        testObject = nil
+
         super.tearDown()
     }
 
 
-    func testLifeCycle() {
-        var instance: TestNSObject? = TestNSObject()
+    func testSwiftKeyPathPublisherInitial() {
+        let publisher = self.testObject.publisher(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.initial, .new])
 
-        var observer: NSKeyValueObservation? = instance?.observe(\TestNSObject.integer, options: [.new], changeHandler: { (instance, change) in
-            print("I have chaaaanged to value \(change.newValue!)")
-        })
+        var hasReceivedInitialKVOCall = false
 
-        instance?.integer = 77
+        let _ = publisher.subscribe { (update: (object: TestNSObject, change: NSKeyValueObservedChange<Int>)) in
+            XCTAssertEqual(self.testObject!, update.object)
+            XCTAssertEqual(update.change.kind, NSKeyValueChange.setting)
+            XCTAssertEqual(update.change.newValue, TestNSObject.initialValue)
+            XCTAssertNil(update.change.oldValue)
+            XCTAssertFalse(update.change.isPrior)
 
-        instance = nil
+            hasReceivedInitialKVOCall = true
+        }
 
-        observer = nil
+        XCTAssertTrue(hasReceivedInitialKVOCall, "Initial KVO call not received by update block.")
     }
 
 
+    func testSwiftKeyPathPublisherUpdates() {
+        let newValue = TestNSObject.initialValue * 11
+        let publisher = self.testObject.publisher(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.new, .old])
+
+        var hasReceivedUpdateKVOCall = false
+
+        let subscription = publisher.subscribe { (update: (object: TestNSObject, change: NSKeyValueObservedChange<Int>)) in
+            XCTAssertEqual(self.testObject!, update.object)
+            XCTAssertEqual(update.change.kind, NSKeyValueChange.setting)
+            XCTAssertEqual(update.change.oldValue, TestNSObject.initialValue)
+            XCTAssertEqual(update.change.newValue, newValue)
+            XCTAssertFalse(update.change.isPrior)
+
+            hasReceivedUpdateKVOCall = true
+        }
+
+        self.testObject.integer = newValue
+
+        subscription.invalidate()   //  Mostly so the compiler doesn't complain about subscription not being changed.
+
+        XCTAssertTrue(hasReceivedUpdateKVOCall, "Update KVO call not received by update block.")
+    }
 
 
-//    func testInitialization() {
-//        let testObject = TestNSObject()
-//        var initializationRunCount: Int = 0
-//        var initialValue: Int = 0
-//        let initializationBlock = { (value: Int) in
-//            initialValue = value
-//            initializationRunCount += 1
-//        }
-//        let updateBlock = { (value: Int) in
-//            //  It's a nop.
-//        }
-//
-//        testObject.subscribe(\.integer, initializationBlock: initializationBlock, updateBlock: updateBlock)
-//
-//        XCTAssertEqual(initialValue, 7)
-//    }
+    func testStringKeyPathPublisherAdvanced() {
+        let newValue = [7, 77, 777]
+        let publisher = self.testObject.publisher(forKeyPathString: "array.@count", keyValueObservingOptions: [.new, .old])
+
+        var hasReceivedUpdateKVOCall = false
+
+        let subscription = publisher.subscribe { (update: (object: Any?, change: [NSKeyValueChangeKey : Any]?)) in
+            guard let object = update.object else {
+                XCTAssertNotNil(update.object)
+                return
+            }
+            guard let change = update.change else {
+                XCTAssertNotNil(update.change)
+                return
+            }
+
+            //  The old KVO API sure is unwieldy in Swift.
+            XCTAssertEqual(self.testObject, object as? TestNSObject)
+            XCTAssertEqual(change[.kindKey] as? UInt, NSKeyValueChange.setting.rawValue)
+            XCTAssertEqual(change[.oldKey] as! Int, 1)
+            XCTAssertEqual(change[.newKey] as! Int, 3)
+            XCTAssertFalse((change[.notificationIsPriorKey] as? Bool) ?? false)
+
+            hasReceivedUpdateKVOCall = true
+        }
+
+        self.testObject.array = newValue
+
+        subscription.invalidate()   //  Mostly so the compiler doesn't complain about subscription not being changed.
+
+        XCTAssertTrue(hasReceivedUpdateKVOCall, "Update KVO call not received by update block.")
+    }
 }
