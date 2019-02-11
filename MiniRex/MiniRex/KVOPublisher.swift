@@ -281,7 +281,7 @@ extension NSObject {
      - Parameter update: The value update block that will be called when the value at the given string key path updates.
      - Returns: A subscription object.
      */
-    public func subscribe<Update>(toKeyPathString keyPathString: String, update: @escaping (Update) -> ()) -> Subscription {
+    public func subscribe<Update>(toKeyPathStringUpdates keyPathString: String, update: @escaping (Update) -> ()) -> Subscription {
         let publisher: Publisher<Update> = self.publisher(forKeyPathString: keyPathString)
         return publisher.subscribe(update)
     }

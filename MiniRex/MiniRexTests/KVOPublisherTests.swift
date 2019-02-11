@@ -42,55 +42,82 @@ class KVOPublisherTests: XCTestCase {
 
 
     func testSwiftKeyPathPublisherInitial() {
-        let publisher = self.testObject.publisher(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.initial, .new])
+        var receivedKVOCalls = 0
 
-        var hasReceivedInitialKVOCall = false
-
-        let _ = publisher.subscribe { (update: (object: TestNSObject, change: NSKeyValueObservedChange<Int>)) in
+        let subscription = self.testObject.subscribe(toKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.initial, .new]) { (update: (object: TestNSObject, change: NSKeyValueObservedChange<Int>)) in
             XCTAssertEqual(self.testObject!, update.object)
             XCTAssertEqual(update.change.kind, NSKeyValueChange.setting)
             XCTAssertEqual(update.change.newValue, TestNSObject.initialValue)
             XCTAssertNil(update.change.oldValue)
             XCTAssertFalse(update.change.isPrior)
 
-            hasReceivedInitialKVOCall = true
+            receivedKVOCalls += 1
         }
 
-        XCTAssertTrue(hasReceivedInitialKVOCall, "Initial KVO call not received by update block.")
+        XCTAssertEqual(receivedKVOCalls, 1)
+
+        //  Test that no further updates are received after unsubscribing.
+        subscription.invalidate()
+        self.testObject.integer = 0
+        XCTAssertEqual(receivedKVOCalls, 1)
     }
 
 
     func testSwiftKeyPathPublisherUpdates() {
         let newValue = TestNSObject.initialValue * 11
-        let publisher = self.testObject.publisher(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.new, .old])
+        var receivedKVOCalls = 0
 
-        var hasReceivedUpdateKVOCall = false
-
-        let subscription = publisher.subscribe { (update: (object: TestNSObject, change: NSKeyValueObservedChange<Int>)) in
+        let subscription = self.testObject.subscribe(toKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.new, .old]) { (update: (object: TestNSObject, change: NSKeyValueObservedChange<Int>)) in
             XCTAssertEqual(self.testObject!, update.object)
             XCTAssertEqual(update.change.kind, NSKeyValueChange.setting)
             XCTAssertEqual(update.change.oldValue, TestNSObject.initialValue)
             XCTAssertEqual(update.change.newValue, newValue)
             XCTAssertFalse(update.change.isPrior)
 
-            hasReceivedUpdateKVOCall = true
+            receivedKVOCalls += 1
         }
 
         self.testObject.integer = newValue
 
-        subscription.invalidate()   //  Mostly so the compiler doesn't complain about subscription not being changed.
+        XCTAssertEqual(receivedKVOCalls, 1)
 
-        XCTAssertTrue(hasReceivedUpdateKVOCall, "Update KVO call not received by update block.")
+        //  Test that no further updates are received after unsubscribing.
+        subscription.invalidate()
+        self.testObject.integer = 0
+        XCTAssertEqual(receivedKVOCalls, 1)
+    }
+
+
+    func testSwiftKeyPathSimpleAPI() {
+        let newValue = TestNSObject.initialValue * 11
+        let publisher = self.testObject.publisher(forKeyPathUpdates: \TestNSObject.integer)
+
+        var receivedValues: [Int] = []
+
+        let subscription = publisher.subscribe { (update: Int) in
+            receivedValues.append(update)
+        }
+
+        //  At this point we should only have gotten the initial update call.
+        XCTAssertEqual(receivedValues, [TestNSObject.initialValue])
+
+        self.testObject.integer = newValue
+
+        XCTAssertEqual(receivedValues, [TestNSObject.initialValue, newValue])
+
+        //  See that unsubscribing works. Make sure no further updates are received after invalidating the subscriber.
+        subscription.invalidate()
+        self.testObject.integer = 0
+        XCTAssertEqual(receivedValues, [TestNSObject.initialValue, newValue])
     }
 
 
     func testStringKeyPathPublisherAdvanced() {
         let newValue = [7, 77, 777]
-        let publisher = self.testObject.publisher(forKeyPathString: "array.@count", keyValueObservingOptions: [.new, .old])
 
-        var hasReceivedUpdateKVOCall = false
+        var receivedUpdateCount = 0
 
-        let subscription = publisher.subscribe { (update: (object: Any?, change: [NSKeyValueChangeKey : Any]?)) in
+        let subscription = self.testObject.subscribe(toKeyPathString: "array.@count", keyValueObservingOptions: [.new, .old]) { (update: (object: Any?, change: [NSKeyValueChangeKey : Any]?)) in
             guard let object = update.object else {
                 XCTAssertNotNil(update.object)
                 return
@@ -107,13 +134,39 @@ class KVOPublisherTests: XCTestCase {
             XCTAssertEqual(change[.newKey] as! Int, 3)
             XCTAssertFalse((change[.notificationIsPriorKey] as? Bool) ?? false)
 
-            hasReceivedUpdateKVOCall = true
+            receivedUpdateCount += 1
         }
 
         self.testObject.array = newValue
+        XCTAssertEqual(receivedUpdateCount, 1)
 
-        subscription.invalidate()   //  Mostly so the compiler doesn't complain about subscription not being changed.
+        //  Test that unsubscribing works.
+        subscription.invalidate()
+        self.testObject.array = []
+        XCTAssertEqual(receivedUpdateCount, 1)
+    }
 
-        XCTAssertTrue(hasReceivedUpdateKVOCall, "Update KVO call not received by update block.")
+
+    func testStringKeyPathPublisherSimpleAPI() {
+        let newValue = [7, 77, 777]
+
+        var receivedUpdates: [Int] = []
+
+        let subscription = self.testObject.subscribe(toKeyPathStringUpdates: "array") { (update: [Int]) in
+            receivedUpdates.append(contentsOf: update)
+        }
+
+        //  Should have received the initial update.
+        XCTAssertEqual(receivedUpdates, [TestNSObject.initialValue])
+
+        //  Update.
+        testObject.array = newValue
+
+        XCTAssertEqual(receivedUpdates, [TestNSObject.initialValue] + newValue)
+
+        //  Test that unsubscribing works.
+        subscription.invalidate()
+        self.testObject.array = []
+        XCTAssertEqual(receivedUpdates, [TestNSObject.initialValue] + newValue)
     }
 }
