@@ -393,7 +393,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.omv.MiniRex;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iOS tvos watchos";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx watchos watchsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				VALID_ARCHS = "i386 x86_64 arm64 arm64e armv7 armv7s";
@@ -423,7 +423,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.omv.MiniRex;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iOS tvos watchos";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx watchos watchsimulator";
 				SWIFT_VERSION = 4.2;
 				VALID_ARCHS = "i386 x86_64 arm64 arm64e armv7 armv7s";
 			};
