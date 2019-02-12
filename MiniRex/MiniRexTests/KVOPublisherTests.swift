@@ -17,10 +17,6 @@ class TestNSObject: NSObject {
     @objc dynamic var integer: Int = initialValue
 
     @objc dynamic var array: [Int] = [initialValue]
-
-    deinit {
-        print("I'm going awaaaaay")
-    }
 }
 
 
