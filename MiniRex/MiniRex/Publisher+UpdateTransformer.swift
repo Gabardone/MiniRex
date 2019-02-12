@@ -42,7 +42,7 @@ extension Publisher {
      The transformationBlock can transform into any type whatsoever, including the source's type, so there is no
      limitation about it other than it has to produce a value for every source update.
      */
-    func transform<Transformed>(with transformationBlock: @escaping (Update) -> Transformed) -> Publisher<Transformed> {
+    public func transform<Transformed>(with transformationBlock: @escaping (Update) -> Transformed) -> Publisher<Transformed> {
         return Publisher<Transformed>(withSource: self, transformationBlock: transformationBlock)
     }
 }

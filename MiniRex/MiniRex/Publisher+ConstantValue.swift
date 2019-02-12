@@ -19,7 +19,7 @@ extension Publisher {
      This is useful for testing stubs as well as implementing protocols where a specific published property happens to
      be a constant for the implementation.
      */
-    init(withConstant constant: Update) {
+    public init(withConstant constant: Update) {
         self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> ()) in
             updateBlock(constant)
 

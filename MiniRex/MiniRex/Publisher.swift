@@ -24,7 +24,7 @@ public struct Publisher<Update> {
      dispatch.
      - Parameter subscriberBlock: A block that executes the subscription logic.
      */
-    init(withSubscribeBlock subscribeBlock: @escaping (@escaping (Update) -> ()) -> Subscription) {
+    public init(withSubscribeBlock subscribeBlock: @escaping (@escaping (Update) -> ()) -> Subscription) {
         self.subscribeBlock = subscribeBlock
     }
 

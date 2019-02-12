@@ -37,7 +37,7 @@ public final class Subscription {
      Normally only publishers will create these, building up or adapting the unsubscriber block to their needs.
      - Parameter unsubscriber: The block to call to unsubscribe this subscription.
      */
-    init(withUnsubscriber unsubscriber: @escaping () -> ()) {
+    public init(withUnsubscriber unsubscriber: @escaping () -> ()) {
         self.unsubscriber = unsubscriber
     }
 
@@ -49,7 +49,7 @@ public final class Subscription {
      In general it is recommended to avoid calling this method and just own the Subscription objects on a single
      reference that gets removed when the subscription is no longer needed.
      */
-    func invalidate() {
+    public func invalidate() {
         unsubscriber?()
         unsubscriber = nil
     }
