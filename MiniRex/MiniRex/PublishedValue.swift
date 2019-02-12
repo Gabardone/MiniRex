@@ -22,33 +22,19 @@ import os
  potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
  accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
-public class PublishedValue<Value> where Value: Equatable {
+public class PublishedValue<Value> {
 
     /**
      A PublishedValue requires an initial value to set up.
      - Parameter initialValue: The initial value to store in the value property.
      */
     public init(withInitialValue initialValue: Value) {
-        self.value = initialValue
+        self.valueStorage = initialValue
     }
 
-    /**
-     The value that is being published. You can access this from its local environment and changing it will trigger
-     subscriber update calls.
-     */
-    public var value: Value {
-        didSet {
-            guard !self.subscribers.isEmpty, value != oldValue else {
-                //  No need for post-processing
-                return
-            }
 
-            //  Broadcast to publishers...
-            for (_, updateBlock) in subscribers {
-                updateBlock(value)
-            }
-        }
-    }
+    private var valueStorage: Value
+
 
     private var subscribers: [ObjectIdentifier: (Value) -> ()] = [:]
 
@@ -96,9 +82,136 @@ public class PublishedValue<Value> where Value: Equatable {
             }
 
             //  Finally do an initial update call with the current value.
-            updateBlock(strongSelf.value)
+            updateBlock(strongSelf.valueStorage)
 
             return subscription
         })
     }()
+}
+
+
+extension PublishedValue where Value: Equatable {
+
+    /**
+     The value that is being published. You can access this from its local environment and changing it will trigger
+     subscriber update calls.
+     */
+    public var value: Value {
+        get {
+            return valueStorage
+        }
+
+        set {
+            let oldValue = self.valueStorage
+            guard newValue != oldValue else {
+                return
+            }
+
+            self.valueStorage = newValue
+
+            guard !self.subscribers.isEmpty else {
+                //  No need for post-processing
+                return
+            }
+
+            //  Broadcast to publishers...
+            for (_, updateBlock) in subscribers {
+                updateBlock(value)
+            }
+        }
+    }
+}
+
+
+extension PublishedValue where Value: AnyObject {
+
+    /**
+     The value that is being published. You can access this from its local environment and changing it will trigger
+     subscriber update calls.
+     */
+    public var value: Value {
+        get {
+            return valueStorage
+        }
+
+        set {
+            let oldValue = self.valueStorage
+            guard newValue !== oldValue else {
+                return
+            }
+
+            self.valueStorage = newValue
+
+            guard !self.subscribers.isEmpty else {
+                //  No need for post-processing
+                return
+            }
+
+            //  Broadcast to publishers...
+            for (_, updateBlock) in subscribers {
+                updateBlock(value)
+            }
+        }
+    }
+}
+
+
+extension PublishedValue where Value: Equatable & AnyObject {
+
+    /**
+     The value that is being published. You can access this from its local environment and changing it will trigger
+     subscriber update calls.
+     */
+    public var value: Value {
+        get {
+            return valueStorage
+        }
+
+        set {
+            let oldValue = self.valueStorage
+            guard newValue != oldValue else {
+                return
+            }
+
+            self.valueStorage = newValue
+
+            guard !self.subscribers.isEmpty else {
+                //  No need for post-processing
+                return
+            }
+
+            //  Broadcast to publishers...
+            for (_, updateBlock) in subscribers {
+                updateBlock(value)
+            }
+        }
+    }
+}
+
+
+extension PublishedValue {
+
+    /**
+     The value that is being published. You can access this from its local environment and changing it will trigger
+     subscriber update calls.
+     */
+    public var value: Value {
+        get {
+            return valueStorage
+        }
+
+        set {
+            self.valueStorage = newValue
+
+            guard !self.subscribers.isEmpty else {
+                //  No need for post-processing
+                return
+            }
+
+            //  Broadcast to publishers...
+            for (_, updateBlock) in subscribers {
+                updateBlock(value)
+            }
+        }
+    }
 }

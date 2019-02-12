@@ -1,5 +1,5 @@
 //
-//  UpdateTransformerTests.swift
+//  PublishedValueTests.swift
 //  MiniRexTests
 //
 //  Created by Óscar Morales Vivó on 2/12/19.
@@ -10,58 +10,44 @@ import XCTest
 @testable import MiniRex
 
 
-class UpdateTransformerTests: XCTestCase {
+class PublishedValueTests: XCTestCase {
 
-    enum EvenOdd: Equatable {
-        case even
-        case odd
-    }
-
-
-    func testValueTransformerEquatable() {
-
+    func testPublishedValueEquatable() {
         let publishedInt = PublishedValue(withInitialValue: 0)
-        let evenOddPublisher = publishedInt.publisher.valueTransform { (integer) -> EvenOdd in
-            return (integer % 2) != 0 ? .odd : .even
-        }
 
         var updateCount = 0
-        var lastEvenOdd = EvenOdd.even
-        let evenOddSubscription = evenOddPublisher.subscribe { (evenOdd) in
+        var lastInteger = 0
+        let intSubscription = publishedInt.publisher.subscribe { (integer) in
             updateCount += 1
-            lastEvenOdd = evenOdd
+            lastInteger = integer
         }
 
         XCTAssertEqual(updateCount, 1)  //  Should have gotten the initial update since there's no async publishers involved.
-        XCTAssertEqual(lastEvenOdd, .even)
-
-        publishedInt.value = 1
-
-        XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
-        XCTAssertEqual(lastEvenOdd, .odd)
+        XCTAssertEqual(lastInteger, 0)
 
         publishedInt.value = 7
 
-        //  Should be the same as before since the new value is still odd.
         XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
-        XCTAssertEqual(lastEvenOdd, .odd)
+        XCTAssertEqual(lastInteger, 7)
 
-        evenOddSubscription.invalidate()
+        publishedInt.value = 7
+
+        //  Should be the same as before since the new value was the same.
+        XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastInteger, 7)
+
+        intSubscription.invalidate()
     }
 
 
     func testValueTransformerAnyObject() {
-
-        let testObject1 = NonEquatableTestObject()
-        let testObject2 = NonEquatableTestObject()
-        let publishedInt = PublishedValue(withInitialValue: 0)
-        let testObjectPublisher = publishedInt.publisher.valueTransform { (integer) -> NonEquatableTestObject in
-            return (integer % 2) != 0 ? testObject2 : testObject1
-        }
+        let testObject1 = NonEquatableTestObject(0)
+        let testObject2 = NonEquatableTestObject(1)
+        let publishedTestObject = PublishedValue(withInitialValue: testObject1)
 
         var updateCount = 0
         var lastTestObject = testObject1
-        let testObjectSubscription = testObjectPublisher.subscribe { (testObject) in
+        let testObjectSubscription = publishedTestObject.publisher.subscribe { (testObject) in
             updateCount += 1
             lastTestObject = testObject
         }
@@ -69,12 +55,12 @@ class UpdateTransformerTests: XCTestCase {
         XCTAssertEqual(updateCount, 1)  //  Should have gotten the initial update since there's no async publishers involved.
         XCTAssertTrue(lastTestObject === testObject1)
 
-        publishedInt.value = 1
+        publishedTestObject.value = testObject2
 
         XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
         XCTAssertTrue(lastTestObject === testObject2)
 
-        publishedInt.value = 7
+        publishedTestObject.value = testObject2
 
         //  Should be the same as before since the new value is still odd.
         XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
@@ -85,15 +71,13 @@ class UpdateTransformerTests: XCTestCase {
 
 
     func testValueTransformerEquatableAnyObject() {
-
-        let publishedInt = PublishedValue(withInitialValue: 0)
-        let testObjectPublisher = publishedInt.publisher.valueTransform { (integer) -> EquatableTestObject in
-            return EquatableTestObject(integer % 2)
-        }
+        let testObject1 = EquatableTestObject(0)
+        let testObject2 = EquatableTestObject(1)
+        let publishedTestObject = PublishedValue(withInitialValue: testObject1)
 
         var updateCount = 0
-        var lastTestObject = EquatableTestObject()
-        let testObjectSubscription = testObjectPublisher.subscribe { (testObject) in
+        var lastTestObject = testObject1
+        let testObjectSubscription = publishedTestObject.publisher.subscribe { (testObject) in
             updateCount += 1
             lastTestObject = testObject
         }
@@ -101,12 +85,12 @@ class UpdateTransformerTests: XCTestCase {
         XCTAssertEqual(updateCount, 1)  //  Should have gotten the initial update since there's no async publishers involved.
         XCTAssertEqual(lastTestObject, EquatableTestObject(0))
 
-        publishedInt.value = 1
+        publishedTestObject.value = testObject2
 
         XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
         XCTAssertEqual(lastTestObject, EquatableTestObject(1))
 
-        publishedInt.value = 7
+        publishedTestObject.value = EquatableTestObject(1)
 
         //  Should be the same as before since the new value is still odd.
         XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.

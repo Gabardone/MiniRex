@@ -34,7 +34,7 @@ extension Publisher where Update: Equatable {
 
     /**
      Builds a Publication that transform another publisher's updates. It will only update subscribers if the new value
-     is different than the last one.
+     should update subscribers, by checking for equality or, failing that, identity.
      - Parameter sourcePublisher: The publisher whose updates are the source for the one we're building.
      - Parameter valueTransformationBlock: A block that converts a source update into one of the kind we want for the
      publisher we're creating.
@@ -47,11 +47,36 @@ extension Publisher where Update: Equatable {
             var cachedValue: Update?
             return sourcePublisher.subscribe({ (update) in
                 let newValue = valueTransformationBlock(update)
-                if cachedValue == nil || cachedValue != newValue {
+                if cachedValue == nil || cachedValue! != newValue {
                     cachedValue = newValue
                     updateBlock(newValue)
-                } else {
+                }
+            })
+        })
+    }
+}
+
+
+extension Publisher where Update: AnyObject {
+
+    /**
+     Builds a Publication that transform another publisher's updates. It will only update subscribers if the new value
+     should update subscribers, by checking for identity.
+     - Parameter sourcePublisher: The publisher whose updates are the source for the one we're building.
+     - Parameter valueTransformationBlock: A block that converts a source update into one of the kind we want for the
+     publisher we're creating.
+
+     The transformationBlock can transform into any type whatsoever, including the source's type, so there is no
+     limitation about it other than it has to produce a value for every source update.
+     */
+    init<OriginalUpdate>(withSource sourcePublisher: Publisher<OriginalUpdate>, valueTransformationBlock: @escaping (OriginalUpdate) -> Update) {
+        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> ()) in
+            var cachedValue: Update?
+            return sourcePublisher.subscribe({ (update) in
+                let newValue = valueTransformationBlock(update)
+                if cachedValue == nil || cachedValue! !== newValue {
                     cachedValue = newValue
+                    updateBlock(newValue)
                 }
             })
         })
@@ -95,6 +120,29 @@ extension Publisher {
      limitation about it other than it has to produce a value for every source update.
      */
     public func valueTransform<Transformed>(with valueTransformationBlock: @escaping (Update) -> Transformed) -> Publisher<Transformed> where Transformed: Equatable {
+        return Publisher<Transformed>(withSource: self, valueTransformationBlock: valueTransformationBlock)
+    }
+
+
+    /**
+     Builds up a publisher that transforms the value updates from the caller into new values.
+
+     Unlike the regular transform Publisher that always updates publishers when it gets an update itself, this one will
+     only update subscribers if the updated, transformed value is a different object than the last transformed one,
+     complying with the expected semantics of a published value as well as possible.
+
+     - Note: If used with a reference type, a Subscription to this publisher will keep a strong reference to the last
+     transformed value. In some odd cases where the transformed objects are being retrieved from a pool of objects as
+     opposed to being created on the fly whenever valueTransformationBlock is called this could lead to a retain cycle.
+     - Parameter transformationBlock: A block that converts the caller's updates into ones of the kind we want for the
+     publisher we're creating.
+     - Returns: A publisher whose subscribers will get the same updates as the caller, but transformed by the given
+     block.
+
+     The transformationBlock can transform into any type whatsoever, including the source's type, so there is no
+     limitation about it other than it has to produce a value for every source update.
+     */
+    public func valueTransform<Transformed>(with valueTransformationBlock: @escaping (Update) -> Transformed) -> Publisher<Transformed> where Transformed: AnyObject {
         return Publisher<Transformed>(withSource: self, valueTransformationBlock: valueTransformationBlock)
     }
 }
