@@ -29,7 +29,7 @@ public struct Publisher<Update> {
     }
 
 
-    private let subscribeBlock: (@escaping (Update) -> ()) -> Subscription
+    internal let subscribeBlock: (@escaping (Update) -> ()) -> Subscription
 
 
     public func subscribe(_ updateBlock: @escaping (Update) -> ()) -> Subscription {

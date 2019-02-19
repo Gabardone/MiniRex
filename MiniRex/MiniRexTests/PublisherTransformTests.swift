@@ -7,10 +7,10 @@
 //
 
 import XCTest
-@testable import MiniRex
+import MiniRex
 
 
-class UpdateTransformerTests: XCTestCase {
+class PublisherTransformTests: XCTestCase {
 
     enum EvenOdd: Equatable {
         case even

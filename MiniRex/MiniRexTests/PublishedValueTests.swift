@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import MiniRex
+import MiniRex
 
 
 class PublishedValueTests: XCTestCase {

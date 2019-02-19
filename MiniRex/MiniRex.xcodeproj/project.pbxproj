@@ -11,15 +11,18 @@
 		082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* NotificationPublisher.swift */; };
 		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
 		083835B421EE56C000949CA8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B321EE56C000949CA8 /* Publisher.swift */; };
+		0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */; };
+		0838EA912218FA6F00007ED3 /* NotificationPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA902218FA6F00007ED3 /* NotificationPublisherTests.swift */; };
+		0838EA932218FD9D00007ED3 /* PublisherConstantValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */; };
 		0842AB59218687F50091A811 /* MiniRex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0842AB4F218687F50091A811 /* MiniRex.framework */; };
 		0842AB60218687F50091A811 /* MiniRex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0842AB52218687F50091A811 /* MiniRex.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08A8BF99220D145D0060F4AA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF98220D145D0060F4AA /* Logging.swift */; };
 		08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */; };
-		08A8BF9D221349060060F4AA /* UpdateTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9C221349060060F4AA /* UpdateTransformerTests.swift */; };
+		08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */; };
 		08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9E221386D00060F4AA /* TestTypes.swift */; };
 		08A8BFA12213899E0060F4AA /* PublishedValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BFA02213899E0060F4AA /* PublishedValueTests.swift */; };
 		08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD637C218978720052D6F7 /* KVOPublisher.swift */; };
-		08DD8AAF22051C04004E97B3 /* Publisher+UpdateTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8AAE22051C04004E97B3 /* Publisher+UpdateTransformer.swift */; };
+		08DD8AAF22051C04004E97B3 /* Publisher+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */; };
 		D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +41,9 @@
 		082A84F421E888A2007D5498 /* NotificationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPublisher.swift; sourceTree = "<group>"; };
 		083835B121ED2BEE00949CA8 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		083835B321EE56C000949CA8 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
+		0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Dispatch.swift"; sourceTree = "<group>"; };
+		0838EA902218FA6F00007ED3 /* NotificationPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPublisherTests.swift; sourceTree = "<group>"; };
+		0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherConstantValueTests.swift; sourceTree = "<group>"; };
 		0842AB4F218687F50091A811 /* MiniRex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiniRex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0842AB52218687F50091A811 /* MiniRex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiniRex.h; sourceTree = "<group>"; };
 		0842AB53218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,11 +51,11 @@
 		0842AB5F218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08A8BF98220D145D0060F4AA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+ConstantValue.swift"; sourceTree = "<group>"; };
-		08A8BF9C221349060060F4AA /* UpdateTransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTransformerTests.swift; sourceTree = "<group>"; };
+		08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherTransformTests.swift; sourceTree = "<group>"; };
 		08A8BF9E221386D00060F4AA /* TestTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypes.swift; sourceTree = "<group>"; };
 		08A8BFA02213899E0060F4AA /* PublishedValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValueTests.swift; sourceTree = "<group>"; };
 		08CD637C218978720052D6F7 /* KVOPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisher.swift; sourceTree = "<group>"; };
-		08DD8AAE22051C04004E97B3 /* Publisher+UpdateTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+UpdateTransformer.swift"; sourceTree = "<group>"; };
+		08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Transform.swift"; sourceTree = "<group>"; };
 		D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,9 +106,10 @@
 				082A84F421E888A2007D5498 /* NotificationPublisher.swift */,
 				082A84F221E70942007D5498 /* PublishedValue.swift */,
 				083835B321EE56C000949CA8 /* Publisher.swift */,
-				08DD8AAE22051C04004E97B3 /* Publisher+UpdateTransformer.swift */,
-				083835B121ED2BEE00949CA8 /* Subscription.swift */,
 				08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */,
+				0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */,
+				08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */,
+				083835B121ED2BEE00949CA8 /* Subscription.swift */,
 			);
 			path = MiniRex;
 			sourceTree = "<group>";
@@ -112,9 +119,11 @@
 			children = (
 				0842AB5F218687F50091A811 /* Info.plist */,
 				D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */,
+				0838EA902218FA6F00007ED3 /* NotificationPublisherTests.swift */,
 				08A8BFA02213899E0060F4AA /* PublishedValueTests.swift */,
+				0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */,
+				08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */,
 				08A8BF9E221386D00060F4AA /* TestTypes.swift */,
-				08A8BF9C221349060060F4AA /* UpdateTransformerTests.swift */,
 			);
 			path = MiniRexTests;
 			sourceTree = "<group>";
@@ -230,12 +239,13 @@
 			files = (
 				08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */,
 				082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */,
+				0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */,
 				08A8BF99220D145D0060F4AA /* Logging.swift in Sources */,
 				08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
 				082A84F321E70942007D5498 /* PublishedValue.swift in Sources */,
-				08DD8AAF22051C04004E97B3 /* Publisher+UpdateTransformer.swift in Sources */,
+				08DD8AAF22051C04004E97B3 /* Publisher+Transform.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,9 +254,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				08A8BFA12213899E0060F4AA /* PublishedValueTests.swift in Sources */,
-				08A8BF9D221349060060F4AA /* UpdateTransformerTests.swift in Sources */,
+				08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */,
 				08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */,
 				D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */,
+				0838EA932218FD9D00007ED3 /* PublisherConstantValueTests.swift in Sources */,
+				0838EA912218FA6F00007ED3 /* NotificationPublisherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
