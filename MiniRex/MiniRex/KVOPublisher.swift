@@ -147,7 +147,20 @@ extension Publisher {
         //  The Swift compiler chokes on this if we try to do it all at once...
         let rawKVOPublication = Publisher<(Any?, [NSKeyValueChangeKey: Any]?)>(forKVOObservationOf: object, keyPathString: keyPathString, keyValueObservingOptions: [.initial, .new])
         let transformationBlock = { (update: (object: Any?, change: [NSKeyValueChangeKey: Any]?)) -> Update in
-            return update.change![.newKey] as! Update
+            switch update.change![.newKey] {
+            case let value as Update:
+                //  This should be always the case for non-optionals, and for non-nil optional values.
+                return value
+
+            case _ as NSNull:
+                //  This will be hit if the observerd property is nullable/optional
+                let nilValue: Any? = nil
+                return nilValue as! Update
+
+            default:
+                //  Programmer error, most likely.
+                preconditionFailure("Unknown type for new value posted on KVO notification with change \(String(describing: update.change))")
+            }
         }
         self.init(withSource: rawKVOPublication, transformationBlock: transformationBlock)
     }

@@ -17,6 +17,8 @@ class TestNSObject: NSObject {
     @objc dynamic var integer: Int = initialValue
 
     @objc dynamic var array: [Int] = [initialValue]
+
+    @objc dynamic var optional: NSNumber? = nil
 }
 
 
@@ -164,5 +166,28 @@ class KVOPublisherTests: XCTestCase {
         subscription.invalidate()
         self.testObject.array = []
         XCTAssertEqual(receivedUpdates, [TestNSObject.initialValue] + newValue)
+    }
+
+
+    func testStringKeyPathOptional() {
+        var receivedUpdates: [NSNumber?] = []
+
+        let publisher: Publisher<NSNumber?> = self.testObject.publisher(forKeyPathString: "optional")
+        let subscription = publisher.subscribe { (update: NSNumber?) in
+            receivedUpdates.append(update)
+        }
+
+        //  Should have received the initial update.
+        XCTAssertEqual(receivedUpdates, [nil])
+
+        //  Update.
+        testObject.optional = NSNumber(booleanLiteral: true)
+
+        XCTAssertEqual(receivedUpdates, [nil, NSNumber(booleanLiteral: true)])
+
+        //  Test that unsubscribing works.
+        subscription.invalidate()
+        self.testObject.optional = NSNumber(integerLiteral: 7)
+        XCTAssertEqual(receivedUpdates, [nil, NSNumber(booleanLiteral: true)])
     }
 }
