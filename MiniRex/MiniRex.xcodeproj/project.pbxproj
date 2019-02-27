@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0807465E22266902000845F7 /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807465D22266902000845F7 /* Broadcaster.swift */; };
 		082A84F321E70942007D5498 /* PublishedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F221E70942007D5498 /* PublishedValue.swift */; };
 		082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* NotificationPublisher.swift */; };
 		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0807465D22266902000845F7 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
 		082A84F221E70942007D5498 /* PublishedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValue.swift; sourceTree = "<group>"; };
 		082A84F421E888A2007D5498 /* NotificationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPublisher.swift; sourceTree = "<group>"; };
 		083835B121ED2BEE00949CA8 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		0842AB51218687F50091A811 /* MiniRex */ = {
 			isa = PBXGroup;
 			children = (
+				0807465D22266902000845F7 /* Broadcaster.swift */,
 				0842AB53218687F50091A811 /* Info.plist */,
 				08CD637C218978720052D6F7 /* KVOPublisher.swift */,
 				08A8BF98220D145D0060F4AA /* Logging.swift */,
@@ -241,6 +244,7 @@
 				082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */,
 				0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */,
 				08A8BF99220D145D0060F4AA /* Logging.swift in Sources */,
+				0807465E22266902000845F7 /* Broadcaster.swift in Sources */,
 				08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
