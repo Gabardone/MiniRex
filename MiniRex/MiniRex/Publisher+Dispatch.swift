@@ -37,8 +37,8 @@ extension Publisher {
             var sourceSubscription: Subscription?
 
             //  Subscription happens asynchronously in sourceQueue. Subscription is a mutating operation for the
-            //  original publisher so it happens on a barrier block.
-            queue.async(group: nil, qos: .unspecified, flags: options, execute: {
+            //  original publisher so it has to happen on a barrier block.
+            queue.async(group: nil, qos: .unspecified, flags: options.union(.barrier), execute: {
                 sourceSubscription = publisher.subscribeBlock(updateBlock)
             })
 
