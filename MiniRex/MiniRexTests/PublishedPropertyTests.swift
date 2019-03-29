@@ -1,5 +1,5 @@
 //
-//  PublishedValueTests.swift
+//  PublishedPropertyTests.swift
 //  MiniRexTests
 //
 //  Created by Óscar Morales Vivó on 2/12/19.
@@ -10,7 +10,7 @@ import XCTest
 import MiniRex
 
 
-class PublishedValueTests: XCTestCase {
+class PublishedPropertyTests: XCTestCase {
 
     func testPublishedValueEquatable() {
         let publishedInt = PublishedProperty(withInitialValue: 0)
