@@ -13,7 +13,7 @@ import MiniRex
 class PublishedValueTests: XCTestCase {
 
     func testPublishedValueEquatable() {
-        let publishedInt = PublishedValue(withInitialValue: 0)
+        let publishedInt = PublishedProperty(withInitialValue: 0)
 
         var updateCount = 0
         var lastInteger = 0
@@ -43,7 +43,7 @@ class PublishedValueTests: XCTestCase {
     func testValueTransformerAnyObject() {
         let testObject1 = NonEquatableTestObject(0)
         let testObject2 = NonEquatableTestObject(1)
-        let publishedTestObject = PublishedValue(withInitialValue: testObject1)
+        let publishedTestObject = PublishedProperty(withInitialValue: testObject1)
 
         var updateCount = 0
         var lastTestObject = testObject1
@@ -73,7 +73,7 @@ class PublishedValueTests: XCTestCase {
     func testValueTransformerEquatableAnyObject() {
         let testObject1 = EquatableTestObject(0)
         let testObject2 = EquatableTestObject(1)
-        let publishedTestObject = PublishedValue(withInitialValue: testObject1)
+        let publishedTestObject = PublishedProperty(withInitialValue: testObject1)
 
         var updateCount = 0
         var lastTestObject = testObject1

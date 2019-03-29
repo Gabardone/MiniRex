@@ -1,5 +1,5 @@
 //
-//  PublishedValue.swift
+//  PublishedProperty.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 1/9/19.
@@ -22,7 +22,7 @@ import os
  potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
  accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
-public class PublishedValue<Value> {
+public class PublishedProperty<Value> {
 
     /**
      A PublishedValue requires an initial value to set up.
@@ -90,7 +90,7 @@ public class PublishedValue<Value> {
 }
 
 
-extension PublishedValue where Value: Equatable {
+extension PublishedProperty where Value: Equatable {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
@@ -123,7 +123,7 @@ extension PublishedValue where Value: Equatable {
 }
 
 
-extension PublishedValue where Value: AnyObject {
+extension PublishedProperty where Value: AnyObject {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
@@ -156,7 +156,7 @@ extension PublishedValue where Value: AnyObject {
 }
 
 
-extension PublishedValue where Value: Equatable & AnyObject {
+extension PublishedProperty where Value: Equatable & AnyObject {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
@@ -189,7 +189,7 @@ extension PublishedValue where Value: Equatable & AnyObject {
 }
 
 
-extension PublishedValue {
+extension PublishedProperty {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
