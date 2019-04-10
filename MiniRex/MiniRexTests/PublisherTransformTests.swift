@@ -21,7 +21,7 @@ class PublisherTransformTests: XCTestCase {
     func testValueTransformerEquatable() {
 
         let publishedInt = PublishedProperty(withInitialValue: 0)
-        let evenOddPublisher = publishedInt.publisher.valueTransform { (integer) -> EvenOdd in
+        let evenOddPublisher = publishedInt.publishedValue.valueTransform { (integer) -> EvenOdd in
             return (integer % 2) != 0 ? .odd : .even
         }
 
@@ -55,7 +55,7 @@ class PublisherTransformTests: XCTestCase {
         let testObject1 = NonEquatableTestObject()
         let testObject2 = NonEquatableTestObject()
         let publishedInt = PublishedProperty(withInitialValue: 0)
-        let testObjectPublisher = publishedInt.publisher.valueTransform { (integer) -> NonEquatableTestObject in
+        let testObjectPublisher = publishedInt.publishedValue.valueTransform { (integer) -> NonEquatableTestObject in
             return (integer % 2) != 0 ? testObject2 : testObject1
         }
 
@@ -87,7 +87,7 @@ class PublisherTransformTests: XCTestCase {
     func testValueTransformerEquatableAnyObject() {
 
         let publishedInt = PublishedProperty(withInitialValue: 0)
-        let testObjectPublisher = publishedInt.publisher.valueTransform { (integer) -> EquatableTestObject in
+        let testObjectPublisher = publishedInt.publishedValue.valueTransform { (integer) -> EquatableTestObject in
             return EquatableTestObject(integer % 2)
         }
 

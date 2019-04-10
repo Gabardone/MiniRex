@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0807465E22266902000845F7 /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807465D22266902000845F7 /* Broadcaster.swift */; };
+		0807465E22266902000845F7 /* SimpleBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807465D22266902000845F7 /* SimpleBroadcaster.swift */; };
 		082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F221E70942007D5498 /* PublishedProperty.swift */; };
-		082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* NotificationPublisher.swift */; };
+		082A84F521E888A2007D5498 /* NotificationBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* NotificationBroadcaster.swift */; };
 		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
 		083835B421EE56C000949CA8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B321EE56C000949CA8 /* Publisher.swift */; };
 		0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */; };
@@ -18,13 +18,17 @@
 		0842AB59218687F50091A811 /* MiniRex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0842AB4F218687F50091A811 /* MiniRex.framework */; };
 		0842AB60218687F50091A811 /* MiniRex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0842AB52218687F50091A811 /* MiniRex.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08A8BF99220D145D0060F4AA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF98220D145D0060F4AA /* Logging.swift */; };
-		08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */; };
+		08A8BF9B220E55440060F4AA /* PublishedValue+Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */; };
 		08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */; };
 		08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9E221386D00060F4AA /* TestTypes.swift */; };
 		08A8BFA12213899E0060F4AA /* PublishedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */; };
 		08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD637C218978720052D6F7 /* KVOPublisher.swift */; };
 		08DD8AAF22051C04004E97B3 /* Publisher+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */; };
 		08FBDE9F224DF15300C27A08 /* PublisherDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */; };
+		08FBDEDE225D989300C27A08 /* PublishedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDD225D989300C27A08 /* PublishedValue.swift */; };
+		08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */; };
+		08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEE4225DA8E100C27A08 /* Task.swift */; };
+		08FBDEE7225DB2DF00C27A08 /* Publisher+SingleUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */; };
 		D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,9 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0807465D22266902000845F7 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
+		0807465D22266902000845F7 /* SimpleBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBroadcaster.swift; sourceTree = "<group>"; };
 		082A84F221E70942007D5498 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
-		082A84F421E888A2007D5498 /* NotificationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPublisher.swift; sourceTree = "<group>"; };
+		082A84F421E888A2007D5498 /* NotificationBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBroadcaster.swift; sourceTree = "<group>"; };
 		083835B121ED2BEE00949CA8 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		083835B321EE56C000949CA8 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Dispatch.swift"; sourceTree = "<group>"; };
@@ -53,13 +57,17 @@
 		0842AB58218687F50091A811 /* MiniRexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniRexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0842AB5F218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08A8BF98220D145D0060F4AA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
-		08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+ConstantValue.swift"; sourceTree = "<group>"; };
+		08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+Constant.swift"; sourceTree = "<group>"; };
 		08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherTransformTests.swift; sourceTree = "<group>"; };
 		08A8BF9E221386D00060F4AA /* TestTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypes.swift; sourceTree = "<group>"; };
 		08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedPropertyTests.swift; sourceTree = "<group>"; };
 		08CD637C218978720052D6F7 /* KVOPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisher.swift; sourceTree = "<group>"; };
 		08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Transform.swift"; sourceTree = "<group>"; };
 		08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherDispatchTests.swift; sourceTree = "<group>"; };
+		08FBDEDD225D989300C27A08 /* PublishedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValue.swift; sourceTree = "<group>"; };
+		08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
+		08FBDEE4225DA8E100C27A08 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+SingleUpdate.swift"; sourceTree = "<group>"; };
 		D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,18 +111,17 @@
 		0842AB51218687F50091A811 /* MiniRex */ = {
 			isa = PBXGroup;
 			children = (
-				0807465D22266902000845F7 /* Broadcaster.swift */,
+				08FBDEE1225DA5C500C27A08 /* Broadcasters */,
 				0842AB53218687F50091A811 /* Info.plist */,
-				08CD637C218978720052D6F7 /* KVOPublisher.swift */,
 				08A8BF98220D145D0060F4AA /* Logging.swift */,
 				0842AB52218687F50091A811 /* MiniRex.h */,
-				082A84F421E888A2007D5498 /* NotificationPublisher.swift */,
-				082A84F221E70942007D5498 /* PublishedProperty.swift */,
+				08FBDEE2225DA60100C27A08 /* Published Values */,
 				083835B321EE56C000949CA8 /* Publisher.swift */,
-				08A8BF9A220E55440060F4AA /* Publisher+ConstantValue.swift */,
 				0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */,
+				08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */,
 				08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */,
 				083835B121ED2BEE00949CA8 /* Subscription.swift */,
+				08FBDEE3225DA84E00C27A08 /* Tasks */,
 			);
 			path = MiniRex;
 			sourceTree = "<group>";
@@ -132,6 +139,35 @@
 				08A8BF9E221386D00060F4AA /* TestTypes.swift */,
 			);
 			path = MiniRexTests;
+			sourceTree = "<group>";
+		};
+		08FBDEE1225DA5C500C27A08 /* Broadcasters */ = {
+			isa = PBXGroup;
+			children = (
+				08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */,
+				082A84F421E888A2007D5498 /* NotificationBroadcaster.swift */,
+				0807465D22266902000845F7 /* SimpleBroadcaster.swift */,
+			);
+			path = Broadcasters;
+			sourceTree = "<group>";
+		};
+		08FBDEE2225DA60100C27A08 /* Published Values */ = {
+			isa = PBXGroup;
+			children = (
+				08CD637C218978720052D6F7 /* KVOPublisher.swift */,
+				082A84F221E70942007D5498 /* PublishedProperty.swift */,
+				08FBDEDD225D989300C27A08 /* PublishedValue.swift */,
+				08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */,
+			);
+			path = "Published Values";
+			sourceTree = "<group>";
+		};
+		08FBDEE3225DA84E00C27A08 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				08FBDEE4225DA8E100C27A08 /* Task.swift */,
+			);
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +246,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0842AB45218687F40091A811;
 			productRefGroup = 0842AB50218687F50091A811 /* Products */;
@@ -244,12 +281,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08A8BF9B220E55440060F4AA /* Publisher+ConstantValue.swift in Sources */,
-				082A84F521E888A2007D5498 /* NotificationPublisher.swift in Sources */,
+				08FBDEDE225D989300C27A08 /* PublishedValue.swift in Sources */,
+				08A8BF9B220E55440060F4AA /* PublishedValue+Constant.swift in Sources */,
+				08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */,
+				08FBDEE7225DB2DF00C27A08 /* Publisher+SingleUpdate.swift in Sources */,
+				082A84F521E888A2007D5498 /* NotificationBroadcaster.swift in Sources */,
 				0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */,
 				08A8BF99220D145D0060F4AA /* Logging.swift in Sources */,
-				0807465E22266902000845F7 /* Broadcaster.swift in Sources */,
+				0807465E22266902000845F7 /* SimpleBroadcaster.swift in Sources */,
 				08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */,
+				08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
 				082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */,

@@ -13,6 +13,9 @@ import Foundation
  A structs that publishes something. It allows for creating subscriptions that are updated with a parameter as per the
  template's instantiation. They can also be easily compounded to chain into a variety of behaviors and to adapt to a
  variety of needs.
+
+ You normally don't use the Publisher type directly, at least by name, but one of its typealias (Published<...>, Task
+ or Broadcaster) to better clear out the expected behavior when subscribing.
  */
 public struct Publisher<Update> {
 

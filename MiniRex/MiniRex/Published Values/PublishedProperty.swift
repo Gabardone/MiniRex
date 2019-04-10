@@ -11,9 +11,9 @@ import os
 
 
 /**
- A simple type to pack up together a property and a publisher for it. Direct access to the property should usually be
- left to the immediate environment, while its publisher can be used to vend as API without establishing implementation
- dependencies.
+ A simple type to pack up together a property and a published value for it. Direct access to the property should usually
+ be left to the immediate environment, while its publisher can be used to vend as API without establishing
+ implementation dependencies.
 
  Making it into a struct wouldn't work as the act of subscribing/unsubscribing involves a change in the state of the
  type's instance. Besides the publish/subscribe pattern implies reference semantics.
@@ -22,21 +22,21 @@ import os
  potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
  accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
-public class PublishedProperty<Value> {
+public class PublishedProperty<ValueType> {
 
     /**
      A PublishedValue requires an initial value to set up.
      - Parameter initialValue: The initial value to store in the value property.
      */
-    public init(withInitialValue initialValue: Value) {
+    public init(withInitialValue initialValue: ValueType) {
         self.valueStorage = initialValue
     }
 
 
-    private var valueStorage: Value
+    private var valueStorage: ValueType
 
 
-    private var subscribers: [ObjectIdentifier: (Value) -> ()] = [:]
+    private var subscribers: [ObjectIdentifier: (ValueType) -> ()] = [:]
 
     /**
      The publisher for value updates.
@@ -46,15 +46,15 @@ public class PublishedProperty<Value> {
 
      After the initial value call the update block will be called again whenever value changes.
      */
-    public lazy var publisher: Publisher<Value> = {
-        return Publisher<Value>(withSubscribeBlock: { [weak weakSelf = self] (updateBlock) -> Subscription in
+    public lazy var publishedValue: PublishedValue<ValueType> = {
+        return PublishedValue<ValueType>(withSubscribeBlock: { [weak weakSelf = self] (updateBlock) -> Subscription in
             guard let strongSelf = weakSelf else {
                 if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
                     os_log("Subscribing to updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
                 }
                 //  PublishedValue already going away/gone. Return a dummy subscription and log as this would not work
                 //  that great if the subscriber has expectations of getting an initial update.
-                return Subscription(withUnsubscriber: {})
+                return Subscription.empty
             }
 
             //  We'll define it once we have the subscriber in place so it can be used within the unsubscriber block.
@@ -90,13 +90,13 @@ public class PublishedProperty<Value> {
 }
 
 
-extension PublishedProperty where Value: Equatable {
+extension PublishedProperty where ValueType: Equatable {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: Value {
+    public var value: ValueType {
         get {
             return valueStorage
         }
@@ -123,13 +123,13 @@ extension PublishedProperty where Value: Equatable {
 }
 
 
-extension PublishedProperty where Value: AnyObject {
+extension PublishedProperty where ValueType: AnyObject {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: Value {
+    public var value: ValueType {
         get {
             return valueStorage
         }
@@ -156,13 +156,13 @@ extension PublishedProperty where Value: AnyObject {
 }
 
 
-extension PublishedProperty where Value: Equatable & AnyObject {
+extension PublishedProperty where ValueType: Equatable & AnyObject {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: Value {
+    public var value: ValueType {
         get {
             return valueStorage
         }
@@ -195,7 +195,7 @@ extension PublishedProperty {
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: Value {
+    public var value: ValueType {
         get {
             return valueStorage
         }

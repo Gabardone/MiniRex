@@ -11,13 +11,14 @@ import os
 
 
 /**
- Publication extension for strongly typed key-path KVO update publication. The update block parameter will be the same
+ Publisher extension for strongly typed key-path KVO update publication. The update block parameter will be the same
  as for the Swift KVO Api (tuple of root object and NSKeyValueObservedChange struct).
  */
 extension Publisher {
 
     /**
-     Builds up a Publication for the KVO updates for the given Swift type safe key-path applied to the given object.
+     Builds up a generic Publisher for the KVO updates for the given Swift type safe key-path applied to the given
+     object.
      - Parameter object: The object rooting the keypath we want to observe. Note that the object is not retained by the
      publication. If it gets freed before a subscription to the publication happens, the subscription will be a dud (it
      will never publish any updates) and an error will be logged to console.
@@ -32,7 +33,7 @@ extension Publisher {
                     os_log("Subscribing to KVO updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
                 }
                 //  Return a dummy subscription, the original object no longer exists.
-                return Subscription(withUnsubscriber: {})
+                return Subscription.empty
             }
 
             //  Observe the expected keypath/object.
@@ -52,7 +53,7 @@ extension Publisher {
 
 
 /**
- Publication extension for weakly typed (String) key-path KVO update publication. The update block parameter will be the
+ Publisher extension for weakly typed (String) key-path KVO update publication. The update block parameter will be the
  same as for the NSObject observation API (tuple of root object and change dictionary keyed by NSKeyValueChangeKey).
  */
 extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
@@ -72,12 +73,12 @@ extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
 
 
     /**
-     Builds up a Publication for the value of the given string key-path applied to the given object.
+     Builds up a generic Publisher for the value of the given string key-path applied to the given object.
      - Parameter object: The object rooting the keypath we want to observe. Note that the object is not retained by the
      publication. If it gets freed before a subscription to the publication happens, the subscription will be a dud (it
      will never publish any updates) and an error will be logged to console.
-     - Parameter keyPathString: The string keypath we want to to observe on object. It's up to the developer using the API to
-     verify that it's a correct key path for the given object.
+     - Parameter keyPathString: The string keypath we want to to observe on object. It's up to the developer using the
+     API to verify that it's a correct key path for the given object.
      - Parameter keyValueObservingOptions: Options for the key-value observation. See the Foundation documentation for
      possible values.
      */
@@ -88,7 +89,7 @@ extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
                     os_log("Subscribing to KVO updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
                 }
                 //  Return a dummy subscription, the original object no longer exists.
-                return Subscription(withUnsubscriber: {})
+                return Subscription.empty
             }
 
             //  Observe the expected keypath/object. No need to use context as the observer object only observs one thing.
@@ -111,9 +112,9 @@ extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
 
 
 /**
- Extension declaring constructors for key value update observation (initial value + updates).
+ Extension declaring constructors for KVO published values (initial value + updates).
  */
-extension Publisher {
+extension PublishedValue {
 
     /**
      A constructor for a Publication that publishes updates to an object's Swift strongly typed KeyPath value.
@@ -202,7 +203,7 @@ extension KeyValuePublishing where Self: NSObject {
      calls to the given update block.
      - Returns: A publisher that publishes the key-path's initial value and its updates.
      */
-    public func publisher<Value>(forKeyPathUpdates keyPath: KeyPath<Self, Value>) -> Publisher<Value> {
+    public func publishedValue<ValueType>(forKeyPathUpdates keyPath: KeyPath<Self, ValueType>) -> PublishedValue<ValueType> {
         return Publisher(forKVOValueUpdatesOf: self, keyPath: keyPath)
     }
 
@@ -234,8 +235,8 @@ extension KeyValuePublishing where Self: NSObject {
      - Parameter update: The subscription update block that will be called when key path value changes.
      - Returns: A subscription object.
      */
-    public func subscribe<Value>(toKeyPathUpdates keyPath: KeyPath<Self, Value>, update: @escaping (Value) -> ()) -> Subscription {
-        let publisher = self.publisher(forKeyPathUpdates: keyPath)
+    public func subscribe<Value>(toValueAtKeyPath keyPath: KeyPath<Self, Value>, update: @escaping (Value) -> ()) -> Subscription {
+        let publisher = self.publishedValue(forKeyPathUpdates: keyPath)
         return publisher.subscribe(update)
     }
 }
@@ -259,7 +260,7 @@ extension NSObject {
     }
 
     /**
-     Builds a raw string key path value publisher for the calling object.
+     Builds a raw string key path published value for the calling object.
 
      Since the original KVO API isn't typed, this method is offered as an extension to NSObject. It's up to the caller
      to make sure the key path is correct and the values returned in the KVO notifications are the expected ones.
@@ -267,8 +268,8 @@ extension NSObject {
      trigger calls to the given update block.
      - Returns: A publisher whose subscribers are updated for KVO value updates fitting the given options.
      */
-    public func publisher<Value>(forKeyPathString keyPathString: String) -> Publisher<Value> {
-        return Publisher(forKVOValueUpdatesOf: self, keyPathString: keyPathString)
+    public func publishedValue<ValueType>(forKeyPathString keyPathString: String) -> PublishedValue<ValueType> {
+        return PublishedValue(forKVOValueUpdatesOf: self, keyPathString: keyPathString)
     }
 
     /**
@@ -290,7 +291,8 @@ extension NSObject {
     }
 
     /**
-     Subscribes to the given string key path value, updating on initial value and further value updates.
+     Subscribes to the given string key path value as a published value, updating on initial value and further value
+     updates.
 
      As usual for string key path publications, take care that the type is correct for the key path.
      - Parameter keyPathString: A string key-path, relative to the calling object, for whose value updates will trigger
@@ -298,8 +300,8 @@ extension NSObject {
      - Parameter update: The value update block that will be called when the value at the given string key path updates.
      - Returns: A subscription object.
      */
-    public func subscribe<Update>(toKeyPathStringUpdates keyPathString: String, update: @escaping (Update) -> ()) -> Subscription {
-        let publisher: Publisher<Update> = self.publisher(forKeyPathString: keyPathString)
+    public func subscribe<ValueType>(toValueAtKeyPathString keyPathString: String, update: @escaping (ValueType) -> ()) -> Subscription {
+        let publisher: PublishedValue<ValueType> = self.publishedValue(forKeyPathString: keyPathString)
         return publisher.subscribe(update)
     }
 }

@@ -21,6 +21,12 @@ import Foundation
 public final class Subscription {
 
     /**
+     Use this as a singleton in cases where there is nothing to do to unsubscribe (i.e. no updates are forthcoming or
+     have all happened during subsription).
+     */
+    static let empty = Subscription(withUnsubscriber: {})
+
+    /**
      The callback type for the subscription to invalidate itself.
      */
     public typealias UnsubscriberBlock = () -> ()

@@ -88,7 +88,7 @@ class KVOPublisherTests: XCTestCase {
 
     func testSwiftKeyPathSimpleAPI() {
         let newValue = TestNSObject.initialValue * 11
-        let publisher = self.testObject.publisher(forKeyPathUpdates: \TestNSObject.integer)
+        let publisher = self.testObject.publishedValue(forKeyPathUpdates: \TestNSObject.integer)
 
         var receivedValues: [Int] = []
 
@@ -150,7 +150,7 @@ class KVOPublisherTests: XCTestCase {
 
         var receivedUpdates: [Int] = []
 
-        let subscription = self.testObject.subscribe(toKeyPathStringUpdates: "array") { (update: [Int]) in
+        let subscription = self.testObject.subscribe(toValueAtKeyPathString: "array") { (update: [Int]) in
             receivedUpdates.append(contentsOf: update)
         }
 
@@ -172,7 +172,7 @@ class KVOPublisherTests: XCTestCase {
     func testStringKeyPathOptional() {
         var receivedUpdates: [NSNumber?] = []
 
-        let publisher: Publisher<NSNumber?> = self.testObject.publisher(forKeyPathString: "optional")
+        let publisher: Publisher<NSNumber?> = self.testObject.publishedValue(forKeyPathString: "optional")
         let subscription = publisher.subscribe { (update: NSNumber?) in
             receivedUpdates.append(update)
         }

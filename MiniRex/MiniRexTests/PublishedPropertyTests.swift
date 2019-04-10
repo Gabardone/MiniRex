@@ -17,7 +17,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastInteger = 0
-        let intSubscription = publishedInt.publisher.subscribe { (integer) in
+        let intSubscription = publishedInt.publishedValue.subscribe { (integer) in
             updateCount += 1
             lastInteger = integer
         }
@@ -47,7 +47,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastTestObject = testObject1
-        let testObjectSubscription = publishedTestObject.publisher.subscribe { (testObject) in
+        let testObjectSubscription = publishedTestObject.publishedValue.subscribe { (testObject) in
             updateCount += 1
             lastTestObject = testObject
         }
@@ -77,7 +77,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastTestObject = testObject1
-        let testObjectSubscription = publishedTestObject.publisher.subscribe { (testObject) in
+        let testObjectSubscription = publishedTestObject.publishedValue.subscribe { (testObject) in
             updateCount += 1
             lastTestObject = testObject
         }

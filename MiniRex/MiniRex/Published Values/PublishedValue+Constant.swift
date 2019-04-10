@@ -1,5 +1,5 @@
 //
-//  Publisher+ConstantValue.swift
+//  PublishedValue+Constant.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 2/8/19.
@@ -9,14 +9,14 @@
 import Foundation
 
 
-extension Publisher {
+extension PublishedValue {
 
     /**
      Builds a Publication that just updates subscribers once with a specific value.
      - Parameter constant: The value that will be sent to subscribers when they subscribe.
      - Note: Reference types will be retained by the Publisher.
 
-     This is useful for testing stubs as well as implementing protocols where a specific published property happens to
+     This is useful for testing task stubs as well as implementing protocols where a specific published value happens to
      be a constant for the implementation.
      */
     public init(withConstant constant: Update) {
@@ -24,7 +24,7 @@ extension Publisher {
             updateBlock(constant)
 
             //  Just return a dummy subscription.
-            return Subscription(withUnsubscriber: {})
+            return Subscription.empty
         })
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Broadcaster.swift
+//  SimpleBroadcaster.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 2/26/19.
@@ -14,7 +14,7 @@ import os
  A subscription source for publishers that don't hold a value. It has a method to manually update its subscriptions
  with a value, and holds onto a publisher.
  */
-public class Broadcaster<Update> {
+public class SimpleBroadcaster<Update> {
 
     /**
      Broadcasts the given value to all subscribers.
@@ -34,7 +34,7 @@ public class Broadcaster<Update> {
      After subscription, any calls to broadcast will trigger a call to the update block as long as the subscription is
      alive. Note that subscription may be delayed if using a dispatch publisher.
      */
-    public lazy var publisher: Publisher<Update> = {
+    public lazy var broadcaster: Publisher<Update> = {
         return Publisher<Update>(withSubscribeBlock: { [weak weakSelf = self] (updateBlock) -> Subscription in
             guard let strongSelf = weakSelf else {
                 if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
@@ -42,7 +42,7 @@ public class Broadcaster<Update> {
                 }
                 //  PublishedValue already going away/gone. Return a dummy subscription and log as this would not work
                 //  that great if the subscriber has expectations of getting an initial update.
-                return Subscription(withUnsubscriber: {})
+                return Subscription.empty
             }
 
             //  We'll define it once we have the subscriber in place so it can be used within the unsubscriber block.

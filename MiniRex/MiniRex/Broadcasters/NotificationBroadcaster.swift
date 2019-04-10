@@ -1,5 +1,5 @@
 //
-//  NotificationPublisher.swift
+//  NotificationBroadcaster.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 1/11/19.
