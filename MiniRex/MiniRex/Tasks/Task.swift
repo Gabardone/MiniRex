@@ -28,6 +28,10 @@ extension Task {
 
     /**
      Builds up a task publisher with the given logic.
+     - Parameter queue: The queue where the task management will happen. The actual task may (and usually will) happen
+     elsewhere, but its management needs to happen serially to keep subscriptions/unsubscriptions/task completion from
+     stomping on each other. Subscribers will be called in the given queue but that can be easily fixed with a dispatch
+     wrapper.
      - Parameter taskBlock: The block that actually executes the task. It gets sent as a parameter another block that it
      has to call once completed one way or another. Calling that block will store the result of the task and call subscribers
      with it.
@@ -36,7 +40,7 @@ extension Task {
      - Parameter cancelBlock: Optionally, a block to be called to cancel the task if all subscribers unsubscribe. If
      nil (the default), no action will be taken whenever the task loses all subscribers.
      */
-    init(withTaskBlock taskBlock: @escaping ((Update) -> (Void)) -> (Void), cancelBlock: (() -> ())? = nil) {
+    init(inQueue queue: DispatchQueue, withTaskBlock taskBlock: @escaping ((Update) -> (Void)) -> (Void), cancelBlock: (() -> ())? = nil) {
         //  Will store results if they arrive.
         var taskResult: Update?
         var subscribers: [ObjectIdentifier: (Update) -> ()] = [:]
@@ -52,32 +56,40 @@ extension Task {
             } else {
                 var subscriptionID: ObjectIdentifier!
                 let subscription = Subscription(withUnsubscriber: {
-                    subscribers.removeValue(forKey: subscriptionID)
+                    //  Unsubscription happens in the given queue to avoid conflicting writing to the task data.
+                    queue.async(group: nil, qos: .unspecified, flags: .barrier, execute: {
+                        subscribers.removeValue(forKey: subscriptionID)
 
-                    if subscribers.isEmpty, let cancelBlock = cancelBlock {
-                        cancelBlock()
-                        taskStarted = false
-                    }
+                        if subscribers.isEmpty, let cancelBlock = cancelBlock, taskResult == nil {
+                            cancelBlock()
+                            taskStarted = false
+                        }
+                    })
                 })
 
                 subscriptionID = ObjectIdentifier(subscription)
 
-                //  Add the subscription to the dictionary.
-                subscribers[subscriptionID] = updateBlock
+                //  Everything else gets dispatched to the given queue with a barrier to avoid weird race conditions.
+                queue.async(group: nil, qos: .unspecified, flags: .barrier, execute: {
+                    //  Add the subscription to the dictionary.
+                    subscribers[subscriptionID] = updateBlock
 
-                if !taskStarted {
-                    //  Haven't started the task yet. Now that we have a subscriber we will
-                    taskStarted = true
-                    taskBlock({ (result) in
-                        //  We got a result so we're storing it.
-                        taskResult = result
+                    if !taskStarted {
+                        //  Haven't started the task yet. Now that we have a subscriber we will
+                        taskStarted = true
+                        taskBlock({ (result) in
+                            queue.async(group: nil, qos: .unspecified, flags: .barrier, execute: {
+                                //  We got a result so we're storing it.
+                                taskResult = result
 
-                        //  Update all existing subscribers.
-                        for (_, updateBlock) in subscribers {
-                            updateBlock(result)
-                        }
-                    })
-                }
+                                //  Update all existing subscribers.
+                                for (_, updateBlock) in subscribers {
+                                    updateBlock(result)
+                                }
+                            })
+                        })
+                    }
+                })
 
                 return subscription
             }
