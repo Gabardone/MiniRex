@@ -23,7 +23,7 @@ extension Publisher {
      before it receives its update.
      */
     @discardableResult
-    func subscribeToSingleUpdate(_ updateBlock: @escaping (Update) -> ()) -> Subscription {
+    public func subscribeToSingleUpdate(_ updateBlock: @escaping (Update) -> ()) -> Subscription {
         var result: Subscription?
         result = self.subscribe { (update) in
             updateBlock(update)

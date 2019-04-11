@@ -29,6 +29,7 @@
 		08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */; };
 		08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEE4225DA8E100C27A08 /* Task.swift */; };
 		08FBDEE7225DB2DF00C27A08 /* Publisher+SingleUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */; };
+		08FBDEE9225F12A300C27A08 /* Task+URLData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEE8225F12A300C27A08 /* Task+URLData.swift */; };
 		D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
 		08FBDEE4225DA8E100C27A08 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+SingleUpdate.swift"; sourceTree = "<group>"; };
+		08FBDEE8225F12A300C27A08 /* Task+URLData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+URLData.swift"; sourceTree = "<group>"; };
 		D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				08FBDEE4225DA8E100C27A08 /* Task.swift */,
+				08FBDEE8225F12A300C27A08 /* Task+URLData.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				08A8BF99220D145D0060F4AA /* Logging.swift in Sources */,
 				0807465E22266902000845F7 /* SimpleBroadcaster.swift in Sources */,
 				08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */,
+				08FBDEE9225F12A300C27A08 /* Task+URLData.swift in Sources */,
 				08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,

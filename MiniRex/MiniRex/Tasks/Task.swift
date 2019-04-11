@@ -21,7 +21,7 @@ import Foundation
  update subscription on it.
  - Some tasks may be canceled if they lose all subscribers before they are completed.
  */
-typealias Task<ResultType, ErrorType: Error> = Publisher<Result<ResultType, ErrorType>>
+public typealias Task<ResultType, ErrorType: Error> = Publisher<Result<ResultType, ErrorType>>
 
 
 extension Task {
@@ -40,7 +40,7 @@ extension Task {
      - Parameter cancelBlock: Optionally, a block to be called to cancel the task if all subscribers unsubscribe. If
      nil (the default), no action will be taken whenever the task loses all subscribers.
      */
-    init(inQueue queue: DispatchQueue, withTaskBlock taskBlock: @escaping ((Update) -> (Void)) -> (Void), cancelBlock: (() -> ())? = nil) {
+    public init(inQueue queue: DispatchQueue, withTaskBlock taskBlock: @escaping (@escaping (Update) -> (Void)) -> (Void), cancelBlock: (() -> ())? = nil) {
         //  Will store results if they arrive.
         var taskResult: Update?
         var subscribers: [ObjectIdentifier: (Update) -> ()] = [:]
