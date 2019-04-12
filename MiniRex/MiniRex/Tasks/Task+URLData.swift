@@ -31,7 +31,11 @@ extension Task where Update == Result<Data, Error> {
         return Task<Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
             urlDataTask = URLSession.shared.dataTask(with: url) { data, response, error in
                 if let error = error {
-                    completion(.failure(error))
+                    if let urlError = error as? URLError, urlError.code == .cancelled {
+                        //  We're letting this one slide as we wouldn't expect a canceled task to update, and we're the only ones who can.
+                    } else {
+                        completion(.failure(error))
+                    }
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
