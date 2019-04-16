@@ -15,7 +15,7 @@ It should also work with minimal changes on any older Apple OS which supports Sw
 ## Installation
 Carthage is the recommended approach to integrate MiniRex on an existing project. It works fine if set up with the project's github URL.
 
-No CocoaPods support planned at this time.
+Or just get it through CocoaPods if that's your thing. Pod name is "MiniRex"
 
 One can also just clone the repo whenever it works best for your project setup, either as a submodule or as a sibling repository.
 
@@ -76,6 +76,7 @@ semantics of Publish/Subscribe imply reference, and besides the act of subscribi
 publisher source, so it has to be a class instead of a struct.
 - Dispatch adapters, both for subscription and for update callbacks, so it's easy to build publishers that bridge components operating
 on different dispatch queues.
+- A Task for URL Data downloads. Feed it a URL, then subscribe to the returned Task to initiate the download.
 
 ## Contributing Ideas
 While this framework is not based on particularly revolutionary ideas, I would love for it to be useful to a wide variety of developers. If you
@@ -88,7 +89,13 @@ feel a particular improvement would make it more so please let me know.
 - Progressive Tasks
 
 ## Release History
-* 0.2.3 (20180221): Fixed crashing issues related to nullable property KVO published values.
+* 1.0.4 (20190415): Support for CocoaPods
+* 1.0.3 (20190411): Fixes for URL data task cancelation flow.
+* 1.0.2 (20190411): Fixes for Task and added URL data Task (for your take home interview software project needs)
+* 1.0.1 (20190409): Initial implementation of generic Task publishers and single update subscriptions.
+* 1.0.0 (20190407): Adopted naming conventions throughout for Publisher behavior (Broadcaster/Published Value/Task). Renaming of type
+means this release is not compatible with prior versions but updating should be simple enough.
+* 0.2.3 (20190221): Fixed crashing issues related to nullable property KVO published values.
 * 0.2.2 (20190212): Efficient published value behavior for `Equatable` and reference types.
 * 0.2.1 (20190212): Added published value transformer utilities.
 * 0.2.0 (20190211): Added Carthage support
