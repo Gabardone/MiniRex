@@ -1,11 +1,11 @@
 Pod::Spec.new do |podspec|
     podspec.name = 'MiniRex'
-    podspec.version = '1.0.3'
+    podspec.version = '1.0.4'
     podspec.license = { :type => 'MIT', :file => 'LICENSE' }
     podspec.summary = 'Lightweight, easy to use and Swift-friendly generalized Publish/Subscribe types and utilities.'
     podspec.homepage = 'https://github.com/Gabardone/MiniRex'
-    podspec.authors = { 'Óscar Morales Vivó' => 'oscarmv@mac.com' }
-    podspec.source = { :git => 'https://github.com/Gabardone/MiniRex.git', :tag => podspec.version }
+    podspec.authors = { 'Oscar Morales Vivo' => 'oscarmv@mac.com' }
+    podspec.source = { :git => 'https://github.com/Gabardone/MiniRex.git', :tag => 'MiniRex-1.0.4' }
     podspec.swift_version = '5.0'
     podspec.source_files = 'MiniRex/MiniRex/**/*.{swift,h}'
     podspec.ios.deployment_target = '8.0'
