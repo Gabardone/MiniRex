@@ -89,6 +89,7 @@ feel a particular improvement would make it more so please let me know.
 - Progressive Tasks
 
 ## Release History
+* 1.0.5 (20190417): Fix to SimpleBroadcaster (couldn't be initialized from outside the library). Added several missing unit tests.
 * 1.0.4 (20190415): Support for CocoaPods
 * 1.0.3 (20190411): Fixes for URL data task cancelation flow.
 * 1.0.2 (20190411): Fixes for Task and added URL data Task (for your take home interview software project needs)
