@@ -22,7 +22,7 @@ import os
  potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
  accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
-public class PublishedProperty<ValueType> {
+final public class PublishedProperty<ValueType> {
 
     /**
      A PublishedValue requires an initial value to set up.
@@ -37,6 +37,7 @@ public class PublishedProperty<ValueType> {
 
 
     private var subscribers: [ObjectIdentifier: (ValueType) -> ()] = [:]
+
 
     /**
      The publisher for value updates.

@@ -14,7 +14,13 @@ import os
  A subscription source for publishers that don't hold a value. It has a method to manually update its subscriptions
  with a value, and holds onto a publisher.
  */
-public class SimpleBroadcaster<Update> {
+final public class SimpleBroadcaster<Update> {
+
+    /**
+     The default initializer. Declared public because Swift made us.
+     */
+    public init() {
+    }
 
     /**
      Broadcasts the given value to all subscribers.
