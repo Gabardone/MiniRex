@@ -24,6 +24,7 @@
 		08A8BFA12213899E0060F4AA /* PublishedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */; };
 		08CD637D218978720052D6F7 /* KVOPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD637C218978720052D6F7 /* KVOPublisher.swift */; };
 		08DD8AAF22051C04004E97B3 /* Publisher+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */; };
+		08E7753B22684511007CF676 /* PublisherSingleUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */; };
 		08FBDE9F224DF15300C27A08 /* PublisherDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */; };
 		08FBDEDE225D989300C27A08 /* PublishedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDD225D989300C27A08 /* PublishedValue.swift */; };
 		08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */; };
@@ -64,6 +65,7 @@
 		08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedPropertyTests.swift; sourceTree = "<group>"; };
 		08CD637C218978720052D6F7 /* KVOPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVOPublisher.swift; sourceTree = "<group>"; };
 		08DD8AAE22051C04004E97B3 /* Publisher+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Transform.swift"; sourceTree = "<group>"; };
+		08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherSingleUpdateTests.swift; sourceTree = "<group>"; };
 		08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherDispatchTests.swift; sourceTree = "<group>"; };
 		08FBDEDD225D989300C27A08 /* PublishedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValue.swift; sourceTree = "<group>"; };
 		08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */,
 				0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */,
 				08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */,
+				08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */,
 				08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */,
 				08A8BF9E221386D00060F4AA /* TestTypes.swift */,
 			);
@@ -308,6 +311,7 @@
 			files = (
 				08A8BFA12213899E0060F4AA /* PublishedPropertyTests.swift in Sources */,
 				08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */,
+				08E7753B22684511007CF676 /* PublisherSingleUpdateTests.swift in Sources */,
 				08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */,
 				D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */,
 				0838EA932218FD9D00007ED3 /* PublisherConstantValueTests.swift in Sources */,
