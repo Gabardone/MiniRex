@@ -46,7 +46,7 @@ final public class SimpleBroadcaster<Update> {
                 if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
                     os_log("Subscribing to updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
                 }
-                //  PublishedValue already going away/gone. Return a dummy subscription and log as this would not work
+                //  SimpleBroadcaster already going away/gone. Return a dummy subscription and log as this would not work
                 //  that great if the subscriber has expectations of getting an initial update.
                 return Subscription.empty
             }

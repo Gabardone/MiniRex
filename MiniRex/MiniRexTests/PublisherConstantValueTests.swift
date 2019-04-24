@@ -13,15 +13,26 @@ class PublisherConstantValueTests: XCTestCase {
 
     func testConstantValuePublisher() {
 
-        var readConstant = 0
+        let integerConstant = 7
 
-        //  Subscribing will involve an immediate callback with the constant value (no dispatching publishers around).
-        let subscription = Publisher(withConstant: 7).subscribe({ (update) in
-            readConstant = update
-        })
+        let singleUpdatePublisher = Publisher<Int>(withConstant: integerConstant)
 
-        XCTAssertEqual(readConstant, 7)
+        let updateExpectation1 = expectation(description: "Update1")
+        let subscription1 = singleUpdatePublisher.subscribe { (integer) in
+            XCTAssertEqual(integer, integerConstant)
+            updateExpectation1.fulfill()
+        }
 
-        subscription.invalidate()
+        subscription1.invalidate()
+
+        let updateExpectation2 = expectation(description: "Update2")
+        let subscription2 = singleUpdatePublisher.subscribe { (integer) in
+            XCTAssertEqual(integer, integerConstant)
+            updateExpectation2.fulfill()
+        }
+
+        waitForExpectations(timeout: 1.0)
+
+        subscription2.invalidate()
     }
 }

@@ -12,28 +12,24 @@ import MiniRex
 
 class PublisherSingleUpdateTests: XCTestCase {
 
-    func testSingleUpdatePublisher() {
+    func testSingleUpdateSubscription() {
+        let broadcastInt = 7
 
-        let integerConstant = 7
-
-        let singleUpdatePublisher = Publisher<Int>(withConstant: integerConstant)
-
-        let updateExpectation1 = expectation(description: "Update1")
-        let subscription1 = singleUpdatePublisher.subscribe { (integer) in
-            XCTAssertEqual(integer, integerConstant)
-            updateExpectation1.fulfill()
+        let intBroadcaster = SimpleBroadcaster<Int>()
+        let updateExpectation = expectation(description: "SingleUpdate")
+        weak var singleUseSubscription = intBroadcaster.broadcaster.subscribeToSingleUpdate { (integer) in
+            XCTAssertEqual(integer, broadcastInt)
+            updateExpectation.fulfill()
         }
 
-        subscription1.invalidate()
+        //  The subscription is still keepint itself alive.
+        XCTAssertNotNil(singleUseSubscription)
 
-        let updateExpectation2 = expectation(description: "Update2")
-        let subscription2 = singleUpdatePublisher.subscribe { (integer) in
-            XCTAssertEqual(integer, integerConstant)
-            updateExpectation2.fulfill()
-        }
+        intBroadcaster.broadcast(update: broadcastInt)
 
         waitForExpectations(timeout: 1.0)
 
-        subscription2.invalidate()
+        //  Ad this point the subscription should have invalidated and niled itself.
+        XCTAssertNil(singleUseSubscription)
     }
 }

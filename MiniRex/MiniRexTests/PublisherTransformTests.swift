@@ -18,6 +18,38 @@ class PublisherTransformTests: XCTestCase {
     }
 
 
+    func testTransform() {
+
+        let intBroadcaster = SimpleBroadcaster<Int>()
+        let evenOddPublisher = intBroadcaster.broadcaster.transform { (integer) -> EvenOdd in
+            return (integer % 2) != 0 ? .odd : .even
+        }
+
+        var updateCount = 0
+        var lastEvenOdd = EvenOdd.even
+        let evenOddSubscription = evenOddPublisher.subscribe { (evenOdd) in
+            updateCount += 1
+            lastEvenOdd = evenOdd
+        }
+
+        XCTAssertEqual(updateCount, 0)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastEvenOdd, .even)
+
+        intBroadcaster.broadcast(update: 1)
+
+        XCTAssertEqual(updateCount, 1)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastEvenOdd, .odd)
+
+        intBroadcaster.broadcast(update: 7)
+
+        //  Should be the same as before since the new value is still odd.
+        XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastEvenOdd, .odd)
+
+        evenOddSubscription.invalidate()
+    }
+
+
     func testValueTransformerEquatable() {
 
         let publishedInt = PublishedProperty(withInitialValue: 0)
