@@ -27,14 +27,18 @@ extension Publisher {
         var result: Subscription?
         var updateTriggered = false
         result = self.subscribe { (update) in
+            guard !updateTriggered else {
+                //  This might come to pass due to accidental reentrancy during updateBlock(update)
+                result?.invalidate()
+                result = nil
+                return
+            }
+
+            updateTriggered = true
+
             updateBlock(update)
 
-            //  Make sure we don't get more.
-            if let strongResult = result {
-                strongResult.invalidate()
-            } else {
-                updateTriggered = true
-            }
+            result?.invalidate()
             result = nil
         }
 
