@@ -32,3 +32,9 @@ class EquatableTestObject: Equatable {
         self.intValue = intValue
     }
 }
+
+
+struct NonEquatableNonObject {
+
+    var intValue = 0
+}

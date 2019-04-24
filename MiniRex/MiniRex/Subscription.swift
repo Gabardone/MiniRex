@@ -22,9 +22,13 @@ public final class Subscription {
 
     /**
      Use this as a singleton in cases where there is nothing to do to unsubscribe (i.e. no updates are forthcoming or
-     have all happened during subsription).
+     have all happened during subsription). The empty subscription is always invalidated.
      */
-    static let empty = Subscription(withUnsubscriber: {})
+    static let empty: Subscription = {
+        let result = Subscription(withUnsubscriber: {})
+        result.invalidate()
+        return result
+    }()
 
     /**
      The callback type for the subscription to invalidate itself.
@@ -58,6 +62,13 @@ public final class Subscription {
     public func invalidate() {
         unsubscriber?()
         unsubscriber = nil
+    }
+
+    /**
+     Returns true if the object is managing an active subscription. Use mostly for testing purposes.
+     */
+    public var isSubscribed: Bool {
+        return self.unsubscriber != nil
     }
 
     /**

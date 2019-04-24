@@ -25,10 +25,21 @@ extension Publisher {
     @discardableResult
     public func subscribeToSingleUpdate(_ updateBlock: @escaping (Update) -> ()) -> Subscription {
         var result: Subscription?
+        var updateTriggered = false
         result = self.subscribe { (update) in
             updateBlock(update)
 
             //  Make sure we don't get more.
+            if let strongResult = result {
+                strongResult.invalidate()
+            } else {
+                updateTriggered = true
+            }
+            result = nil
+        }
+
+        if updateTriggered {
+            //  The update triggered during subscription. Let's clean up here.
             result?.invalidate()
             result = nil
         }

@@ -32,4 +32,21 @@ class PublisherSingleUpdateTests: XCTestCase {
         //  Ad this point the subscription should have invalidated and niled itself.
         XCTAssertNil(singleUseSubscription)
     }
+
+
+    func testSingleUpdatePublishedValueSubscription() {
+        let initialValue = 7
+
+        let publishedInteger = PublishedProperty(withInitialValue: initialValue)
+        let updateExpectation = expectation(description: "SingleUpdate")
+        let singleUseSubscription = publishedInteger.publishedValue.subscribeToSingleUpdate { (integer) in
+            XCTAssertEqual(integer, initialValue)
+            updateExpectation.fulfill()
+        }
+
+        //  The subscription should have killed itself already since the published property sent its initial update.
+        XCTAssertFalse(singleUseSubscription.isSubscribed)
+
+        waitForExpectations(timeout: 1.0)
+    }
 }
