@@ -33,12 +33,12 @@ public final class Subscription {
     /**
      The callback type for the subscription to invalidate itself.
      */
-    public typealias UnsubscriberBlock = () -> ()
+    public typealias UnsubscriberBlock = () -> Void
 
     /**
      The logic that unsubscribes the subscription.
      */
-    private var unsubscriber: (() -> ())?
+    private var unsubscriber: UnsubscriberBlock?
 
     /**
      Initializes a subscription with its unsubscribing block. The block will normally maintain a strong reference to
@@ -47,7 +47,7 @@ public final class Subscription {
      Normally only publishers will create these, building up or adapting the unsubscriber block to their needs.
      - Parameter unsubscriber: The block to call to unsubscribe this subscription.
      */
-    public init(withUnsubscriber unsubscriber: @escaping () -> ()) {
+    public init(withUnsubscriber unsubscriber: @escaping UnsubscriberBlock) {
         self.unsubscriber = unsubscriber
     }
 

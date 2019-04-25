@@ -12,7 +12,10 @@ import Foundation
 extension Publisher {
 
     /**
-     Builds a Publication that transform another publisher's updates.
+     Builds a Publisher that transform another publisher's updates.
+
+     May be used for any type of Publisher, but for PublishedValue behavior it's better to use the valueTransformation
+     API to preserve update only on value change behavior as much as possible.
      - Parameter sourcePublisher: The publisher whose updates are the source for the one we're building.
      - Parameter transformationBlock: A block that converts a source update into one of the kind we want for the
      publisher we're creating.
@@ -21,7 +24,7 @@ extension Publisher {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalUpdate>(withSource sourcePublisher: Publisher<OriginalUpdate>, transformationBlock: @escaping (OriginalUpdate) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> ()) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
             return sourcePublisher.subscribe({ (update) in
                 updateBlock(transformationBlock(update))
             })
@@ -33,8 +36,11 @@ extension Publisher {
 extension Publisher where Update: Equatable {
 
     /**
-     Builds a Publication that transform another publisher's updates. It will only update subscribers if the new value
+     Builds a Publisher that transform another publisher's updates. It will only update subscribers if the new value
      should update subscribers, by checking for equality or, failing that, identity.
+
+     If applied to a PublishedValue, will act as another PublishedValue as it will obtain an initial value as soon as
+     any subscription happens.
      - Parameter sourcePublisher: The publisher whose updates are the source for the one we're building.
      - Parameter valueTransformationBlock: A block that converts a source update into one of the kind we want for the
      publisher we're creating.
@@ -43,7 +49,7 @@ extension Publisher where Update: Equatable {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalUpdate>(withSource sourcePublisher: Publisher<OriginalUpdate>, valueTransformationBlock: @escaping (OriginalUpdate) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> ()) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
             var cachedValue: Update?
             return sourcePublisher.subscribe({ (update) in
                 let newValue = valueTransformationBlock(update)
@@ -60,8 +66,11 @@ extension Publisher where Update: Equatable {
 extension Publisher where Update: AnyObject {
 
     /**
-     Builds a Publication that transform another publisher's updates. It will only update subscribers if the new value
+     Builds a Publisher that transform another publisher's updates. It will only update subscribers if the new value
      should update subscribers, by checking for identity.
+
+     If applied to a PublishedValue, will act as another PublishedValue as it will obtain an initial value as soon as
+     any subscription happens.
      - Parameter sourcePublisher: The publisher whose updates are the source for the one we're building.
      - Parameter valueTransformationBlock: A block that converts a source update into one of the kind we want for the
      publisher we're creating.
@@ -70,7 +79,7 @@ extension Publisher where Update: AnyObject {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalUpdate>(withSource sourcePublisher: Publisher<OriginalUpdate>, valueTransformationBlock: @escaping (OriginalUpdate) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> ()) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
             var cachedValue: Update?
             return sourcePublisher.subscribe({ (update) in
                 let newValue = valueTransformationBlock(update)

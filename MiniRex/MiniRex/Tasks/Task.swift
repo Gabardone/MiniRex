@@ -21,10 +21,12 @@ import Foundation
  update subscription on it.
  - Some tasks may be canceled if they lose all subscribers before they are completed.
  */
-public typealias Task<ResultType, ErrorType: Error> = Publisher<Result<ResultType, ErrorType>>
+public typealias Task<Success, Failure: Error> = Publisher<Result<Success, Failure>>
 
 
 extension Task {
+
+    public typealias CancelBlock = () -> Void
 
     /**
      Builds up a task publisher with the given logic.
@@ -40,10 +42,10 @@ extension Task {
      - Parameter cancelBlock: Optionally, a block to be called to cancel the task if all subscribers unsubscribe. If
      nil (the default), no action will be taken whenever the task loses all subscribers.
      */
-    public init(inQueue queue: DispatchQueue, withTaskBlock taskBlock: @escaping (@escaping (Update) -> (Void)) -> (Void), cancelBlock: (() -> ())? = nil) {
+    public init(inQueue queue: DispatchQueue, withTaskBlock taskBlock: @escaping (@escaping (Update) -> (Void)) -> Void, cancelBlock: CancelBlock? = nil) {
         //  Will store results if they arrive.
         var taskResult: Update?
-        var subscribers: [ObjectIdentifier: (Update) -> ()] = [:]
+        var subscribers: [ObjectIdentifier: (Update) -> Void] = [:]
         var taskStarted = false
 
         self.init(withSubscribeBlock: { (updateBlock) -> Subscription in
@@ -92,6 +94,31 @@ extension Task {
                 })
 
                 return subscription
+            }
+        })
+    }
+
+
+    /**
+     Easy subscription utility so two different blocks can be used to deal with success and failure of the task.
+
+     If both success and failure blocks are nil the returned subscription won't be valid.
+     - Parameter success: The block that will be called if and when the task succeeds.
+     - Parameter failure: The block that will be called if and when the task fails.
+     - Returns: A subscription. Will be invalid if both success and failure are nil.
+     */
+    public func subscribe<Success, Failure>(success: ((Success) -> Void)?, failure: ((Failure) -> Void)?) -> Subscription where Update == Result<Success, Failure> {
+        guard success != nil, failure != nil else {
+            return Subscription.empty
+        }
+
+        return self.subscribe({ (result) in
+            switch result {
+            case .success(let result):
+                success?(result)
+
+            case .failure(let error):
+                failure?(error)
             }
         })
     }

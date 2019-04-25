@@ -12,7 +12,9 @@ import Foundation
 extension PublishedValue {
 
     /**
-     Builds a Publication that just updates subscribers once with a specific value.
+     Builds a Publisher that just updates subscribers once with a specific value.
+
+     Technically acts as a PublishedValue but can be used as a stub for any other type of Publisher too.
      - Parameter constant: The value that will be sent to subscribers when they subscribe.
      - Note: Reference types will be retained by the Publisher.
 
@@ -20,7 +22,7 @@ extension PublishedValue {
      be a constant for the implementation.
      */
     public init(withConstant constant: Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> ()) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
             updateBlock(constant)
 
             //  Just return a dummy subscription.

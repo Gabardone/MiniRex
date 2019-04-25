@@ -9,12 +9,12 @@
 import Foundation
 
 
-extension Publisher where Update == Notification {
+extension Broadcaster where Update == Notification {
 
     /**
-     Builds a Publication that publishes a notification.
+     Builds a Broadcaster that broadcasts a notification.
 
-     The Publication has more or less the same semantics as NotificationCenter's block-based API, just like it has the
+     The Broadcaster has more or less the same semantics as NotificationCenter's block-based API, just like it has the
      same parameters. Use a transformer publication if you know what kind data is going to be included in the incoming
      notification and wish to deal with it in a cleaner way.
      - Parameter notificationCenter: The notification center to whose notification we wish to subscribe. Normally
@@ -81,7 +81,7 @@ extension NotificationCenter {
      is posted.
      - Returns: A Subscription to notifications of the given name and object values, targeting the given queue.
      */
-    public func subscribe(forName name: NSNotification.Name?, object: Any?, queue: OperationQueue?, updateBlock: @escaping (Notification) -> ()) -> Subscription {
+    public func subscribe(forName name: NSNotification.Name?, object: Any?, queue: OperationQueue?, updateBlock: @escaping (Notification) -> Void) -> Subscription {
         let publisher = self.publisher(forName: name, object: object, queue: queue)
         return publisher.subscribe(updateBlock)
     }

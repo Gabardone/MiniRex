@@ -32,7 +32,7 @@ final public class SimpleBroadcaster<Update> {
         }
     }
 
-    private var subscribers: [ObjectIdentifier: (Update) -> ()] = [:]
+    private var subscribers: [ObjectIdentifier: (Update) -> Void] = [:]
 
     /**
      The publisher for broadcast updates.

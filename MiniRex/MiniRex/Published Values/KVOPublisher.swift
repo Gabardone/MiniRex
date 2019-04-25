@@ -60,11 +60,11 @@ extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
 
     private class KVOObserver: NSObject {
 
-        init(with updateBlock: @escaping ((object: Any?, change: [NSKeyValueChangeKey : Any]?)) -> ()) {
+        init(with updateBlock: @escaping ((object: Any?, change: [NSKeyValueChangeKey : Any]?)) -> Void) {
             self.updateBlock = updateBlock
         }
 
-        let updateBlock: ((object: Any?, change: [NSKeyValueChangeKey : Any]?)) -> ()
+        let updateBlock: ((object: Any?, change: [NSKeyValueChangeKey : Any]?)) -> Void
 
         override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             updateBlock((object, change))
@@ -117,26 +117,26 @@ extension Publisher where Update == (Any?, [NSKeyValueChangeKey: Any]?) {
 extension PublishedValue {
 
     /**
-     A constructor for a Publication that publishes updates to an object's Swift strongly typed KeyPath value.
+     A constructor for a PublishedValue that publishes updates to an object's Swift strongly typed KeyPath value.
 
-     This Publication acts as a value publisher, sending an update on subscription with the current value, then
+     This KVO Publisher acts as a published value, sending an update on subscription with the current value, then
      calling the update block whenever the value updates.
      - Parameter object: The object whose keypath value updates we want to publish.
      - Parameter keyPath: The keypath whose updates we want to publish.
      */
     fileprivate init<Root>(forKVOValueUpdatesOf object: Root, keyPath: KeyPath<Root, Update>) where Root: NSObject {
         //  The Swift compiler chokes on this if we try to do it all at once...
-        let rawKVOPublication = Publisher<(Root, NSKeyValueObservedChange<Update>)>(forKVOObservationOf: object, keyPath: keyPath, keyValueObservingOptions: [.initial, .new])
+        let rawKVOPublisher = Publisher<(Root, NSKeyValueObservedChange<Update>)>(forKVOObservationOf: object, keyPath: keyPath, keyValueObservingOptions: [.initial, .new])
         let transformationBlock = { (update: (object: Root, change: NSKeyValueObservedChange<Update>)) -> Update in
             return update.change.newValue!
         }
-        self.init(withSource: rawKVOPublication, transformationBlock: transformationBlock)
+        self.init(withSource: rawKVOPublisher, transformationBlock: transformationBlock)
     }
 
     /**
-     A constructor for a Publication that publishes updates to an object's string key path value.
+     A constructor for a PublishedValue that publishes updates to an object's string key path value.
 
-     This Publication acts as a value publisher, sending an update on subscription with the current value, then
+     This KVO Publisher acts as a published value, sending an update on subscription with the current value, then
      calling the update block whenever the value updates.
 
      Behavior is undefined (and most likely a crash) if the string key path points to a value of a different kind than
@@ -146,7 +146,7 @@ extension PublishedValue {
      */
     fileprivate init(forKVOValueUpdatesOf object: NSObject, keyPathString: String) {
         //  The Swift compiler chokes on this if we try to do it all at once...
-        let rawKVOPublication = Publisher<(Any?, [NSKeyValueChangeKey: Any]?)>(forKVOObservationOf: object, keyPathString: keyPathString, keyValueObservingOptions: [.initial, .new])
+        let rawKVOPublisher = Publisher<(Any?, [NSKeyValueChangeKey: Any]?)>(forKVOObservationOf: object, keyPathString: keyPathString, keyValueObservingOptions: [.initial, .new])
         let transformationBlock = { (update: (object: Any?, change: [NSKeyValueChangeKey: Any]?)) -> Update in
             switch update.change![.newKey] {
             case let value as Update:
@@ -163,7 +163,7 @@ extension PublishedValue {
                 preconditionFailure("Unknown type for new value posted on KVO notification with change \(String(describing: update.change))")
             }
         }
-        self.init(withSource: rawKVOPublication, transformationBlock: transformationBlock)
+        self.init(withSource: rawKVOPublisher, transformationBlock: transformationBlock)
     }
 }
 
@@ -220,7 +220,7 @@ extension KeyValuePublishing where Self: NSObject {
      - Parameter update: The subscription update block that will be called when KVO updates happen.
      - Returns: A subscription object.
      */
-    public func subscribe<Value>(toKeyPath keyPath: KeyPath<Self, Value>, keyValueObservingOptions options: NSKeyValueObservingOptions, update: @escaping ((object: Self, change: NSKeyValueObservedChange<Value>)) -> ()) -> Subscription {
+    public func subscribe<Value>(toKeyPath keyPath: KeyPath<Self, Value>, keyValueObservingOptions options: NSKeyValueObservingOptions, update: @escaping ((object: Self, change: NSKeyValueObservedChange<Value>)) -> Void) -> Subscription {
         let publisher = self.publisher(forKeyPath: keyPath, keyValueObservingOptions: options)
         return publisher.subscribe(update)
     }
@@ -235,7 +235,7 @@ extension KeyValuePublishing where Self: NSObject {
      - Parameter update: The subscription update block that will be called when key path value changes.
      - Returns: A subscription object.
      */
-    public func subscribe<Value>(toValueAtKeyPath keyPath: KeyPath<Self, Value>, update: @escaping (Value) -> ()) -> Subscription {
+    public func subscribe<Value>(toValueAtKeyPath keyPath: KeyPath<Self, Value>, update: @escaping (Value) -> Void) -> Subscription {
         let publisher = self.publishedValue(forKeyPathUpdates: keyPath)
         return publisher.subscribe(update)
     }
@@ -285,7 +285,7 @@ extension NSObject {
      - Parameter update: The subscription update block that will be called when KVO updates happen.
      - Returns: A subscription object.
      */
-    public func subscribe(toKeyPathString keyPathString: String, keyValueObservingOptions options: NSKeyValueObservingOptions, update: @escaping ((object: Any?, change: [NSKeyValueChangeKey : Any]?)) -> ()) -> Subscription {
+    public func subscribe(toKeyPathString keyPathString: String, keyValueObservingOptions options: NSKeyValueObservingOptions, update: @escaping ((object: Any?, change: [NSKeyValueChangeKey : Any]?)) -> Void) -> Subscription {
         let publisher = self.publisher(forKeyPathString: keyPathString, keyValueObservingOptions: options)
         return publisher.subscribe(update)
     }
@@ -300,7 +300,7 @@ extension NSObject {
      - Parameter update: The value update block that will be called when the value at the given string key path updates.
      - Returns: A subscription object.
      */
-    public func subscribe<ValueType>(toValueAtKeyPathString keyPathString: String, update: @escaping (ValueType) -> ()) -> Subscription {
+    public func subscribe<ValueType>(toValueAtKeyPathString keyPathString: String, update: @escaping (ValueType) -> Void) -> Subscription {
         let publisher: PublishedValue<ValueType> = self.publishedValue(forKeyPathString: keyPathString)
         return publisher.subscribe(update)
     }

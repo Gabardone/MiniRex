@@ -36,7 +36,7 @@ final public class PublishedProperty<ValueType> {
     private var valueStorage: ValueType
 
 
-    private var subscribers: [ObjectIdentifier: (ValueType) -> ()] = [:]
+    private var subscribers: [ObjectIdentifier: (ValueType) -> Void] = [:]
 
 
     /**

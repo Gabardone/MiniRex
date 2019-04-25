@@ -1,5 +1,5 @@
 //
-//  Publication.swift
+//  Publisher.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 1/15/19.
@@ -27,15 +27,15 @@ public struct Publisher<Update> {
      dispatch.
      - Parameter subscriberBlock: A block that executes the subscription logic.
      */
-    public init(withSubscribeBlock subscribeBlock: @escaping (@escaping (Update) -> ()) -> Subscription) {
+    public init(withSubscribeBlock subscribeBlock: @escaping (@escaping (Update) -> Void) -> Subscription) {
         self.subscribeBlock = subscribeBlock
     }
 
 
-    internal let subscribeBlock: (@escaping (Update) -> ()) -> Subscription
+    internal let subscribeBlock: (@escaping (Update) -> Void) -> Subscription
 
 
-    public func subscribe(_ updateBlock: @escaping (Update) -> ()) -> Subscription {
+    public func subscribe(_ updateBlock: @escaping (Update) -> Void) -> Subscription {
         return self.subscribeBlock(updateBlock)
     }
 }
