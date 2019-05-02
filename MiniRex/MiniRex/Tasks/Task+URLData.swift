@@ -21,10 +21,10 @@ extension Task where Update == Result<Data, Error> {
      failing.
      - Parameter url: The URL whose data we want to get.
      - Parameter queue: The queue where the task will be managed and the results will be sent.
-     - Returns: A task that downloads the contents of the URL into a Data. It will start executing as soon as a
-     subscriber is added.
+     - Returns: A task that downloads the data pointed at by the URL into a Data value. It will start executing as soon
+     as a subscriber is added.
      */
-    public static func urlDataTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Data, Error> {
+    public static func downloadTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Data, Error> {
         //  Declared here so it can bridge task execution and cancel.
         var urlDataTask: URLSessionDataTask? = nil
 
@@ -57,6 +57,30 @@ extension Task where Update == Result<Data, Error> {
         }, cancelBlock: {
             //  I guess we can cancel the download...
             urlDataTask?.cancel()
+        })
+    }
+
+
+    /**
+     Returns a task that reads the contents of the file at the given URL into a Data struct if successful, returning an
+     error if unsuccessful.
+     - Parameter url: The file URL whose data we want to get. Undefined behavior if other types of URLs sent.
+     - Parameter queue: The queue where the task will be managed and the results will be sent.
+     - Returns: A task that reads the contents of the file pointed at by the URL into a Data value. It will start
+     executing as soon as a subscriber is added.
+     */
+    public static func fileReadTask(forFileAtURL url: URL, inQueue queue: DispatchQueue) -> Task<Data, Error> {
+        return Task<Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
+            //  Dispatch the actual work to a global queue. completion will send back to the given one.
+            //  TODO: Use QoS once support for macOS 10.9/iOS 7 is dropped.
+            DispatchQueue.global(priority: .default).async {
+                do {
+                    let data = try Data(contentsOf: url)
+                    completion(.success(data))
+                } catch (let error) {
+                    completion(.failure(error))
+                }
+            }
         })
     }
 }
