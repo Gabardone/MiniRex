@@ -31,4 +31,22 @@ class SimpleBroadcasterTests: XCTestCase {
 
         subscription.invalidate()
     }
+
+
+    func testSimpleBroadcasterOrderlyDeallocation() {
+        var simpleBroadcaster: SimpleBroadcaster<Int>? = SimpleBroadcaster<Int>()
+        let asyncPublisher = simpleBroadcaster?.broadcaster
+        simpleBroadcaster = nil
+
+        XCTAssertNotNil(asyncPublisher)
+
+        guard let publisher = asyncPublisher else {
+            //  We would already have failed the assert so no need to do anything here.
+            return
+        }
+
+        let subscription = publisher.subscribe({_ in })
+
+        XCTAssertFalse(subscription.isSubscribed)
+    }
 }
