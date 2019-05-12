@@ -190,4 +190,34 @@ class KVOPublisherTests: XCTestCase {
         self.testObject.optional = NSNumber(integerLiteral: 7)
         XCTAssertEqual(receivedUpdates, [nil, NSNumber(booleanLiteral: true)])
     }
+
+
+    func testSafeDeallocationOfKeyPathSubscription() {
+        var testObject: TestNSObject? = TestNSObject()
+
+        let kvoPublisher = testObject!.publisher(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.new, .initial])
+
+        testObject = nil
+
+        let subscription = kvoPublisher.subscribe { (_, _) in
+            XCTFail("The subscription update block should never be called in this test")
+        }
+
+        XCTAssertFalse(subscription.isSubscribed)
+    }
+
+
+    func testSafeDeallocationOfKeyPathStringSubscription() {
+        var testObject: TestNSObject? = TestNSObject()
+
+        let kvoPublisher = testObject!.publisher(forKeyPathString: "array.@count", keyValueObservingOptions: [.new])
+
+        testObject = nil
+
+        let subscription = kvoPublisher.subscribe { (_, _) in
+            XCTFail("The subscription update block should never be called in this test")
+        }
+
+        XCTAssertFalse(subscription.isSubscribed)
+    }
 }
