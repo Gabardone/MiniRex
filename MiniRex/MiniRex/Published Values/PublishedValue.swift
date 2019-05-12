@@ -16,7 +16,7 @@ import Foundation
  A published value for an Equatable type will only send updates when the actual value changes per its Equatable
  implementation. A non-equatable reference type will only send updates when the identity of the value changes.
 
- Semantically, it can be expected that the ultimate source of the published value is a reference type and is retained
- by any subscriptions it may have.
+ The source of the published value updates will be retained by a value publishers, otherwise it cannot guarantee an
+ initial update to subscribers.
  */
 public typealias PublishedValue<ValueType> = Publisher<ValueType>

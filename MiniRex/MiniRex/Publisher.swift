@@ -16,6 +16,9 @@ import Foundation
 
  You normally don't use the Publisher type directly, at least by name, but one of its typealias (Published<...>, Task
  or Broadcaster) to better clear out the expected behavior when subscribing.
+
+ A publisher may retain the source of its updates, so don't keep them around longer than needed in circumstances where
+ you may create a retain cycle.
  */
 public struct Publisher<Update> {
 
