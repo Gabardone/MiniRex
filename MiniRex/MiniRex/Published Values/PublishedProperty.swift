@@ -46,33 +46,27 @@ final public class PublishedProperty<ValueType> {
      subscription. Do not assume it will happen synchronously during the subscribe(_:) call although it may.
 
      After the initial value call the update block will be called again whenever value changes.
-     */
-    public lazy var publishedValue: PublishedValue<ValueType> = {
-        return PublishedValue<ValueType>(withSubscribeBlock: { [weak weakSelf = self] (updateBlock) -> Subscription in
-            guard let strongSelf = weakSelf else {
-                if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
-                    os_log("Subscribing to updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)
-                }
-                //  PublishedValue already going away/gone. Return a dummy subscription and log as this would not work
-                //  that great if the subscriber has expectations of getting an initial update.
-                return Subscription.empty
-            }
 
+     - Note: The returned publisher retains the PublishedProperty. Keep it around only as long as you need them. Its
+     generated subscriptions don't retain.
+     */
+    public var publishedValue: PublishedValue<ValueType> {
+        return PublishedValue<ValueType>(withSubscribeBlock: { (updateBlock) -> Subscription in
             //  We'll define it once we have the subscriber in place so it can be used within the unsubscriber block.
             var subscriptionID: ObjectIdentifier!
-            let subscription = Subscription(withUnsubscriber: { [weak weakSelf = strongSelf] in
-                guard let strongSelf = weakSelf else {
+            let subscription = Subscription(withUnsubscriber: { [weak self] in
+                guard let self = self else {
                     //  Not going to unsubscribe if the original source is gone.
                     return
                 }
 
-                strongSelf.subscribers.removeValue(forKey: subscriptionID)
+                self.subscribers.removeValue(forKey: subscriptionID)
             })
 
             subscriptionID = ObjectIdentifier(subscription)
 
             //  Now that we have the subscriptionID we can set up the entry in the subscribers dictionary.
-            strongSelf.subscribers[subscriptionID] = { [weak weakSubscription = subscription] (update) in
+            self.subscribers[subscriptionID] = { [weak weakSubscription = subscription] (update) in
                 guard let _ = weakSubscription else {
                     //  The subscription has already started to go away but we haven't yet removed the entry
                     return
@@ -83,11 +77,11 @@ final public class PublishedProperty<ValueType> {
             }
 
             //  Finally do an initial update call with the current value.
-            updateBlock(strongSelf.valueStorage)
+            updateBlock(self.valueStorage)
 
             return subscription
         })
-    }()
+    }
 }
 
 
