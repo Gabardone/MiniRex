@@ -1,5 +1,5 @@
 //
-//  NotificationBroadcaster.swift
+//  Broadcaster+Notification.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 1/11/19.
@@ -62,8 +62,8 @@ extension NotificationCenter {
      - Returns: A Publisher for notifications of the given name and object values, targeting the given queue, that can
      be subscribed to.
      */
-    public func publisher(forName name: NSNotification.Name?, object: Any?, queue: OperationQueue? = nil) -> Publisher<Notification> {
-        return Publisher(withNotificationCenter: self, name: name, object: object, queue: queue)
+    public func publisher(forName name: NSNotification.Name?, object: Any?, queue: OperationQueue? = nil) -> Broadcaster<Notification> {
+        return Broadcaster(withNotificationCenter: self, name: name, object: object, queue: queue)
     }
 
     /**

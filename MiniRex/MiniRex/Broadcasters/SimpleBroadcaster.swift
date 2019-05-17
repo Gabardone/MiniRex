@@ -40,8 +40,8 @@ final public class SimpleBroadcaster<Update> {
      After subscription, any calls to broadcast will trigger a call to the update block as long as the subscription is
      alive. Note that subscription may be delayed if using a dispatch publisher.
      */
-    public lazy var broadcaster: Publisher<Update> = {
-        return Publisher<Update>(withSubscribeBlock: { [weak weakSelf = self] (updateBlock) -> Subscription in
+    public lazy var broadcaster: Broadcaster<Update> = {
+        return Broadcaster<Update>(withSubscribeBlock: { [weak weakSelf = self] (updateBlock) -> Subscription in
             guard let strongSelf = weakSelf else {
                 if #available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *) {
                     os_log("Subscribing to updates for a freed object", dso: #dsohandle, log: OSLog.miniRex, type: .error)

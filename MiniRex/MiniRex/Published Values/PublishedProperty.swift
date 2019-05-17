@@ -22,21 +22,21 @@ import os
  potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
  accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
-final public class PublishedProperty<ValueType> {
+final public class PublishedProperty<Value> {
 
     /**
-     A PublishedValue requires an initial value to set up.
+     A PublishedProperty requires an initial value to set up.
      - Parameter initialValue: The initial value to store in the value property.
      */
-    public init(withInitialValue initialValue: ValueType) {
+    public init(withInitialValue initialValue: Value) {
         self.valueStorage = initialValue
     }
 
 
-    private var valueStorage: ValueType
+    private var valueStorage: Value
 
 
-    private var subscribers: [ObjectIdentifier: (ValueType) -> Void] = [:]
+    private var subscribers: [ObjectIdentifier: Published<Value>.UpdateBlock] = [:]
 
 
     /**
@@ -50,8 +50,8 @@ final public class PublishedProperty<ValueType> {
      - Note: The returned publisher retains the PublishedProperty. Keep it around only as long as you need them. Its
      generated subscriptions don't retain.
      */
-    public var publishedValue: PublishedValue<ValueType> {
-        return PublishedValue<ValueType>(withSubscribeBlock: { (updateBlock) -> Subscription in
+    public var publishedValue: Published<Value> {
+        let subscribeBlock = { (updateBlock: @escaping Published<Value>.UpdateBlock) -> Subscription in
             //  We'll define it once we have the subscriber in place so it can be used within the unsubscriber block.
             var subscriptionID: ObjectIdentifier!
             let subscription = Subscription(withUnsubscriber: { [weak self] in
@@ -80,18 +80,19 @@ final public class PublishedProperty<ValueType> {
             updateBlock(self.valueStorage)
 
             return subscription
-        })
+        }
+        return Published<Value>(withSubscribeBlock: subscribeBlock)
     }
 }
 
 
-extension PublishedProperty where ValueType: Equatable {
+extension PublishedProperty where Value: Equatable {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: ValueType {
+    public var value: Value {
         get {
             return valueStorage
         }
@@ -118,13 +119,13 @@ extension PublishedProperty where ValueType: Equatable {
 }
 
 
-extension PublishedProperty where ValueType: AnyObject {
+extension PublishedProperty where Value: AnyObject {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: ValueType {
+    public var value: Value {
         get {
             return valueStorage
         }
@@ -151,13 +152,13 @@ extension PublishedProperty where ValueType: AnyObject {
 }
 
 
-extension PublishedProperty where ValueType: Equatable & AnyObject {
+extension PublishedProperty where Value: Equatable & AnyObject {
 
     /**
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: ValueType {
+    public var value: Value {
         get {
             return valueStorage
         }
@@ -190,7 +191,7 @@ extension PublishedProperty {
      The value that is being published. You can access this from its local environment and changing it will trigger
      subscriber update calls.
      */
-    public var value: ValueType {
+    public var value: Value {
         get {
             return valueStorage
         }

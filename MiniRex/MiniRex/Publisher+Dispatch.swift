@@ -30,7 +30,7 @@ extension Publisher {
      publisher source). This flag has no impact on serial queues so it can be left as a default even if it's known
      they are being dispatched to one.
      */
-    public init(withSourcePublisher publisher: Publisher, subscribeQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) {
+    public init(withSourcePublisher publisher: Self, subscribeQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) {
         self.init { (updateBlock) -> Subscription in
             //  We need to store the source's subscription in the dispatched subscribe block so we can dispatch it again
             //  on the returned unsubscriber.
@@ -66,8 +66,8 @@ extension Publisher {
      - Returns: A publisher with the same behavior as the caller but which dispatches subscribe/unsubscribe work to the
      given queue.
      */
-    public func dispatch(subscribeQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) -> Publisher {
-        return Publisher(withSourcePublisher: self, subscribeQueue: queue, dispatchOptions: options)
+    public func dispatch(subscribeQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) -> Self {
+        return Self(withSourcePublisher: self, subscribeQueue: queue, dispatchOptions: options)
     }
 
 
@@ -87,7 +87,7 @@ extension Publisher {
      no impact on serial queues so it can be left as a default even if it's known
      they are being dispatched to one.
      */
-    public init(withSourcePublisher publisher: Publisher, updateQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) {
+    public init(withSourcePublisher publisher: Self, updateQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) {
         self.init { (updateBlock) -> Subscription in
             //  Subscribe operation remains the same as source, but we wrap the incoming update blocks in an async
             //  dispatch to our queue of choice.
@@ -112,7 +112,7 @@ extension Publisher {
      - Returns: A publisher with the same behavior as the caller but which dispatches subscription update calls to the
      given queue.
      */
-    public func dispatch(updateQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) -> Publisher {
-        return Publisher(withSourcePublisher: self, updateQueue: queue, dispatchOptions: options)
+    public func dispatch(updateQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) -> Self {
+        return Self(withSourcePublisher: self, updateQueue: queue, dispatchOptions: options)
     }
 }

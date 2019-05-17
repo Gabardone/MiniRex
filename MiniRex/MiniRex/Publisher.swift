@@ -10,9 +10,8 @@ import Foundation
 
 
 /**
- A structs that publishes something. It allows for creating subscriptions that are updated with a parameter as per the
- template's instantiation. They can also be easily compounded to chain into a variety of behaviors and to adapt to a
- variety of needs.
+ A protocol for a basic publisher. It allows for subscribing blocks that are called back whenever certain conditions
+ apply that depend on the specific publisher.
 
  You normally don't use the Publisher type directly, at least by name, but one of its typealias (Published<...>, Task
  or Broadcaster) to better clear out the expected behavior when subscribing.
@@ -20,7 +19,15 @@ import Foundation
  A publisher may retain the source of its updates, so don't keep them around longer than needed in circumstances where
  you may create a retain cycle.
  */
-public struct Publisher<Update> {
+public protocol Publisher {
+
+    associatedtype Update
+
+    typealias UpdateBlock = (Update) -> Void
+
+    typealias SubscriptionBlock = (@escaping UpdateBlock) -> Subscription
+
+    var subscribeBlock: SubscriptionBlock { get }
 
     /**
      Custom subscription init.
@@ -30,15 +37,8 @@ public struct Publisher<Update> {
      dispatch.
      - Parameter subscriberBlock: A block that executes the subscription logic.
      */
-    public init(withSubscribeBlock subscribeBlock: @escaping (@escaping (Update) -> Void) -> Subscription) {
-        self.subscribeBlock = subscribeBlock
-    }
+    init(withSubscribeBlock subscribeBlock: @escaping SubscriptionBlock)
 
 
-    internal let subscribeBlock: (@escaping (Update) -> Void) -> Subscription
-
-
-    public func subscribe(_ updateBlock: @escaping (Update) -> Void) -> Subscription {
-        return self.subscribeBlock(updateBlock)
-    }
+    func subscribe(_ updateBlock: @escaping UpdateBlock) -> Subscription
 }

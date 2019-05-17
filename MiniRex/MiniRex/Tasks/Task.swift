@@ -21,7 +21,7 @@ import Foundation
  update subscription on it.
  - Some tasks may be canceled if they lose all subscribers before they are completed.
  */
-public typealias Task<Success, Failure: Error> = Publisher<Result<Success, Failure>>
+public typealias Task<Success, Failure: Error> = Published<Result<Success, Failure>>
 
 
 extension Task {

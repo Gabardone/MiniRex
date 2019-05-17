@@ -9,15 +9,18 @@
 import Foundation
 
 
-extension Publisher {
+extension Broadcaster {
 
     /**
-     Builds a Publisher that filters another publisher's updates.
+     Builds a Broadcaster that filters another publisher's updates.
+
+     The init takes any type of publisher as the resulting effect of filtering its updates is necessarily a vanilla
+     Broadcaster.
      - Parameter sourcePublisher: The publisher whose updates are the source for the one we're building.
      - Parameter filterBlock: A block that determines whether the update should be broadcast or not. If it returns
      true, the update will be sent to its subscribers. If false, it will be ignored.
      */
-    init(withSource sourcePublisher: Publisher<Update>, filterBlock: @escaping (Update) -> Bool) {
+    init<PublisherType>(withSource sourcePublisher: PublisherType, filterBlock: @escaping (Update) -> Bool) where PublisherType: Publisher, PublisherType.Update == Update {
         self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
             return sourcePublisher.subscribe({ (update) in
                 if filterBlock(update) {
