@@ -22,8 +22,8 @@ extension Published {
      be a constant for the implementation.
      */
     public init(withConstant constant: Value) {
-        self.init(withSubscribeBlock: { (valueBlock: @escaping UpdateBlock) in
-            valueBlock(constant)
+        self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
+            updateBlock(constant)
 
             //  Just return a dummy subscription.
             return Subscription.empty

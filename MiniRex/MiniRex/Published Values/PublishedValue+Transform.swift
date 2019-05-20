@@ -25,7 +25,7 @@ extension Published {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalValue>(withSource sourcePublisher: Published<OriginalValue>, valueTransformationBlock: @escaping (OriginalValue) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             return sourcePublisher.subscribe({ (update) in
                 updateBlock(valueTransformationBlock(update))
             })
@@ -50,7 +50,7 @@ extension Published where Update: Equatable {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalValue>(withSource sourcePublisher: Published<OriginalValue>, valueTransformationBlock: @escaping (OriginalValue) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             var initialized = false //  We need the flag in case Update is an optional.
             var cachedValue: Update?
             return sourcePublisher.subscribe({ (update) in
@@ -82,7 +82,7 @@ extension Published where Update: AnyObject {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalValue>(withSource sourcePublisher: Published<OriginalValue>, valueTransformationBlock: @escaping (OriginalValue) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             var initialized = false //  We need the flag in case Update is an optional.
             var cachedValue: Update?
             return sourcePublisher.subscribe({ (update) in
@@ -114,7 +114,7 @@ extension Published where Update: AnyObject & Equatable {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalValue>(withSource sourcePublisher: Published<OriginalValue>, valueTransformationBlock: @escaping (OriginalValue) -> Update) {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             var initialized = false //  We need the flag in case Update is an optional.
             var cachedValue: Update?
             return sourcePublisher.subscribe({ (update) in

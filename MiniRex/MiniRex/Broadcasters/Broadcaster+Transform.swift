@@ -24,7 +24,7 @@ extension Broadcaster {
      limitation about it other than it has to produce a value for every source update.
      */
     init<OriginalPublisher>(withSource sourcePublisher: OriginalPublisher, transformationBlock: @escaping (OriginalPublisher.Update) -> Update) where OriginalPublisher: Publisher {
-        self.init(withSubscribeBlock: { (updateBlock: @escaping (Update) -> Void) in
+        self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             return sourcePublisher.subscribe({ (update) in
                 updateBlock(transformationBlock(update))
             })
