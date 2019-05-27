@@ -15,7 +15,7 @@ class PublisherConstantValueTests: XCTestCase {
 
         let integerConstant = 7
 
-        let singleUpdatePublisher = Publisher<Int>(withConstant: integerConstant)
+        let singleUpdatePublisher = Published<Int>(withConstant: integerConstant)
 
         let updateExpectation1 = expectation(description: "Update1")
         let subscription1 = singleUpdatePublisher.subscribe { (integer) in

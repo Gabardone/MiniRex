@@ -172,7 +172,7 @@ class KVOPublisherTests: XCTestCase {
     func testStringKeyPathOptional() {
         var receivedUpdates: [NSNumber?] = []
 
-        let publisher: Publisher<NSNumber?> = self.testObject.publishedValue(forKeyPathString: "optional")
+        let publisher: Published<NSNumber?> = self.testObject.publishedValue(forKeyPathString: "optional")
         let subscription = publisher.subscribe { (update: NSNumber?) in
             receivedUpdates.append(update)
         }
@@ -195,7 +195,7 @@ class KVOPublisherTests: XCTestCase {
     func testSafeDeallocationOfKeyPathSubscription() {
         var testObject: TestNSObject? = TestNSObject()
 
-        let kvoPublisher = testObject!.publisher(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.new, .initial])
+        let kvoPublisher = testObject!.broadcaster(forKeyPath: \TestNSObject.integer, keyValueObservingOptions: [.new, .initial])
 
         testObject = nil
 
@@ -210,7 +210,7 @@ class KVOPublisherTests: XCTestCase {
     func testSafeDeallocationOfKeyPathStringSubscription() {
         var testObject: TestNSObject? = TestNSObject()
 
-        let kvoPublisher = testObject!.publisher(forKeyPathString: "array.@count", keyValueObservingOptions: [.new])
+        let kvoPublisher = testObject!.broadcaster(forKeyPathString: "array.@count", keyValueObservingOptions: [.new])
 
         testObject = nil
 
