@@ -160,21 +160,22 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
     /**
      Easy subscription utility so two different blocks can be used to deal with success and failure of the task.
 
-     If both success and failure blocks are nil the returned subscription won't be valid.
+     If all the blocks are nil the returned subscription won't be valid.
      - Parameter success: The block that will be called if and when the task succeeds.
      - Parameter failure: The block that will be called if and when the task fails.
+     - Parameter progress: The block that will be called for task progress updates. Defaults to nil.
      - Returns: A subscription. Will be invalid if both success and failure are nil.
      */
-    public func subscribe(success: ((Success) -> Void)?, failure: ((Failure) -> Void)?) -> Subscription {
-        guard success != nil, failure != nil else {
+    public func subscribe(success: ((Success) -> Void)?, failure: ((Failure) -> Void)?, progress: ((Progress) -> Void)? = nil) -> Subscription {
+        guard success != nil || failure != nil || progress != nil else {
+            //  We're literally subscribing nothing.
             return Subscription.empty
         }
 
-        return self.subscribe({ (result) in
-            switch result {
-            case .inProgress(_):
-                //  We're ignoring this one.
-                return
+        return self.subscribe({ (taskStatus) in
+            switch taskStatus {
+            case .inProgress(let progressUpdate):
+                progress?(progressUpdate)
 
             case .success(let result):
                 success?(result)
@@ -185,11 +186,34 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
         })
     }
 
+
+    /**
+     Easy subscription utility to subscribe to the result of a task.
+     - Parameter result: The block that will be called with the result of the task.
+     - Returns: A subscription.
+     */
+    public func subscribe(result: @escaping (Result<Success, Failure>) -> Void) -> Subscription {
+        return self.subscribe({ (taskStatus) in
+            switch taskStatus {
+            case .inProgress(_):
+                //  Ignore
+                return
+
+            case .success(let taskResult):
+                result(.success(taskResult))
+
+            case .failure(let error):
+                result(.failure(error))
+            }
+        })
+    }
+
     //  MARK: - Publisher Implementation
 
     public typealias Update = Status
 
     public let subscribeBlock: (@escaping UpdateBlock) -> Subscription
+
 
     /**
      Generally best to avoid this one unless you really need a different task management that still complies with all
