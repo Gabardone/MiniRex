@@ -14,44 +14,53 @@ import Foundation
 
  Pretty common task in modern application development and take home interview work.
  */
-extension Task where Update == Result<Data, Error> {
+extension Task where Progress == Void, Success == Data {
 
     /**
      Returns a task that downloads the data at the given URL into a Data struct if successful, returning an error if
      failing.
+
+     This task doesn't report on progress. Use for short, small downloads or those where you don't really care about
+     tracking their progress.
      - Parameter url: The URL whose data we want to get.
      - Parameter queue: The queue where the task will be managed and the results will be sent.
      - Returns: A task that downloads the data pointed at by the URL into a Data value. It will start executing as soon
      as a subscriber is added.
      */
-    public static func downloadTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Data, Error> {
+    public static func downloadTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Void, Data, URLError> {
         //  Declared here so it can bridge task execution and cancel.
         var urlDataTask: URLSessionDataTask? = nil
 
-        return Task<Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
+        return Task<Void, Data, URLError>(inQueue: queue, withTaskBlock: { (completion) in
             urlDataTask = URLSession.shared.dataTask(with: url) { data, response, error in
                 if let error = error {
-                    if let urlError = error as? URLError, urlError.code == .cancelled {
-                        //  We're letting this one slide as we wouldn't expect a canceled task to update, and we're the only ones who can.
+                    if let urlError = error as? URLError {
+                        if urlError.code == .cancelled {
+                            //  We're letting this one slide as we wouldn't expect a canceled task to update, and we're the only ones who can.
+                        } else {
+                            completion(.failure(withError: urlError))
+                        }
                     } else {
-                        completion(.failure(error))
+                        let unknownError = URLError(.unknown, userInfo: [NSURLErrorKey: url])
+                        completion(.failure(withError: unknownError))
                     }
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     //  TODO: We probably can come up with a better error to model this.
-                    let serverError = URLError(.badServerResponse)
-                    completion(.failure(serverError))
+                    let serverError = URLError(.badServerResponse, userInfo: [NSURLErrorKey: url])
+                    completion(.failure(withError: serverError))
                     return
                 }
 
                 guard let receivedData = data else {
-                    let dataError = URLError(.zeroByteResource)
-                    completion(.failure(dataError))
+                    //  If we somehow didn't get any data (even an ampty one) we return an error.
+                    let dataError = URLError(.zeroByteResource, userInfo: [NSURLErrorKey: url])
+                    completion(.failure(withError: dataError))
                     return
                 }
 
-                completion(.success(receivedData))
+                completion(.success(withResult: receivedData))
             }
             urlDataTask?.resume()
         }, cancelBlock: {
@@ -62,24 +71,32 @@ extension Task where Update == Result<Data, Error> {
 
 
     /**
-     Returns a task that reads the contents of the file at the given URL into a Data struct if successful, returning an
-     error if unsuccessful.
+     Returns a task that reads the contents of the file at the given URL into a Data struct if successful, returning
+     an error if unsuccessful.
      - Parameter url: The file URL whose data we want to get. Undefined behavior if other types of URLs sent.
      - Parameter queue: The queue where the task will be managed and the results will be sent.
      - Returns: A task that reads the contents of the file pointed at by the URL into a Data value. It will start
      executing as soon as a subscriber is added.
      */
-    public static func fileReadTask(forFileAtURL url: URL, inQueue queue: DispatchQueue) -> Task<Data, Error> {
-        return Task<Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
+    public static func fileReadTask(forFileAtURL url: URL, inQueue queue: DispatchQueue) -> Task<Void, Data, Error> {
+        return Task<Void, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
             //  Dispatch the actual work to a global queue. completion will send back to the given one.
-            //  TODO: Use QoS once support for macOS 10.9/iOS 7 is dropped.
-            DispatchQueue.global(priority: .default).async {
+            let taskExecution = {
                 do {
                     let data = try Data(contentsOf: url)
-                    completion(.success(data))
+                    completion(.success(withResult: data))
                 } catch (let error) {
-                    completion(.failure(error))
+                    completion(.failure(withError: error))
                 }
+            }
+
+            if #available(macOS 10.10, iOS 8, tvOS 9, watchOS 2, *) {
+                //  Use a global queue with the same QoS and the task management one. Priority promotion will happen
+                //  if needed.
+                DispatchQueue.global(qos: queue.qos.qosClass).async(execute: taskExecution)
+            } else {
+                //  No QoS API, use a default global queue 🤷🏽‍♂️
+                DispatchQueue.global(priority: .default).async(execute: taskExecution)
             }
         })
     }
