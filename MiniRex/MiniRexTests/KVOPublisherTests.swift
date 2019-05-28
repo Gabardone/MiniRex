@@ -207,7 +207,7 @@ class KVOPublisherTests: XCTestCase {
     }
 
 
-    func testSafeDeallocationOfKeyPathStringSubscription() {
+    func testSafeDeallocationOfKeyPathStringBeforeSubscription() {
         var testObject: TestNSObject? = TestNSObject()
 
         let kvoPublisher = testObject!.broadcaster(forKeyPathString: "array.@count", keyValueObservingOptions: [.new])
@@ -219,5 +219,31 @@ class KVOPublisherTests: XCTestCase {
         }
 
         XCTAssertFalse(subscription.isSubscribed)
+    }
+
+
+    func testSafeDeallocationOfKeyPathStringAfterSubscription() {
+        //  We just test that if an object gets deallocated while it has KVO string subscriptions it all happens
+        //  in an orderly fashion.
+        var testObject: TestNSObject? = TestNSObject()
+
+        let kvoPublisher = testObject!.broadcaster(forKeyPathString: "array.@count", keyValueObservingOptions: [.new])
+
+
+        let updateExpectation = expectation(description: "Updated")
+        var subscription: Subscription? = kvoPublisher.subscribe { (_, _) in
+            updateExpectation.fulfill()
+        }
+
+        testObject?.array = [1, 2, 3]
+
+        waitForExpectations(timeout: 1.0)
+
+        testObject = nil
+
+        //  Technically true, the object being deallocated doesn't alter the subscriptions
+        XCTAssertTrue(subscription?.isSubscribed ?? false)
+
+        subscription = nil
     }
 }

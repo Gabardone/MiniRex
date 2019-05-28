@@ -25,6 +25,7 @@
 		08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */; };
 		08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9E221386D00060F4AA /* TestTypes.swift */; };
 		08A8BFA12213899E0060F4AA /* PublishedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */; };
+		08C516F4229CFECE001164F5 /* RootPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C516F3229CFECE001164F5 /* RootPublisher.swift */; };
 		08CD637D218978720052D6F7 /* PublishedValue+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD637C218978720052D6F7 /* PublishedValue+KVO.swift */; };
 		08DD8AAF22051C04004E97B3 /* Broadcaster+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD8AAE22051C04004E97B3 /* Broadcaster+Transform.swift */; };
 		08DE139E228A7BB300394268 /* PublishedValue+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DE139D228A7BB300394268 /* PublishedValue+Transform.swift */; };
@@ -71,6 +72,7 @@
 		08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherTransformTests.swift; sourceTree = "<group>"; };
 		08A8BF9E221386D00060F4AA /* TestTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypes.swift; sourceTree = "<group>"; };
 		08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedPropertyTests.swift; sourceTree = "<group>"; };
+		08C516F3229CFECE001164F5 /* RootPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPublisher.swift; sourceTree = "<group>"; };
 		08CD637C218978720052D6F7 /* PublishedValue+KVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+KVO.swift"; sourceTree = "<group>"; };
 		08DD8AAE22051C04004E97B3 /* Broadcaster+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Transform.swift"; sourceTree = "<group>"; };
 		08DE139D228A7BB300394268 /* PublishedValue+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+Transform.swift"; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */,
 				08340A5D2271481500EC7803 /* Publisher+Filter.swift */,
 				08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */,
+				08C516F3229CFECE001164F5 /* RootPublisher.swift */,
 				083835B121ED2BEE00949CA8 /* Subscription.swift */,
 				08FBDEE3225DA84E00C27A08 /* Tasks */,
 			);
@@ -318,6 +321,7 @@
 				08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
+				08C516F4229CFECE001164F5 /* RootPublisher.swift in Sources */,
 				0828D4F7228BAA150065876E /* Broadcaster+KVO.swift in Sources */,
 				082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */,
 				08DD8AAF22051C04004E97B3 /* Broadcaster+Transform.swift in Sources */,

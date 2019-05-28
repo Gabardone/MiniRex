@@ -38,7 +38,7 @@ public final class Subscription {
     /**
      The logic that unsubscribes the subscription.
      */
-    internal var unsubscriber: UnsubscriberBlock?
+    private var unsubscriber: UnsubscriberBlock?
 
     /**
      Initializes a subscription with its unsubscribing block. The block will normally maintain a strong reference to
@@ -49,6 +49,40 @@ public final class Subscription {
      */
     public init(withUnsubscriber unsubscriber: @escaping UnsubscriberBlock) {
         self.unsubscriber = unsubscriber
+    }
+
+
+    /**
+     Initializes a subscription by wrapping a block that updates us with another subscription.
+
+     Sometimes you don't have everything in place when you build the subscription. This init allows us to delay
+     initialization until our block gets called with the subscription we want to wrap.
+     - Parameter subscriptionWrapper: A block that takes a callback to be called with a subscription.
+     - Parameter unsubscriptionWrapper: A block that takes the original subscription's unsubscriber block. It should
+     execute it at some point.
+     */
+    public convenience init(subscriptionWrapper wrapper: @escaping (@escaping (Subscription) -> ()) -> (), unsubscriptionWrapper: @escaping (@escaping UnsubscriberBlock) -> ()) {
+        //  We need to store the source's unsubscriber in the dispatched subscribe block so we can run it
+        //  dispatched to the subscribe queue while the subscriber we return is already freed.
+        var sourceSubscription: Subscription?
+        var sourceUnsubscriber: Subscription.UnsubscriberBlock?
+
+        wrapper { (subscription: Subscription) in
+            sourceSubscription = subscription
+            sourceUnsubscriber = subscription.unsubscriber
+            sourceSubscription?.unsubscriber = nil
+        }
+
+        self.init(withUnsubscriber: {
+            //  Start by wiping out the source subscription so weak references get nil-ed. Use .empty in case
+            //  we unsubscribe before source subscription happens.
+            sourceSubscription = .empty
+
+            //  Then run the actual logic on schedule.
+            if let unsubscriber = sourceUnsubscriber {
+                unsubscriptionWrapper(unsubscriber)
+            }
+        })
     }
 
     /**
