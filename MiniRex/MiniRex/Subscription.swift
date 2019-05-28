@@ -38,7 +38,7 @@ public final class Subscription {
     /**
      The logic that unsubscribes the subscription.
      */
-    private var unsubscriber: UnsubscriberBlock?
+    internal var unsubscriber: UnsubscriberBlock?
 
     /**
      Initializes a subscription with its unsubscribing block. The block will normally maintain a strong reference to

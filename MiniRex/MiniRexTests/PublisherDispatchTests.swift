@@ -42,7 +42,7 @@ class PublisherDispatchTests: XCTestCase {
         }
 
         //  The timeout means the test will technically fail if we stop in the debugger while waiting.
-        waitForExpectations(timeout: 1.0, handler: nil)
+        waitForExpectations(timeout: 1.0)
 
         subscription.invalidate()
     }
@@ -75,7 +75,7 @@ class PublisherDispatchTests: XCTestCase {
         }
 
         //  The timeout means the test will technically fail if we stop in the debugger while waiting.
-        waitForExpectations(timeout: 1.0, handler: nil)
+        waitForExpectations(timeout: 1.0)
 
         subscription.invalidate()
     }

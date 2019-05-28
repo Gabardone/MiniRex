@@ -32,22 +32,31 @@ extension Publisher {
      */
     public init(withSourcePublisher publisher: Self, subscribeQueue queue: DispatchQueue, dispatchOptions options: DispatchWorkItemFlags = .barrier) {
         self.init { (updateBlock) -> Subscription in
-            //  We need to store the source's subscription in the dispatched subscribe block so we can dispatch it again
-            //  on the returned unsubscriber.
+            //  We need to store the source's unsubscriber in the dispatched subscribe block so we can run it
+            //  dispatched to the subscribe queue while the subscriber we return is already freed.
             var sourceSubscription: Subscription?
+            var sourceUnsubscriber: Subscription.UnsubscriberBlock?
 
             //  Subscription happens asynchronously in sourceQueue. Subscription is a mutating operation for the
             //  original publisher so it has to happen on a barrier block.
             queue.async(group: nil, qos: .unspecified, flags: options, execute: {
+                //  We need to keep the original subscription as it's used as a marker for updates with weak
+                //  referencing, but we want to take control over its unsubscribe block to run at our own pace.
                 sourceSubscription = publisher.subscribeBlock(updateBlock)
+                sourceUnsubscriber = sourceSubscription?.unsubscriber
+                sourceSubscription?.unsubscriber = nil
             })
 
-            //  Returned Subscription object will catch on the object returned by the dispatched subscription and again
-            //  dispatch its work to sourceQueue.
+            //  Returned Subscription object will dispatch the unusbscription logic to subscribeQueue, but will be
+            //  freed from the start making it so publishers won't be calling it if they're holding weak references
+            //  to subscribers as they should.
             return Subscription(withUnsubscriber: {
+                //  Start by wiping out the source subscription so weak references get nil-ed.
+                sourceSubscription = nil
+
+                //  Then run the actual logic on schedule.
                 queue.async(group: nil, qos: .unspecified, flags: options, execute: {
-                    sourceSubscription?.invalidate()
-                    sourceSubscription = nil
+                    sourceUnsubscriber?()
                 })
             })
         }
