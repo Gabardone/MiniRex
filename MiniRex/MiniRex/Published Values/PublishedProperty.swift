@@ -22,7 +22,7 @@ import os
  potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
  accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
-final public class PublishedProperty<Value> {
+final public class PublishedProperty<Value>: RootPublisher<Published<Value>> {
 
     /**
      A PublishedProperty requires an initial value to set up.
@@ -36,9 +36,6 @@ final public class PublishedProperty<Value> {
     private var valueStorage: Value
 
 
-    private var subscribers: [ObjectIdentifier: Published<Value>.UpdateBlock] = [:]
-
-
     /**
      The publisher for value updates.
 
@@ -47,41 +44,19 @@ final public class PublishedProperty<Value> {
 
      After the initial value call the update block will be called again whenever value changes.
 
-     - Note: The returned publisher retains the PublishedProperty. Keep it around only as long as you need them. Its
-     generated subscriptions don't retain.
+     - Note: The returned publisher retains the PublishedProperty to guarantee that it lives long enough to update
+     new subscribers with an initial value. Keep it around only as long as you need them. Its generated subscriptions
+     don't hold a strong reference to anything.
      */
     public var publishedValue: Published<Value> {
-        let subscribeBlock = { (updateBlock: @escaping Published<Value>.UpdateBlock) -> Subscription in
-            //  We'll define it once we have the subscriber in place so it can be used within the unsubscriber block.
-            var subscriptionID: ObjectIdentifier!
-            let subscription = Subscription(withUnsubscriber: { [weak self] in
-                guard let self = self else {
-                    //  Not going to unsubscribe if the original source is gone.
-                    return
-                }
+        return Published<Value>(withSubscribeBlock: { (updateBlock) -> Subscription in
+            let result = super.subscriptionBlock(updateBlock)
 
-                self.subscribers.removeValue(forKey: subscriptionID)
-            })
-
-            subscriptionID = ObjectIdentifier(subscription)
-
-            //  Now that we have the subscriptionID we can set up the entry in the subscribers dictionary.
-            self.subscribers[subscriptionID] = { [weak weakSubscription = subscription] (update) in
-                guard let _ = weakSubscription else {
-                    //  The subscription has already started to go away but we haven't yet removed the entry
-                    return
-                }
-
-                //  We're here so let's just call the block...
-                updateBlock(update)
-            }
-
-            //  Finally do an initial update call with the current value.
+            //  Initial update to the subscriber.
             updateBlock(self.valueStorage)
 
-            return subscription
-        }
-        return Published<Value>(withSubscribeBlock: subscribeBlock)
+            return result
+        })
     }
 }
 
@@ -105,15 +80,7 @@ extension PublishedProperty where Value: Equatable {
 
             self.valueStorage = newValue
 
-            guard !self.subscribers.isEmpty else {
-                //  No need for post-processing
-                return
-            }
-
-            //  Broadcast to publishers...
-            for (_, updateBlock) in subscribers {
-                updateBlock(value)
-            }
+            self.updateSubscribers(withValue: newValue)
         }
     }
 }
@@ -138,15 +105,7 @@ extension PublishedProperty where Value: AnyObject {
 
             self.valueStorage = newValue
 
-            guard !self.subscribers.isEmpty else {
-                //  No need for post-processing
-                return
-            }
-
-            //  Broadcast to publishers...
-            for (_, updateBlock) in subscribers {
-                updateBlock(value)
-            }
+            self.updateSubscribers(withValue: newValue)
         }
     }
 }
@@ -171,15 +130,7 @@ extension PublishedProperty where Value: Equatable & AnyObject {
 
             self.valueStorage = newValue
 
-            guard !self.subscribers.isEmpty else {
-                //  No need for post-processing
-                return
-            }
-
-            //  Broadcast to publishers...
-            for (_, updateBlock) in subscribers {
-                updateBlock(value)
-            }
+            self.updateSubscribers(withValue: newValue)
         }
     }
 }
@@ -199,15 +150,7 @@ extension PublishedProperty {
         set {
             self.valueStorage = newValue
 
-            guard !self.subscribers.isEmpty else {
-                //  No need for post-processing
-                return
-            }
-
-            //  Broadcast to publishers...
-            for (_, updateBlock) in subscribers {
-                updateBlock(value)
-            }
+            self.updateSubscribers(withValue: newValue)
         }
     }
 }

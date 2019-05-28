@@ -27,6 +27,7 @@ class PublishedPropertyTests: XCTestCase {
 
         publishedInt.value = 7
 
+        XCTAssertEqual(publishedInt.value, 7)
         XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
         XCTAssertEqual(lastInteger, 7)
 
@@ -57,6 +58,7 @@ class PublishedPropertyTests: XCTestCase {
 
         publishedTestObject.value = testObject2
 
+        XCTAssert(publishedTestObject.value === testObject2)
         XCTAssertEqual(updateCount, 2)  //  Different object, another update.
         XCTAssertTrue(lastTestObject === testObject2)
 
@@ -87,6 +89,7 @@ class PublishedPropertyTests: XCTestCase {
 
         publishedTestObject.value = testObject2
 
+        XCTAssertEqual(publishedTestObject.value, testObject2)
         XCTAssertEqual(updateCount, 2)  //  Different object, new update.
         XCTAssertEqual(lastTestObject, EquatableTestObject(1))
 
@@ -115,6 +118,7 @@ class PublishedPropertyTests: XCTestCase {
 
         publishedNonEquatableNonObject.value = NonEquatableNonObject(intValue: 7)
 
+        XCTAssertEqual(publishedNonEquatableNonObject.value.intValue, 7)
         XCTAssertEqual(updateCount, 2)  //  New update with the given struct.
         XCTAssertEqual(lastValue.intValue, 7)
 

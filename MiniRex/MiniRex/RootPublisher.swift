@@ -14,7 +14,7 @@ import Foundation
 
  Subclasses add the additional behavior needed to determine when to update subscribers.
  */
-class RootPublisher<PublisherType> where PublisherType: Publisher {
+public class RootPublisher<PublisherType> where PublisherType: Publisher {
 
 
     private var subscribers: [ObjectIdentifier: PublisherType.UpdateBlock] = [:]
@@ -34,11 +34,10 @@ class RootPublisher<PublisherType> where PublisherType: Publisher {
 
 
     /**
-     Builds and returns a subscribe block for the instance's publisher. We build a single one per instance since
-     it's always the same.
+     Builds and returns a publisher for the instance's publisher.
      */
-    lazy var publisher: PublisherType = {
-        return PublisherType(withSubscribeBlock: { [weak self] (updateBlock) in
+    lazy var subscriptionBlock: PublisherType.SubscriptionBlock = {
+        return { [weak self] (updateBlock) in
             guard let self = self else {
                 return .empty
             }
@@ -68,6 +67,6 @@ class RootPublisher<PublisherType> where PublisherType: Publisher {
             }
 
             return subscription
-        })
+        }
     }()
 }

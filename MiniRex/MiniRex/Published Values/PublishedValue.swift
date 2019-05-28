@@ -28,7 +28,7 @@ public struct Published<Value>: Publisher {
     //  MARK: - Utilities
 
     /**
-     Init with a broadcaster subscription and a way to fetch the initial value.
+     Init with a broadcaster subscription block and a way to fetch the initial value.
 
      This init can take the exact same subscription block as a broadcaster and an additional one that fetches the
      initial value to return to subscribers.
