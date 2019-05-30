@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0807465E22266902000845F7 /* SimpleBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807465D22266902000845F7 /* SimpleBroadcaster.swift */; };
+		0827F5F422A0682D00067A83 /* Broadcaster+FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */; };
 		0828D4F7228BAA150065876E /* Broadcaster+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */; };
 		082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F221E70942007D5498 /* PublishedProperty.swift */; };
 		082A84F521E888A2007D5498 /* Broadcaster+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		0807465D22266902000845F7 /* SimpleBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBroadcaster.swift; sourceTree = "<group>"; };
+		0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+FilterTests.swift"; sourceTree = "<group>"; };
 		0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+KVO.swift"; sourceTree = "<group>"; };
 		082A84F221E70942007D5498 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
 		082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Notification.swift"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */,
 				08E7753C22684B40007CF676 /* SimpleBroadcasterTests.swift */,
 				08A8BF9E221386D00060F4AA /* TestTypes.swift */,
+				0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */,
 			);
 			path = MiniRexTests;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				08E7753D22684B40007CF676 /* SimpleBroadcasterTests.swift in Sources */,
 				D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */,
 				0838EA912218FA6F00007ED3 /* NotificationPublisherTests.swift in Sources */,
+				0827F5F422A0682D00067A83 /* Broadcaster+FilterTests.swift in Sources */,
 				08FBDE9F224DF15300C27A08 /* PublisherDispatchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

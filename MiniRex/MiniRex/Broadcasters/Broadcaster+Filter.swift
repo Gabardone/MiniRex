@@ -20,7 +20,7 @@ extension Broadcaster {
      - Parameter filterBlock: A block that determines whether the update should be broadcast or not. If it returns
      true, the update will be sent to its subscribers. If false, it will be ignored.
      */
-    init<PublisherType>(withSource sourcePublisher: PublisherType, filterBlock: @escaping (Update) -> Bool) where PublisherType: Publisher, PublisherType.Update == Update {
+    public init<PublisherType>(withSource sourcePublisher: PublisherType, filterBlock: @escaping (Update) -> Bool) where PublisherType: Publisher, PublisherType.Update == Update {
         self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             return sourcePublisher.subscribe({ (update) in
                 if filterBlock(update) {
