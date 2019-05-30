@@ -13,7 +13,7 @@
 		082A84F521E888A2007D5498 /* Broadcaster+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */; };
 		08325CBE2288FA48005DC8C3 /* PublisherConstantValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */; };
 		08325CC02288FBFC005DC8C3 /* NSObject+KVOSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08325CBF2288FBFC005DC8C3 /* NSObject+KVOSubscription.swift */; };
-		08340A5E2271481500EC7803 /* Publisher+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08340A5D2271481500EC7803 /* Publisher+Filter.swift */; };
+		08340A5E2271481500EC7803 /* Broadcaster+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08340A5D2271481500EC7803 /* Broadcaster+Filter.swift */; };
 		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
 		083835B421EE56C000949CA8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B321EE56C000949CA8 /* Publisher.swift */; };
 		0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */; };
@@ -56,7 +56,7 @@
 		082A84F221E70942007D5498 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
 		082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Notification.swift"; sourceTree = "<group>"; };
 		08325CBF2288FBFC005DC8C3 /* NSObject+KVOSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+KVOSubscription.swift"; sourceTree = "<group>"; };
-		08340A5D2271481500EC7803 /* Publisher+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Filter.swift"; sourceTree = "<group>"; };
+		08340A5D2271481500EC7803 /* Broadcaster+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Filter.swift"; sourceTree = "<group>"; };
 		083835B121ED2BEE00949CA8 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		083835B321EE56C000949CA8 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Dispatch.swift"; sourceTree = "<group>"; };
@@ -135,7 +135,6 @@
 				08FBDEE2225DA60100C27A08 /* Published Values */,
 				083835B321EE56C000949CA8 /* Publisher.swift */,
 				0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */,
-				08340A5D2271481500EC7803 /* Publisher+Filter.swift */,
 				08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */,
 				08C516F3229CFECE001164F5 /* RootPublisher.swift */,
 				083835B121ED2BEE00949CA8 /* Subscription.swift */,
@@ -165,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */,
+				08340A5D2271481500EC7803 /* Broadcaster+Filter.swift */,
 				0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */,
 				082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */,
 				08DD8AAE22051C04004E97B3 /* Broadcaster+Transform.swift */,
@@ -305,7 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08340A5E2271481500EC7803 /* Publisher+Filter.swift in Sources */,
+				08340A5E2271481500EC7803 /* Broadcaster+Filter.swift in Sources */,
 				08DE139E228A7BB300394268 /* PublishedValue+Transform.swift in Sources */,
 				08FBDEDE225D989300C27A08 /* PublishedValue.swift in Sources */,
 				08A8BF9B220E55440060F4AA /* PublishedValue+Constant.swift in Sources */,

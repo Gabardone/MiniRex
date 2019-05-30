@@ -1,5 +1,5 @@
 //
-//  Publisher+Filter.swift
+//  Broadcaster+Filter.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 4/24/19.
