@@ -50,6 +50,40 @@ class PublisherTransformTests: XCTestCase {
     }
 
 
+    func testValueTransformerNonEquatableNonObject() {
+
+        let testObject1 = NonEquatableNonObject(intValue: 0)
+        let testObject2 = NonEquatableNonObject(intValue: 1)
+        let publishedInt = PublishedProperty(withInitialValue: 0)
+        let testObjectPublisher = publishedInt.publishedValue.valueTransform { (integer) -> NonEquatableNonObject in
+            return (integer % 2) != 0 ? testObject2 : testObject1
+        }
+
+        var updateCount = 0
+        var lastTestObject = testObject1
+        let testObjectSubscription = testObjectPublisher.subscribe { (testObject) in
+            updateCount += 1
+            lastTestObject = testObject
+        }
+
+        XCTAssertEqual(updateCount, 1)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastTestObject.intValue, testObject1.intValue)
+
+        publishedInt.value = 1
+
+        XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastTestObject.intValue, testObject2.intValue)
+
+        publishedInt.value = 7
+
+        //  Should be the same as before since the new value is still odd, but it still got updated.
+        XCTAssertEqual(updateCount, 3)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastTestObject.intValue, testObject2.intValue)
+
+        testObjectSubscription.invalidate()
+    }
+
+
     func testValueTransformerEquatable() {
 
         let publishedInt = PublishedProperty(withInitialValue: 0)

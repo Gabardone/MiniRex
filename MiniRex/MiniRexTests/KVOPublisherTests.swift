@@ -88,11 +88,10 @@ class KVOPublisherTests: XCTestCase {
 
     func testSwiftKeyPathSimpleAPI() {
         let newValue = TestNSObject.initialValue * 11
-        let publisher = self.testObject.publishedValue(forKeyPathUpdates: \TestNSObject.integer)
 
         var receivedValues: [Int] = []
 
-        let subscription = publisher.subscribe { (update: Int) in
+        let subscription = self.testObject.subscribe(toValueAtKeyPath: \TestNSObject.integer) { (update) in
             receivedValues.append(update)
         }
 
