@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		0807465E22266902000845F7 /* SimpleBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807465D22266902000845F7 /* SimpleBroadcaster.swift */; };
 		0827F5F422A0682D00067A83 /* Broadcaster+FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */; };
+		0827F5FA22A3172D00067A83 /* PublishedValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0827F5F922A3172D00067A83 /* PublishedValueTests.swift */; };
 		0828D4F7228BAA150065876E /* Broadcaster+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */; };
 		082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F221E70942007D5498 /* PublishedProperty.swift */; };
 		082A84F521E888A2007D5498 /* Broadcaster+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */; };
 		08325CBE2288FA48005DC8C3 /* PublisherConstantValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */; };
 		08325CC02288FBFC005DC8C3 /* NSObject+KVOSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08325CBF2288FBFC005DC8C3 /* NSObject+KVOSubscription.swift */; };
 		08340A5E2271481500EC7803 /* Broadcaster+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08340A5D2271481500EC7803 /* Broadcaster+Filter.swift */; };
+		0835C42622A4700A00288CEF /* PublishedValue+Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835C42522A4700A00288CEF /* PublishedValue+Broadcaster.swift */; };
+		0835C42822A4768E00288CEF /* PublishedValue+BroadcasterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835C42722A4768E00288CEF /* PublishedValue+BroadcasterTests.swift */; };
 		083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B121ED2BEE00949CA8 /* Subscription.swift */; };
 		083835B421EE56C000949CA8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083835B321EE56C000949CA8 /* Publisher.swift */; };
 		0838EA8F2218FA3400007ED3 /* Publisher+Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */; };
@@ -54,11 +57,14 @@
 /* Begin PBXFileReference section */
 		0807465D22266902000845F7 /* SimpleBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBroadcaster.swift; sourceTree = "<group>"; };
 		0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+FilterTests.swift"; sourceTree = "<group>"; };
+		0827F5F922A3172D00067A83 /* PublishedValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValueTests.swift; sourceTree = "<group>"; };
 		0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+KVO.swift"; sourceTree = "<group>"; };
 		082A84F221E70942007D5498 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
 		082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Notification.swift"; sourceTree = "<group>"; };
 		08325CBF2288FBFC005DC8C3 /* NSObject+KVOSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+KVOSubscription.swift"; sourceTree = "<group>"; };
 		08340A5D2271481500EC7803 /* Broadcaster+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Filter.swift"; sourceTree = "<group>"; };
+		0835C42522A4700A00288CEF /* PublishedValue+Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+Broadcaster.swift"; sourceTree = "<group>"; };
+		0835C42722A4768E00288CEF /* PublishedValue+BroadcasterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+BroadcasterTests.swift"; sourceTree = "<group>"; };
 		083835B121ED2BEE00949CA8 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		083835B321EE56C000949CA8 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Dispatch.swift"; sourceTree = "<group>"; };
@@ -148,17 +154,19 @@
 		0842AB5C218687F50091A811 /* MiniRexTests */ = {
 			isa = PBXGroup;
 			children = (
+				0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */,
 				0842AB5F218687F50091A811 /* Info.plist */,
 				D333628A21993F7C006E3CDE /* KVOPublisherTests.swift */,
 				0838EA902218FA6F00007ED3 /* NotificationPublisherTests.swift */,
 				08A8BFA02213899E0060F4AA /* PublishedPropertyTests.swift */,
+				0835C42722A4768E00288CEF /* PublishedValue+BroadcasterTests.swift */,
+				0827F5F922A3172D00067A83 /* PublishedValueTests.swift */,
 				0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */,
 				08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */,
 				08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */,
 				08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */,
 				08E7753C22684B40007CF676 /* SimpleBroadcasterTests.swift */,
 				08A8BF9E221386D00060F4AA /* TestTypes.swift */,
-				0827F5F322A0682D00067A83 /* Broadcaster+FilterTests.swift */,
 			);
 			path = MiniRexTests;
 			sourceTree = "<group>";
@@ -181,6 +189,7 @@
 			children = (
 				082A84F221E70942007D5498 /* PublishedProperty.swift */,
 				08FBDEDD225D989300C27A08 /* PublishedValue.swift */,
+				0835C42522A4700A00288CEF /* PublishedValue+Broadcaster.swift */,
 				08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */,
 				08CD637C218978720052D6F7 /* PublishedValue+KVO.swift */,
 				08DE139D228A7BB300394268 /* PublishedValue+Transform.swift */,
@@ -324,6 +333,7 @@
 				08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
+				0835C42622A4700A00288CEF /* PublishedValue+Broadcaster.swift in Sources */,
 				08C516F4229CFECE001164F5 /* RootPublisher.swift in Sources */,
 				0828D4F7228BAA150065876E /* Broadcaster+KVO.swift in Sources */,
 				082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */,
@@ -340,11 +350,13 @@
 				08E7753B22684511007CF676 /* PublisherSingleUpdateTests.swift in Sources */,
 				08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */,
 				08325CBE2288FA48005DC8C3 /* PublisherConstantValueTests.swift in Sources */,
+				0835C42822A4768E00288CEF /* PublishedValue+BroadcasterTests.swift in Sources */,
 				08E7753D22684B40007CF676 /* SimpleBroadcasterTests.swift in Sources */,
 				D333628B21993F7C006E3CDE /* KVOPublisherTests.swift in Sources */,
 				0838EA912218FA6F00007ED3 /* NotificationPublisherTests.swift in Sources */,
 				0827F5F422A0682D00067A83 /* Broadcaster+FilterTests.swift in Sources */,
 				08FBDE9F224DF15300C27A08 /* PublisherDispatchTests.swift in Sources */,
+				0827F5FA22A3172D00067A83 /* PublishedValueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

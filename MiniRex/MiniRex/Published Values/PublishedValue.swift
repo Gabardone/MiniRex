@@ -21,30 +21,7 @@ import Foundation
  */
 public struct Published<Value>: Publisher {
 
-    //  MARK: - Properties
-
-    //  Subscription block storage.
-
     //  MARK: - Utilities
-
-    /**
-     Init with a broadcaster subscription block and a way to fetch the initial value.
-
-     This init can take the exact same subscription block as a broadcaster and an additional one that fetches the
-     initial value to return to subscribers.
-     - Parameter subscribeBlock: A block that executes the subscription logic. This block should not call back
-     subscribers with the value at the time of subscription.
-     - Parameter currentValueBlock: A block that returns the current value of the published value, to call back the
-     new subscriber with.
-     */
-    public init(withSubscribeBlock subscribeBlock: @escaping SubscriptionBlock, currentValueBlock: @escaping () -> Value) {
-        self.init { (valueBlock) -> Subscription in
-            let subscription = subscribeBlock(valueBlock)
-            valueBlock(currentValueBlock())
-            return subscription
-        }
-    }
-
 
     /**
      Alternate subscription that calls a different block for the initial call with the current value at the time of

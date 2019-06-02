@@ -17,6 +17,11 @@ import Foundation
 public class RootPublisher<PublisherType> where PublisherType: Publisher {
 
 
+    /**
+     We store the subscribers' object identifier and update block. The latter wrapped in a weak check on the actual
+     subscriber so we avoid updating subscribers right at the point they deallocate. That way we don't create a
+     retain cycle but can still refer to a specific subscription for unsubscription purposes.
+     */
     private var subscribers: [ObjectIdentifier: PublisherType.UpdateBlock] = [:]
 
 
