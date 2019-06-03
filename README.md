@@ -28,7 +28,7 @@ need to perform the following steps:
 - Add a copy phase on your application's build process to copy the framework into the application's frameworks folder.
 
 ## How to Use
-The whole API is based on the Publisher template struct, which has a single method that takes in a callback that gets called with a
+The whole API is based on the Publisher template protocol, which has a single method that takes in a callback that gets called with a
 parameter of type Publisher.Update and returns a Subscription object.
 
 The Subscription objects are used to manage the lifetime of the subscription. They will either end the subscription when deallocated or
@@ -40,43 +40,41 @@ A few basic rules on further usage:
 sources alive as long as they should.
 - Publishers should also be safe against their sources being deallocated or otherwise no longer producing values. They will just stop
 posting updates when that happens.
-- There is no intrinsic guarantee on whether posting of updates to subscribers will be synchronous of asynchronous, unless documented
-by the publisher vendor. In case of doubt, use a Publisher adapter to make it behave as desired.
+- There is no intrinsic guarantee on whether posting of updates to subscribers will be synchronous of asynchronous, unless
+documented by the publisher vendor. In case of doubt, use a Publisher dispatch adapter to make it behave as desired.
 - Unless otherwise documented or using a dispatch adapter (see below) there's also no guarantee on what queue the updates will
 happen in.
-- All update blocks passed on subscribe calls can be assumed to escape and thus live on as long as the returned Subscription is alive. In
-other words, be careful what strong references you put in them.
-- There's four types of publishers depending on their behavior. They are all modeled using the Publisher struct but many of the utilities are
-only sensible to use for some or one of their types. Any documentation that refers to the below terms is assuming that the behaviors
-described for them will be applying. They are the following:
-  * **Broadcasters**: Offer no guarantees for when updates are called. Examples are notification publishers. event publishers or publishers
-  that update subscribers on a repeating  timer.
-  * **Published Values**: These are vending a specific type of value. Subscribing to them will always trigger an initial update callback with
-  the value current at the time of subscription (this call need not be synchronous although it could be). Further update calls will happen as
-  the published value changes. `Equatable` values will only update subscribers when their value change, non-equatable reference types
-  when their identity changes. Examples include KVO publishers which include the .initial KVO observation option, and the
-  PublishedProperty class' `publisher` property.
-  * **Tasks**: These will make a single call to subscribers with the result of the operation, once it's finished (or at once if the task already
-  finished at the time of subscription). That could contain a task result of a particular type or an error.
-  * **Progressive Tasks**: Like tasks but they also offer update calls with whatever progress information may make sense for the task at
-  hand (i.e. downloaded data, percent completed etc.). 
+- All update blocks passed on subscribe calls can be assumed to escape and thus live on as long as the returned Subscription is alive.
+In other words, be careful what strong references you put in them.
+- There's currently three types of publishers depending on their behavior. They all implement the Publisher protocol but have their own
+semantics, initializers and utilities. Any documentation that refers to the below terms is assuming that the behaviors described for them
+will be applying. They are the following:
+  * **Broadcasters**: Of type `Broadcaster<Update>` Offer no guarantees for when updates are called. Examples are notification
+  publishers. event publishers or publishers that update subscribers on a repeating  timer. Examples include notification broadcaster
+  adapters and the `SimpleBroadcaster<Update>` type.
+  * **Published Values**: Of type `Published<Value>` These are vending a specific type of value. Subscribing to them will always
+  trigger an initial update callback with the value current at the time of subscription (this call need not be synchronous although it could
+  be). Further update calls will happen as the published value changes. `Equatable` values will only update subscribers when their
+  value change, non-equatable reference types when their identity changes. Examples include KVO publishers which include the .initial
+  KVO observation option, and the PublishedProperty class' `publishedValue` property.
+  * **Tasks**: These model asynchronous casts. They may optionally post updates with task progress but once they post anupdate with
+  an error or the result of the task they are guaranteed to not post any further updates.
 
-A number of pre-built Publishers are also included for ease of adoption:
+A number of pre-built Utilities are also included for ease of adoption:
 
-- Transformation publisher adapters. Allow to turn the updates from one Publisher into a different update type Publisher by providing a
-simple transformation block.
-- Transformation published value adapters. They will make sure that their own subscribers will only be updated on actual value changes
-if `Equatable` or at least reference types.
-- NotificationCenter based broadcasters, to easily adapt traditional Foundation notifications into MiniRex API.
-- KVO based publishers (including prebuilt published value types), to easily adapt KVO observation into MiniRex API.
-- A constant published value that just sends back an immutable value to new subscribers. Useful for testing purposes and implementation
-of published value-vending protocols.
-- A basic PublishedProperty class that can be used to vend both a property and a Publisher that updates its subscribers when it changes. The
-semantics of Publish/Subscribe imply reference, and besides the act of subscribing/unsubscribing require modification of the ultimate
-publisher source, so it has to be a class instead of a struct.
-- Dispatch adapters, both for subscription and for update callbacks, so it's easy to build publishers that bridge components operating
-on different dispatch queues.
-- A Task for URL Data downloads. Feed it a URL, then subscribe to the returned Task to initiate the download.
+- Transformation publisher adapters. Those for `Published<Value>` will preserve equality/identity semantics when possible. The ones
+for `Broadcaster<Update>` will just post the transformed update values.
+- NotificationCenter based `Broadcaster`, to easily adapt traditional Foundation notifications into MiniRex API.
+- KVO based publishers (including prebuilt `Published<Value>` types), to easily adapt KVO observation into MiniRex API.
+- A constant `Published<Value>` that just sends back an immutable value to new subscribers. Useful for testing purposes and stub
+implementation of published value-vending protocols.
+- A basic PublishedProperty class that can be used to vend both a property and a `Published<Value>` that updates its subscribers
+when it changes. The semantics of Publish/Subscribe imply reference, and besides the act of subscribing/unsubscribing require
+modification of the ultimate publisher source, so it has to be a class instead of a struct.
+- Dispatch adapters, for all kind of Publisher types, both for subscription and for update callbacks. They make it easy to build
+components that do their work on a specific queue, bridging other work being done in different dispatch queues.
+- Tasks for URL Data downloads and file reads. Feed either of them a URL, then subscribe to the returned Task to initiate the
+download/file read.
 
 ## Contributing Ideas
 While this framework is not based on particularly revolutionary ideas, I would love for it to be useful to a wide variety of developers. If you
@@ -84,11 +82,10 @@ feel a particular improvement would make it more so please let me know.
 
 ## To Do
 
-- Filtering Publisher adapters.
-- Tasks.
-- Progressive Tasks
+- Tasks test coverage.
 
 ## Release History
+* 2.0.0 (20190602): New API, full unit test coverage for `Broadcaster<Update>` & `Published<Value>`
 * 1.0.5 (20190417): Fix to SimpleBroadcaster (couldn't be initialized from outside the library). Added several missing unit tests.
 * 1.0.4 (20190415): Support for CocoaPods
 * 1.0.3 (20190411): Fixes for URL data task cancelation flow.
