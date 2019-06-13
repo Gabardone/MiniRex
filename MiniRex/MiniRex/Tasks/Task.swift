@@ -57,6 +57,16 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
                 return true
             }
         }
+
+        init(withResult result: Result<Success, Failure>) {
+            switch result {
+            case .success(let resultValue):
+                self = .success(withResult: resultValue)
+
+            case .failure(let error):
+                self = .failure(withError: error)
+            }
+        }
     }
 
 
@@ -153,6 +163,29 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
             })
 
             return subscription
+        })
+    }
+
+
+    /**
+     Stub initializer for building stub tasks when we already know what the result will be. Optionally we can add
+     a delay before the task is considered completed.
+
+     Great for testing purposes as well.
+     - Parameter queue: The queue to use for managing the task.
+     - Parameter result: The predefined result that will just be sent to any subscribers.
+     - Parameter delay: Optionally, a delay to wait until the task is considered completed and subscribers get
+     the predefined result back.
+     */
+    public init(inQueue queue: DispatchQueue, withPredefinedResult result: Result<Success, Failure>, delay: DispatchTimeInterval? = nil) {
+        self.init(inQueue: queue, withTaskBlock: { (finalizationBlock) in
+            if let delay = delay {
+                queue.asyncAfter(deadline: .now() + delay, execute: {
+                    finalizationBlock(Status(withResult: result))
+                })
+            } else {
+                finalizationBlock(Status(withResult: result))
+            }
         })
     }
 
