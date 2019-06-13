@@ -14,7 +14,7 @@ import Foundation
 
  Pretty common task in modern application development and take home interview work.
  */
-extension Task where Progress == Void, Success == Data {
+extension Task where Progress == Never, Success == Data {
 
     /**
      Returns a task that downloads the data at the given URL into a Data struct if successful, returning an error if
@@ -27,11 +27,11 @@ extension Task where Progress == Void, Success == Data {
      - Returns: A task that downloads the data pointed at by the URL into a Data value. It will start executing as soon
      as a subscriber is added.
      */
-    public static func downloadTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Void, Data, URLError> {
+    public static func downloadTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Never, Data, URLError> {
         //  Declared here so it can bridge task execution and cancel.
         var urlDataTask: URLSessionDataTask? = nil
 
-        return Task<Void, Data, URLError>(inQueue: queue, withTaskBlock: { (completion) in
+        return Task<Never, Data, URLError>(inQueue: queue, withTaskBlock: { (completion) in
             urlDataTask = URLSession.shared.dataTask(with: url) { data, response, error in
                 if let error = error {
                     if let urlError = error as? URLError {
@@ -78,8 +78,8 @@ extension Task where Progress == Void, Success == Data {
      - Returns: A task that reads the contents of the file pointed at by the URL into a Data value. It will start
      executing as soon as a subscriber is added.
      */
-    public static func fileReadTask(forFileAtURL url: URL, inQueue queue: DispatchQueue) -> Task<Void, Data, Error> {
-        return Task<Void, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
+    public static func fileReadTask(forFileAtURL url: URL, inQueue queue: DispatchQueue) -> Task<Never, Data, Error> {
+        return Task<Never, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
             //  Dispatch the actual work to a global queue. completion will send back to the given one.
             let taskExecution = {
                 do {
