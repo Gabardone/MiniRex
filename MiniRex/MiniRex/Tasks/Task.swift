@@ -252,6 +252,37 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
 }
 
 
+extension Task where Progress == Never {
+
+    /**
+     A block that executes a task that doesn't report progress. Use this to build tasks that don't report progress
+     more simply.
+     */
+    public typealias DiscreteTaskBlock = (@escaping (Result<Success, Failure>) -> Void) -> Void
+
+
+    /**
+     Builds up a task publisher with the given task logic that never posts any progress updates.
+     - Parameter queue: The queue where the task management will happen. The actual task may (and usually will)
+     happen elsewhere, but its management needs to happen serially to keep subscriptions/unsubscriptions/task
+     completion from stomping on each other. Subscribers will be called in the given queue but that can be easily
+     fixed with a dispatch wrapper.
+     - Parameter discreteTaskBlock: The block that actually executes the task. It works just like the regular
+     taskBlock in the standard Task init but it never has to worry about reporting progress, only completion result.
+     - Parameter cancelBlock: Optionally, a block to be called to cancel the task if all subscribers unsubscribe. If
+     nil (the default), no action will be taken whenever the task loses all subscribers.
+     */
+    public init(inQueue queue: DispatchQueue, withDiscreteTaskBlock discreteTaskBlock: @escaping DiscreteTaskBlock, cancelBlock: CancelBlock? = nil) {
+        let taskBlock: TaskBlock = { updateBlock in
+            discreteTaskBlock({ completion in
+                updateBlock(.completed(withResult: completion))
+            })
+        }
+        self.init(inQueue: queue, withTaskBlock: taskBlock, cancelBlock: cancelBlock)
+    }
+}
+
+
 extension Result {
 
     /**
