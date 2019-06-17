@@ -38,12 +38,7 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
         /**
          The task was a success, the accompanying associated data the result of the task.
          */
-        case success(withResult: Success)
-
-        /**
-         The task failed to execute to completion successfully, the accompanying associated error should detail why.
-         */
-        case failure(withError: Failure)
+        case completed(withResult: Result<Success, Failure>)
 
         /**
          Often we just want to know whether the task is done or not.
@@ -59,13 +54,7 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
         }
 
         init(withResult result: Result<Success, Failure>) {
-            switch result {
-            case .success(let resultValue):
-                self = .success(withResult: resultValue)
-
-            case .failure(let error):
-                self = .failure(withError: error)
-            }
+            self = .completed(withResult: result)
         }
     }
 
@@ -210,11 +199,14 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
             case .inProgress(let progressUpdate):
                 progress?(progressUpdate)
 
-            case .success(let result):
-                success?(result)
+            case .completed(let result):
+                switch result {
+                case .success(let value):
+                    success?(value)
 
-            case .failure(let error):
-                failure?(error)
+                case .failure(let error):
+                    failure?(error)
+                }
             }
         })
     }
@@ -232,11 +224,8 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
                 //  Ignore
                 return
 
-            case .success(let taskResult):
-                result(.success(taskResult))
-
-            case .failure(let error):
-                result(.failure(error))
+            case .completed(let taskResult):
+                result(taskResult)
             }
         })
     }
@@ -259,5 +248,22 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
 
     public func subscribe(_ updateBlock: @escaping UpdateBlock) -> Subscription {
         return self.subscribeBlock(updateBlock)
+    }
+}
+
+
+extension Result {
+
+    /**
+     Failable initializer to get from a Task Status.
+     */
+    init?<Progress>(withTaskStatus taskStatus: Task<Progress, Success, Failure>.Status) {
+        switch taskStatus {
+        case .inProgress(_):
+            return nil
+
+        case .completed(let result):
+            self = result
+        }
     }
 }

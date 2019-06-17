@@ -38,29 +38,29 @@ extension Task where Progress == Never, Success == Data {
                         if urlError.code == .cancelled {
                             //  We're letting this one slide as we wouldn't expect a canceled task to update, and we're the only ones who can.
                         } else {
-                            completion(.failure(withError: urlError))
+                            completion(.completed(withResult: .failure(urlError)))
                         }
                     } else {
                         let unknownError = URLError(.unknown, userInfo: [NSURLErrorKey: url])
-                        completion(.failure(withError: unknownError))
+                        completion(.completed(withResult: .failure(unknownError)))
                     }
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     //  TODO: We probably can come up with a better error to model this.
                     let serverError = URLError(.badServerResponse, userInfo: [NSURLErrorKey: url])
-                    completion(.failure(withError: serverError))
+                    completion(.completed(withResult: .failure(serverError)))
                     return
                 }
 
                 guard let receivedData = data else {
                     //  If we somehow didn't get any data (even an ampty one) we return an error.
                     let dataError = URLError(.zeroByteResource, userInfo: [NSURLErrorKey: url])
-                    completion(.failure(withError: dataError))
+                    completion(.completed(withResult: .failure(dataError)))
                     return
                 }
 
-                completion(.success(withResult: receivedData))
+                completion(.completed(withResult: .success(receivedData)))
             }
             urlDataTask?.resume()
         }, cancelBlock: {
@@ -84,9 +84,9 @@ extension Task where Progress == Never, Success == Data {
             let taskExecution = {
                 do {
                     let data = try Data(contentsOf: url)
-                    completion(.success(withResult: data))
+                    completion(.completed(withResult: .success(data)))
                 } catch (let error) {
-                    completion(.failure(withError: error))
+                    completion(.completed(withResult: .failure(error)))
                 }
             }
 
