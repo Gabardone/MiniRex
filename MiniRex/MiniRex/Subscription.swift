@@ -24,7 +24,7 @@ public final class Subscription {
      Use this as a singleton in cases where there is nothing to do to unsubscribe (i.e. no updates are forthcoming or
      have all happened during subsription). The empty subscription is always invalidated.
      */
-    static let empty: Subscription = {
+    public static let empty: Subscription = {
         let result = Subscription(withUnsubscriber: {})
         result.invalidate()
         return result
