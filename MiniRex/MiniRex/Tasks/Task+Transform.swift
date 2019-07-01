@@ -1,18 +1,18 @@
 //
-//  Publisher+UpdateTransformer.swift
+//  Task+Transform.swift
 //  MiniRex
 //
-//  Created by Óscar Morales Vivó on 2/1/19.
+//  Created by Óscar Morales Vivó on 7/1/19.
 //  Copyright © 2019 Óscar Morales Vivó. All rights reserved.
 //
 
 import Foundation
 
 
-extension Broadcaster {
+extension Task {
 
     /**
-     Builds a Broadcaster that transform another publisher's updates.
+     Builds a Task that transform another task's updates.
 
      May be used with any type of Publisher as its source. If you have a Published<Value> and wish to preserve its
      update semantics, used the respective value transform API.
@@ -23,7 +23,7 @@ extension Broadcaster {
      The transformationBlock can transform into any type whatsoever, including the source's type, so there is no
      limitation about it other than it has to produce a value for every source update.
      */
-    init<OriginalBroadcaster>(withSource sourcePublisher: OriginalBroadcaster, transformationBlock: @escaping (OriginalBroadcaster.Update) -> Update) where OriginalBroadcaster: Publisher {
+    init<OriginalProgress, OriginalSuccess, OriginalFailure>(withSource sourcePublisher: Task<OriginalProgress, OriginalSuccess, OriginalFailure>, transformationBlock: @escaping (Task<OriginalProgress, OriginalSuccess, OriginalFailure>.Update) -> Update) {
         self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             return sourcePublisher.subscribe({ (update) in
                 updateBlock(transformationBlock(update))
@@ -33,10 +33,10 @@ extension Broadcaster {
 }
 
 
-extension Publisher {
+extension Task {
 
     /**
-     Builds up a broadcaster that transforms the updates from the caller into new values.
+     Builds up a Task that transforms the updates from the caller into new values.
 
      Note that this can be called on any Publisher but the return is a Broadcaster. This is because we can't make
      any guarantees on the behavior of the result and  Broadcaster models that best. For Published<Value> there's
@@ -49,7 +49,7 @@ extension Publisher {
      The transformationBlock can transform into any type whatsoever, including the source's type, so there is no
      limitation about it other than it has to produce a value for every source update.
      */
-    public func transform<Transformed>(with transformationBlock: @escaping (Update) -> Transformed) -> Broadcaster<Transformed> {
-        return Broadcaster<Transformed>(withSource: self, transformationBlock: transformationBlock)
+    public func transform<TransformedProgress, TransformedSuccess, TransformedFailure>(with transformationBlock: @escaping (Update) -> Task<TransformedProgress, TransformedSuccess, TransformedFailure>.Update) -> Task<TransformedProgress, TransformedSuccess, TransformedFailure> {
+        return Task<TransformedProgress, TransformedSuccess, TransformedFailure>(withSource: self, transformationBlock: transformationBlock)
     }
 }
