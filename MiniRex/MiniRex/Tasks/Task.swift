@@ -38,7 +38,7 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
         /**
          The task was a success, the accompanying associated data the result of the task.
          */
-        case completed(withResult: Result<Success, Failure>)
+        case completed(withResult: TaskResult)
 
         /**
          Often we just want to know whether the task is done or not.
@@ -53,10 +53,17 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
             }
         }
 
-        init(withResult result: Result<Success, Failure>) {
+        init(withResult result: TaskResult) {
             self = .completed(withResult: result)
         }
     }
+
+
+    /**
+     The result type for the task. Useful to avoid generic argument explosion, especially when dealing with tasks
+     that do not report progress.
+     */
+    public typealias TaskResult = Result<Success, Failure>
 
 
     /**
@@ -166,7 +173,7 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
      - Parameter delay: Optionally, a delay to wait until the task is considered completed and subscribers get
      the predefined result back.
      */
-    public init(inQueue queue: DispatchQueue, withPredefinedResult result: Result<Success, Failure>, delay: DispatchTimeInterval? = nil) {
+    public init(inQueue queue: DispatchQueue, withPredefinedResult result: TaskResult, delay: DispatchTimeInterval? = nil) {
         self.init(inQueue: queue, withTaskBlock: { (finalizationBlock) in
             if let delay = delay {
                 queue.asyncAfter(deadline: .now() + delay, execute: {
@@ -217,7 +224,7 @@ public struct Task<Progress, Success, Failure: Error>: Publisher {
      - Parameter result: The block that will be called with the result of the task.
      - Returns: A subscription.
      */
-    public func subscribe(result: @escaping (Result<Success, Failure>) -> Void) -> Subscription {
+    public func subscribe(result: @escaping (TaskResult) -> Void) -> Subscription {
         return self.subscribe({ (taskStatus) in
             switch taskStatus {
             case .inProgress(_):
@@ -258,7 +265,7 @@ extension Task where Progress == Never {
      A block that executes a task that doesn't report progress. Use this to build tasks that don't report progress
      more simply.
      */
-    public typealias DiscreteTaskBlock = (@escaping (Result<Success, Failure>) -> Void) -> Void
+    public typealias DiscreteTaskBlock = (@escaping (TaskResult) -> Void) -> Void
 
 
     /**

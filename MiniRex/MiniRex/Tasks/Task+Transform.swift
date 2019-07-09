@@ -64,7 +64,7 @@ extension Task where Progress == Never {
      limitation about it other than it has to produce a value for any given task result. Progress updates will be
      skipped.
      */
-    init<OriginalProgress, OriginalSuccess, OriginalFailure>(withSource sourcePublisher: Task<OriginalProgress, OriginalSuccess, OriginalFailure>, resultTransformationBlock: @escaping (Result<OriginalSuccess, OriginalFailure>) -> Result<Success, Failure>) {
+    init<OriginalProgress, OriginalSuccess, OriginalFailure>(withSource sourcePublisher: Task<OriginalProgress, OriginalSuccess, OriginalFailure>, resultTransformationBlock: @escaping (Result<OriginalSuccess, OriginalFailure>) -> TaskResult) {
         self.init(withSubscribeBlock: { (updateBlock: @escaping UpdateBlock) in
             return sourcePublisher.subscribe({ (update) in
                 switch update {
@@ -90,7 +90,7 @@ extension Task where Progress == Never {
      The resultTransformationBlock can transform into any type whatsoever, including the source's type, so there is
      no limitation about it other than it has to be able to produce a value for every given task result.
      */
-    public func transform<TransformedSuccess, TransformedFailure>(with resultTransformationBlock: @escaping (Result<Success, Failure>) -> Result<TransformedSuccess, TransformedFailure>) -> Task<Never, TransformedSuccess, TransformedFailure> {
+    public func transform<TransformedSuccess, TransformedFailure>(with resultTransformationBlock: @escaping (TaskResult) -> Result<TransformedSuccess, TransformedFailure>) -> Task<Never, TransformedSuccess, TransformedFailure> {
         return Task<Never, TransformedSuccess, TransformedFailure>(withSource: self, resultTransformationBlock: resultTransformationBlock)
     }
 }
