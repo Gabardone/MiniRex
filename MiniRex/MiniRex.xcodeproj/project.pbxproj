@@ -12,6 +12,7 @@
 		0827F5FA22A3172D00067A83 /* PublishedValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0827F5F922A3172D00067A83 /* PublishedValueTests.swift */; };
 		0828D4F7228BAA150065876E /* Broadcaster+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */; };
 		0829919E22CA916E005C05EB /* Task+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0829919D22CA916E005C05EB /* Task+Transform.swift */; };
+		0829922622D5B352005C05EB /* Task+JSONParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0829922522D5B352005C05EB /* Task+JSONParsing.swift */; };
 		082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F221E70942007D5498 /* PublishedProperty.swift */; };
 		082A84F521E888A2007D5498 /* Broadcaster+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */; };
 		08325CBE2288FA48005DC8C3 /* PublisherConstantValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */; };
@@ -61,6 +62,7 @@
 		0827F5F922A3172D00067A83 /* PublishedValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValueTests.swift; sourceTree = "<group>"; };
 		0828D4F6228BAA150065876E /* Broadcaster+KVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+KVO.swift"; sourceTree = "<group>"; };
 		0829919D22CA916E005C05EB /* Task+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+Transform.swift"; sourceTree = "<group>"; };
+		0829922522D5B352005C05EB /* Task+JSONParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+JSONParsing.swift"; sourceTree = "<group>"; };
 		082A84F221E70942007D5498 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
 		082A84F421E888A2007D5498 /* Broadcaster+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Broadcaster+Notification.swift"; sourceTree = "<group>"; };
 		08325CBF2288FBFC005DC8C3 /* NSObject+KVOSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+KVOSubscription.swift"; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				08FBDEE4225DA8E100C27A08 /* Task.swift */,
 				08FBDEE8225F12A300C27A08 /* Task+URLData.swift */,
 				0829919D22CA916E005C05EB /* Task+Transform.swift */,
+				0829922522D5B352005C05EB /* Task+JSONParsing.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				08C516F4229CFECE001164F5 /* RootPublisher.swift in Sources */,
 				0828D4F7228BAA150065876E /* Broadcaster+KVO.swift in Sources */,
 				082A84F321E70942007D5498 /* PublishedProperty.swift in Sources */,
+				0829922622D5B352005C05EB /* Task+JSONParsing.swift in Sources */,
 				08DD8AAF22051C04004E97B3 /* Broadcaster+Transform.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
