@@ -12,13 +12,13 @@ import Foundation
 /**
  A typealias for JSON parsing tasks to make usage less onerous.
  */
-typealias JSONParsingTask<Decoded> = Task<Never, Decoded, Error> where Decoded: Decodable
+public typealias JSONParsingTask<Decoded> = Task<Never, Decoded, Error> where Decoded: Decodable
 
 
 /**
  A task extension to parse JSON from the calling Data.
  */
-extension Data {
+public extension Data {
 
     /**
      Builds a task for parsing JSON data.

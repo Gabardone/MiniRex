@@ -21,7 +21,7 @@ public typealias DataDownloadTask = Task<Never, Data, URLError>
 
  Pretty common task in modern application development and take home interview work.
  */
-extension URL {
+public extension URL {
 
     /**
      Returns a task that downloads the at the calling URL into a Data struct if successful, returning an error if
@@ -33,7 +33,7 @@ extension URL {
      - Returns: A task that downloads the data pointed at by the URL into a Data value. It will start executing as soon
      as a subscriber is added.
      */
-    public func downloadTask(inQueue queue: DispatchQueue) -> DataDownloadTask {
+    func downloadTask(inQueue queue: DispatchQueue) -> DataDownloadTask {
         //  Declared here so it can bridge task execution and cancel.
         var urlDataTask: URLSessionDataTask? = nil
 
@@ -87,7 +87,7 @@ public typealias FileReadTask = Task<Never, Data, Error>
 /**
  A pre-packaged task that reads the file pointed at by the calling URL into memory.
  */
-extension URL {
+public extension URL {
 
     /**
      Returns a task that reads the contents of the file at the given URL into a Data struct if successful, returning
@@ -96,7 +96,7 @@ extension URL {
      - Returns: A task that reads the contents of the file pointed at by the URL into a Data value. It will start
      executing as soon as a subscriber is added.
      */
-    public func fileReadTask(inQueue queue: DispatchQueue) -> FileReadTask {
+    func fileReadTask(inQueue queue: DispatchQueue) -> FileReadTask {
         return Task<Never, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
             //  Dispatch the actual work to a global queue. completion will send back to the given one.
             let taskExecution = {
