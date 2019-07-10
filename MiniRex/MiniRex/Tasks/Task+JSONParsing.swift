@@ -10,6 +10,12 @@ import Foundation
 
 
 /**
+ A typealias for JSON parsing tasks to make usage less onerous.
+ */
+typealias JSONParsingTask<Decoded> = Task<Never, Decoded, Error> where Decoded: Decodable
+
+
+/**
  A task extension to parse JSON to a given type.
  */
 extension Task where Progress == Never, Success: Decodable, Failure == Error {

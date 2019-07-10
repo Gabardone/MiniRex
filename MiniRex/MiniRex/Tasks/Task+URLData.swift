@@ -10,11 +10,18 @@ import Foundation
 
 
 /**
- A pre-packaged task that fetches the data at the given URL.
+ A simple typealias to wrap data download tasks to make logic more readable and less prone to Swift generics
+ pedantry.
+ */
+typealias DataDownloadTask = Task<Never, Data, URLError>
+
+
+/**
+ A pre-packaged task that downloads the data at the given URL.
 
  Pretty common task in modern application development and take home interview work.
  */
-extension Task where Progress == Never, Success == Data {
+extension Task where Progress == Never, Success == Data, Failure == URLError {
 
     /**
      Returns a task that downloads the data at the given URL into a Data struct if successful, returning an error if
@@ -68,7 +75,20 @@ extension Task where Progress == Never, Success == Data {
             urlDataTask?.cancel()
         })
     }
+}
 
+
+/**
+ A simple typealias to wrap file read into Data tasks to make logic more readable and less prone to Swift generics
+ pedantry.
+ */
+typealias FileReadTask = Task<Never, Data, Error>
+
+
+/**
+ A pre-packaged task that reads the file pointed at by the given URL into memory.
+ */
+extension Task where Progress == Never, Success == Data {
 
     /**
      Returns a task that reads the contents of the file at the given URL into a Data struct if successful, returning
@@ -82,12 +102,9 @@ extension Task where Progress == Never, Success == Data {
         return Task<Never, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
             //  Dispatch the actual work to a global queue. completion will send back to the given one.
             let taskExecution = {
-                do {
-                    let data = try Data(contentsOf: url)
-                    completion(.completed(withResult: .success(data)))
-                } catch (let error) {
-                    completion(.completed(withResult: .failure(error)))
-                }
+                completion(.completed(withResult: Result(catching: {
+                    return try Data(contentsOf: url)
+                })))
             }
 
             if #available(macOS 10.10, iOS 8, tvOS 9, watchOS 2, *) {
