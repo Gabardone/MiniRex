@@ -13,33 +13,32 @@ import Foundation
  A simple typealias to wrap data download tasks to make logic more readable and less prone to Swift generics
  pedantry.
  */
-typealias DataDownloadTask = Task<Never, Data, URLError>
+public typealias DataDownloadTask = Task<Never, Data, URLError>
 
 
 /**
- A pre-packaged task that downloads the data at the given URL.
+ A pre-packaged task that downloads the data at the calling URL.
 
  Pretty common task in modern application development and take home interview work.
  */
-extension Task where Progress == Never, Success == Data, Failure == URLError {
+extension URL {
 
     /**
-     Returns a task that downloads the data at the given URL into a Data struct if successful, returning an error if
+     Returns a task that downloads the at the calling URL into a Data struct if successful, returning an error if
      failing.
 
      This task doesn't report on progress. Use for short, small downloads or those where you don't really care about
      tracking their progress.
-     - Parameter url: The URL whose data we want to get.
      - Parameter queue: The queue where the task will be managed and the results will be sent.
      - Returns: A task that downloads the data pointed at by the URL into a Data value. It will start executing as soon
      as a subscriber is added.
      */
-    public static func downloadTask(forURL url: URL, inQueue queue: DispatchQueue) -> Task<Never, Data, URLError> {
+    public func downloadTask(inQueue queue: DispatchQueue) -> DataDownloadTask {
         //  Declared here so it can bridge task execution and cancel.
         var urlDataTask: URLSessionDataTask? = nil
 
-        return Task<Never, Data, URLError>(inQueue: queue, withTaskBlock: { (completion) in
-            urlDataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+        return DataDownloadTask(inQueue: queue, withTaskBlock: { (completion) in
+            urlDataTask = URLSession.shared.dataTask(with: self) { data, response, error in
                 if let error = error {
                     if let urlError = error as? URLError {
                         if urlError.code == .cancelled {
@@ -48,21 +47,21 @@ extension Task where Progress == Never, Success == Data, Failure == URLError {
                             completion(.completed(withResult: .failure(urlError)))
                         }
                     } else {
-                        let unknownError = URLError(.unknown, userInfo: [NSURLErrorKey: url])
+                        let unknownError = URLError(.unknown, userInfo: [NSURLErrorKey: self])
                         completion(.completed(withResult: .failure(unknownError)))
                     }
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     //  TODO: We probably can come up with a better error to model this.
-                    let serverError = URLError(.badServerResponse, userInfo: [NSURLErrorKey: url])
+                    let serverError = URLError(.badServerResponse, userInfo: [NSURLErrorKey: self])
                     completion(.completed(withResult: .failure(serverError)))
                     return
                 }
 
                 guard let receivedData = data else {
                     //  If we somehow didn't get any data (even an ampty one) we return an error.
-                    let dataError = URLError(.zeroByteResource, userInfo: [NSURLErrorKey: url])
+                    let dataError = URLError(.zeroByteResource, userInfo: [NSURLErrorKey: self])
                     completion(.completed(withResult: .failure(dataError)))
                     return
                 }
@@ -82,28 +81,27 @@ extension Task where Progress == Never, Success == Data, Failure == URLError {
  A simple typealias to wrap file read into Data tasks to make logic more readable and less prone to Swift generics
  pedantry.
  */
-typealias FileReadTask = Task<Never, Data, Error>
+public typealias FileReadTask = Task<Never, Data, Error>
 
 
 /**
- A pre-packaged task that reads the file pointed at by the given URL into memory.
+ A pre-packaged task that reads the file pointed at by the calling URL into memory.
  */
-extension Task where Progress == Never, Success == Data {
+extension URL {
 
     /**
      Returns a task that reads the contents of the file at the given URL into a Data struct if successful, returning
      an error if unsuccessful.
-     - Parameter url: The file URL whose data we want to get. Undefined behavior if other types of URLs sent.
      - Parameter queue: The queue where the task will be managed and the results will be sent.
      - Returns: A task that reads the contents of the file pointed at by the URL into a Data value. It will start
      executing as soon as a subscriber is added.
      */
-    public static func fileReadTask(forFileAtURL url: URL, inQueue queue: DispatchQueue) -> Task<Never, Data, Error> {
+    public func fileReadTask(inQueue queue: DispatchQueue) -> FileReadTask {
         return Task<Never, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
             //  Dispatch the actual work to a global queue. completion will send back to the given one.
             let taskExecution = {
                 completion(.completed(withResult: Result(catching: {
-                    return try Data(contentsOf: url)
+                    return try Data(contentsOf: self)
                 })))
             }
 
