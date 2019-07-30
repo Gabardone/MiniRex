@@ -38,3 +38,21 @@ extension Published {
         }
     }
 }
+
+
+extension Broadcaster {
+
+    /**
+     Returns a published value which will update itself based on the caller's broadcasts. It needs to be initialized
+     with a value so if any subscribers come along before there's any broadcaster updates they can get their value
+     at the time of subscription call.
+     Note that the returned published value will always start with the given initial value, no matter how many
+     prior values may have been broadcast before, since the broadcaster doesn't keep track of prior broadcasts.
+     - Parameter initialValue: The initial value for the published value.
+     - Returns: A published value initialized with initial value that will change its value with the caller's
+     broadcasts.
+     */
+    public func publishedValue(withInitialValue initialValue: Update) -> Published<Update> {
+        return Published<Update>(withBroadcaster: self, initialValue: initialValue)
+    }
+}
