@@ -32,7 +32,7 @@ class PublishedValue_BroadcasterTests: XCTestCase {
         }
 
         let initialValue = 0
-        let publishedIntFromBroadcaster = Published<Int>(withBroadcaster: broadcastFilter, initialValue: initialValue)
+        let publishedIntFromBroadcaster = broadcastFilter.publishedValue(withInitialValue: initialValue)
 
         var receivedValue = -1000
         var updateCount = 0
