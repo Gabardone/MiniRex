@@ -26,6 +26,7 @@
 		0838EA912218FA6F00007ED3 /* NotificationPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA902218FA6F00007ED3 /* NotificationPublisherTests.swift */; };
 		0842AB59218687F50091A811 /* MiniRex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0842AB4F218687F50091A811 /* MiniRex.framework */; };
 		0842AB60218687F50091A811 /* MiniRex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0842AB52218687F50091A811 /* MiniRex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		089C74762461599300A5C1E5 /* Result+Covariance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C74752461599300A5C1E5 /* Result+Covariance.swift */; };
 		08A8BF99220D145D0060F4AA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF98220D145D0060F4AA /* Logging.swift */; };
 		08A8BF9B220E55440060F4AA /* PublishedValue+Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */; };
 		08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */; };
@@ -79,6 +80,7 @@
 		0842AB53218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0842AB58218687F50091A811 /* MiniRexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniRexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0842AB5F218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		089C74752461599300A5C1E5 /* Result+Covariance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Covariance.swift"; sourceTree = "<group>"; };
 		08A8BF98220D145D0060F4AA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+Constant.swift"; sourceTree = "<group>"; };
 		08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherTransformTests.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				08FBDEE8225F12A300C27A08 /* Task+Data.swift */,
 				0829919D22CA916E005C05EB /* Task+Transform.swift */,
 				0829922522D5B352005C05EB /* Task+JSONParsing.swift */,
+				089C74752461599300A5C1E5 /* Result+Covariance.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				08CD637D218978720052D6F7 /* PublishedValue+KVO.swift in Sources */,
 				08FBDEE9225F12A300C27A08 /* Task+Data.swift in Sources */,
 				08FBDEE5225DA8E100C27A08 /* Task.swift in Sources */,
+				089C74762461599300A5C1E5 /* Result+Covariance.swift in Sources */,
 				083835B421EE56C000949CA8 /* Publisher.swift in Sources */,
 				083835B221ED2BEE00949CA8 /* Subscription.swift in Sources */,
 				0835C42622A4700A00288CEF /* PublishedValue+Broadcaster.swift in Sources */,
