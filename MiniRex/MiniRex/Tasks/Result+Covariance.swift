@@ -15,7 +15,7 @@ public extension Result {
      Simple utility to return a version of the given result that uses a generic Error as its failure parameter. This
      makes it easier to have some covariance for tasks that return the same or related data.
      */
-    func generic() -> Result<Success, Error> {
+    func withGenericError() -> Result<Success, Error> {
         switch self {
         case .success(let success):
             return .success(success)

@@ -47,6 +47,29 @@ extension Task {
     public func transform<TransformedProgress, TransformedSuccess, TransformedFailure>(with transformationBlock: @escaping (Update) -> Task<TransformedProgress, TransformedSuccess, TransformedFailure>.Update) -> Task<TransformedProgress, TransformedSuccess, TransformedFailure> {
         return Task<TransformedProgress, TransformedSuccess, TransformedFailure>(withSource: self, transformationBlock: transformationBlock)
     }
+
+
+    /**
+     Simple utility to convert a task into an identical one that fails with a generic error type.
+
+     Often we have several related task types that fail with differing specific error that we may want to abstract
+     away, this utility makes it easy by reexporting the task but instanced with a generic error as a failure type.
+     - Returns: The same task, but now its failure condition is sent as a generic Error type.
+     */
+    public func withGenericError() -> Task<Progress, Success, Error> {
+        return self.transform { status -> Task<Progress, Success, Error>.Status in
+                switch status {
+                case .inProgress(let progress):
+                    return .inProgress(progress)
+
+                case .completed(.success(let result)):
+                    return .completed(withResult: .success(result))
+
+                case .completed(.failure(let error)):
+                    return .completed(withResult: .failure(error))
+            }
+        }
+    }
 }
 
 
