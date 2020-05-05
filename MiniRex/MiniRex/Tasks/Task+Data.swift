@@ -1,5 +1,5 @@
 //
-//  Task+URLData.swift
+//  Task+Data.swift
 //  MiniRex
 //
 //  Created by Óscar Morales Vivó on 4/10/19.
@@ -7,6 +7,12 @@
 //
 
 import Foundation
+
+
+/**
+ The most generic data task reports no progress and finishes either with the fetched data or a generic error.
+ */
+public typealias DataTask = Task<Never, Data, Error>
 
 
 /**
@@ -81,7 +87,7 @@ public extension URL {
  A simple typealias to wrap file read into Data tasks to make logic more readable and less prone to Swift generics
  pedantry.
  */
-public typealias FileReadTask = Task<Never, Data, Error>
+public typealias FileReadTask = DataTask
 
 
 /**
@@ -97,7 +103,7 @@ public extension URL {
      executing as soon as a subscriber is added.
      */
     func fileReadTask(inQueue queue: DispatchQueue) -> FileReadTask {
-        return Task<Never, Data, Error>(inQueue: queue, withTaskBlock: { (completion) in
+        return FileReadTask(inQueue: queue, withTaskBlock: { (completion) in
             //  Dispatch the actual work to a global queue. completion will send back to the given one.
             let taskExecution = {
                 completion(.completed(withResult: Result(catching: {
