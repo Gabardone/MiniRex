@@ -32,8 +32,8 @@ public protocol Publisher {
     /**
      Custom subscription init.
 
-     By injecting astutely designed logic into the subscription block, we can basically turn one of these structs into
-     a variety of adapters or operands working on subscription updates, like filters, type transforms and queue
+     By injecting astutely designed logic into the subscription block, we can basically turn one of these structs
+     into a variety of adapters or operands working on subscription updates, like filters, type transforms and queue
      dispatch.
      - Parameter subscriberBlock: A block that executes the subscription logic.
      */

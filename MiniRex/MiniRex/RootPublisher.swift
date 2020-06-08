@@ -26,6 +26,15 @@ public class RootPublisher<PublisherType> where PublisherType: Publisher {
 
 
     /**
+     Returns whether the publisher currently has subscribers or not. This information can be used to manage the
+     publisher i.e. cache it while subscribers exist.
+     */
+    final public var hasSubscribers: Bool {
+        return !subscribers.isEmpty
+    }
+
+
+    /**
      Updates all the subscribers with the given value.
 
      Subclasses determine when this gets called.

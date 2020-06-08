@@ -17,10 +17,6 @@ import os
 
  Making it into a struct wouldn't work as the act of subscribing/unsubscribing involves a change in the state of the
  type's instance. Besides the publish/subscribe pattern implies reference semantics.
-
- - TODO: Multithreading considerations. Exclusive access to subscribers dictionary should take care of most of the
- potential issues and thus might be worthwhile. Otherwise we'd need to just declare that these objects should only be
- accessed from a specific thread (itself a valid approach with some extra help from dispatching publishers).
  */
 final public class PublishedProperty<Value>: RootPublisher<Published<Value>> {
 
