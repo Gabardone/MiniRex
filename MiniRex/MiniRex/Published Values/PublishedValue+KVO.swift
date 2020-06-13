@@ -52,8 +52,8 @@ extension Published {
                 //  This should be always the case for non-optionals, and for non-nil optional values.
                 return value
 
-            case _ as NSNull:
-                //  This will be hit if the observerd property is nullable/optional
+            case _ as NSNull, nil:
+                //  This will be hit if the observed property is nullable/optional
                 let nilValue: Any? = nil
                 return nilValue as! Update
 
