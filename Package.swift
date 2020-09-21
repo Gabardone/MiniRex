@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
     name: "MiniRex",
     platforms: [
-        .macOS(.v10_9),
-        .iOS(.v9_3),
-        .watchOS(.v2_2),
+        .macOS(.v10_10),
+        .iOS(.v8),
+        .watchOS(.v2),
         .tvOS(.v9)
     ],
     products: [
