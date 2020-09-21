@@ -24,7 +24,7 @@ class PublisherDispatchTests: XCTestCase {
         let subscribeExpectation = expectation(description: "Subscription")
 
         //  Basic publisher does nothing but run our testing logic and return an empty Subscription.
-        let publisher = Published<Int>(withSubscribeBlock: { (updateBlock) -> Subscription in
+        let publisher = MiniRex.Published<Int>(withSubscribeBlock: { (updateBlock) -> Subscription in
             let specificValue = DispatchQueue.getSpecific(key: key)
             XCTAssertNotNil(specificValue)
             if let specificString = specificValue {

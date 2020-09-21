@@ -171,7 +171,7 @@ class KVOPublisherTests: XCTestCase {
     func testStringKeyPathOptional() {
         var receivedUpdates: [NSNumber?] = []
 
-        let publisher: Published<NSNumber?> = self.testObject.publishedValue(forKeyPathString: "optional")
+        let publisher: MiniRex.Published<NSNumber?> = self.testObject.publishedValue(forKeyPathString: "optional")
         let subscription = publisher.subscribe { (update: NSNumber?) in
             receivedUpdates.append(update)
         }
