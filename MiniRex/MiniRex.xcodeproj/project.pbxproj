@@ -26,6 +26,8 @@
 		0838EA912218FA6F00007ED3 /* NotificationPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0838EA902218FA6F00007ED3 /* NotificationPublisherTests.swift */; };
 		0842AB59218687F50091A811 /* MiniRex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0842AB4F218687F50091A811 /* MiniRex.framework */; };
 		0842AB60218687F50091A811 /* MiniRex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0842AB52218687F50091A811 /* MiniRex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0885E12D253C21AD0003CB65 /* Publisher+Delayed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0885E12C253C21AD0003CB65 /* Publisher+Delayed.swift */; };
+		0885E133253ED3580003CB65 /* PublisherDelayedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0885E132253ED3580003CB65 /* PublisherDelayedTests.swift */; };
 		089C74762461599300A5C1E5 /* Result+Covariance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C74752461599300A5C1E5 /* Result+Covariance.swift */; };
 		08A8BF99220D145D0060F4AA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF98220D145D0060F4AA /* Logging.swift */; };
 		08A8BF9B220E55440060F4AA /* PublishedValue+Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */; };
@@ -80,6 +82,8 @@
 		0842AB53218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0842AB58218687F50091A811 /* MiniRexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniRexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0842AB5F218687F50091A811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0885E12C253C21AD0003CB65 /* Publisher+Delayed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Delayed.swift"; sourceTree = "<group>"; };
+		0885E132253ED3580003CB65 /* PublisherDelayedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherDelayedTests.swift; sourceTree = "<group>"; };
 		089C74752461599300A5C1E5 /* Result+Covariance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Covariance.swift"; sourceTree = "<group>"; };
 		08A8BF98220D145D0060F4AA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		08A8BF9A220E55440060F4AA /* PublishedValue+Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+Constant.swift"; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				08325CBF2288FBFC005DC8C3 /* NSObject+KVOSubscription.swift */,
 				08FBDEE2225DA60100C27A08 /* Published Values */,
 				083835B321EE56C000949CA8 /* Publisher.swift */,
+				0885E12C253C21AD0003CB65 /* Publisher+Delayed.swift */,
 				0838EA8E2218FA3400007ED3 /* Publisher+Dispatch.swift */,
 				08FBDEE6225DB2DF00C27A08 /* Publisher+SingleUpdate.swift */,
 				08C516F3229CFECE001164F5 /* RootPublisher.swift */,
@@ -168,6 +173,7 @@
 				0835C42722A4768E00288CEF /* PublishedValue+BroadcasterTests.swift */,
 				0827F5F922A3172D00067A83 /* PublishedValueTests.swift */,
 				0838EA922218FD9D00007ED3 /* PublisherConstantValueTests.swift */,
+				0885E132253ED3580003CB65 /* PublisherDelayedTests.swift */,
 				08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */,
 				08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */,
 				08A8BF9C221349060060F4AA /* PublisherTransformTests.swift */,
@@ -332,6 +338,7 @@
 				08A8BF9B220E55440060F4AA /* PublishedValue+Constant.swift in Sources */,
 				08325CC02288FBFC005DC8C3 /* NSObject+KVOSubscription.swift in Sources */,
 				0829919E22CA916E005C05EB /* Task+Transform.swift in Sources */,
+				0885E12D253C21AD0003CB65 /* Publisher+Delayed.swift in Sources */,
 				08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */,
 				08FBDEE7225DB2DF00C27A08 /* Publisher+SingleUpdate.swift in Sources */,
 				082A84F521E888A2007D5498 /* Broadcaster+Notification.swift in Sources */,
@@ -361,6 +368,7 @@
 				08A8BF9D221349060060F4AA /* PublisherTransformTests.swift in Sources */,
 				08E7753B22684511007CF676 /* PublisherSingleUpdateTests.swift in Sources */,
 				08A8BF9F221386D00060F4AA /* TestTypes.swift in Sources */,
+				0885E133253ED3580003CB65 /* PublisherDelayedTests.swift in Sources */,
 				08325CBE2288FA48005DC8C3 /* PublisherConstantValueTests.swift in Sources */,
 				0835C42822A4768E00288CEF /* PublishedValue+BroadcasterTests.swift in Sources */,
 				08E7753D22684B40007CF676 /* SimpleBroadcasterTests.swift in Sources */,
