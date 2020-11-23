@@ -21,12 +21,12 @@ let package = Package(
         .target(
             name: "MiniRex",
             dependencies: [],
-            path: "./MiniRex/MiniRex"
+            path: "MiniRex/MiniRex"
         ),
         .testTarget(
             name: "MiniRexTests",
             dependencies: ["MiniRex"],
-            path: "./MiniRex/MiniRexTests"
+            path: "MiniRex/MiniRexTests"
         ),
     ],
     swiftLanguageVersions: [.v5]
