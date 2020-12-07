@@ -40,6 +40,7 @@
 		08DE139E228A7BB300394268 /* PublishedValue+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DE139D228A7BB300394268 /* PublishedValue+Transform.swift */; };
 		08E7753B22684511007CF676 /* PublisherSingleUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */; };
 		08E7753D22684B40007CF676 /* SimpleBroadcasterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E7753C22684B40007CF676 /* SimpleBroadcasterTests.swift */; };
+		08E947A9257DFB66004A28BB /* AsyncValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E947A8257DFB66004A28BB /* AsyncValue.swift */; };
 		08FBDE9F224DF15300C27A08 /* PublisherDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */; };
 		08FBDEDE225D989300C27A08 /* PublishedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDD225D989300C27A08 /* PublishedValue.swift */; };
 		08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */; };
@@ -96,6 +97,7 @@
 		08DE139D228A7BB300394268 /* PublishedValue+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublishedValue+Transform.swift"; sourceTree = "<group>"; };
 		08E7753A22684511007CF676 /* PublisherSingleUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherSingleUpdateTests.swift; sourceTree = "<group>"; };
 		08E7753C22684B40007CF676 /* SimpleBroadcasterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBroadcasterTests.swift; sourceTree = "<group>"; };
+		08E947A8257DFB66004A28BB /* AsyncValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncValue.swift; sourceTree = "<group>"; };
 		08FBDE9E224DF15300C27A08 /* PublisherDispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherDispatchTests.swift; sourceTree = "<group>"; };
 		08FBDEDD225D989300C27A08 /* PublishedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedValue.swift; sourceTree = "<group>"; };
 		08FBDEDF225DA53B00C27A08 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		0842AB51218687F50091A811 /* MiniRex */ = {
 			isa = PBXGroup;
 			children = (
+				08E947A8257DFB66004A28BB /* AsyncValue.swift */,
 				08FBDEE1225DA5C500C27A08 /* Broadcasters */,
 				0842AB53218687F50091A811 /* Info.plist */,
 				08A8BF98220D145D0060F4AA /* Logging.swift */,
@@ -339,6 +342,7 @@
 				08325CC02288FBFC005DC8C3 /* NSObject+KVOSubscription.swift in Sources */,
 				0829919E22CA916E005C05EB /* Task+Transform.swift in Sources */,
 				0885E12D253C21AD0003CB65 /* Publisher+Delayed.swift in Sources */,
+				08E947A9257DFB66004A28BB /* AsyncValue.swift in Sources */,
 				08FBDEE0225DA53B00C27A08 /* Broadcaster.swift in Sources */,
 				08FBDEE7225DB2DF00C27A08 /* Publisher+SingleUpdate.swift in Sources */,
 				082A84F521E888A2007D5498 /* Broadcaster+Notification.swift in Sources */,
