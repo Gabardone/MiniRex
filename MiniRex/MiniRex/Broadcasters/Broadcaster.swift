@@ -39,13 +39,10 @@ public struct Broadcaster<Broadcast>: Publisher {
 
 
     /**
-     Subscribes the given block to the published value.
+     Subscribes the given block to the broadcaster.
 
-     The given block will be called once with the value at the time of subscription (which may happen synchronously
-     or asynchronously) and then afterwards whenever the published value changes.
-
-     If Value is of an Equatable or reference type subscribers will only be called when the actual value is detected
-     to change per its equatable implementation or identity respectively.
+     The given block whenever the broadcaster has a new value to broadcast. There's no limitation to what those
+     values may be.
      - Parameter valueBlock: The block that is called initially with the value at the time of subscription, then
      whenever the value gets updated with the new one.
      - Returns: A subscription to the published value.
