@@ -23,7 +23,7 @@ extension Published {
      - Parameter object: The object whose keypath value updates we want to publish.
      - Parameter keyPath: The keypath whose updates we want to publish.
      */
-    fileprivate init<Root>(forKVOValueUpdatesOf object: Root, keyPath: KeyPath<Root, Update>) where Root: NSObject, Update: Equatable {
+    fileprivate init<Root>(forKVOValueUpdatesOf object: Root, keyPath: KeyPath<Root, Update>) where Root: NSObject {
         //  The Swift compiler chokes on this if we try to do it all at once...
         let rawKVOPublisher = Published<(Root, NSKeyValueObservedChange<Update>)>(withSubscribeBlock: object.subscribeBlock(forKeyPath: keyPath, keyValueObservingOptions: [.initial, .new]))
         let transformationBlock = { (update: (object: Root, change: NSKeyValueObservedChange<Update>)) -> Update in
@@ -87,7 +87,7 @@ extension KeyValuePublishing where Self: NSObject {
      calls to the given update block.
      - Returns: A publisher that publishes the key-path's initial value and its updates.
      */
-    public func publishedValue<ValueType>(forKeyPathUpdates keyPath: KeyPath<Self, ValueType>) -> Published<ValueType> where ValueType: Equatable {
+    public func publishedValue<ValueType>(forKeyPathUpdates keyPath: KeyPath<Self, ValueType>) -> Published<ValueType> {
         return Published(forKVOValueUpdatesOf: self, keyPath: keyPath)
     }
 
@@ -101,7 +101,7 @@ extension KeyValuePublishing where Self: NSObject {
      - Parameter update: The subscription update block that will be called when key path value changes.
      - Returns: A subscription object.
      */
-    public func subscribe<Value>(toValueAtKeyPath keyPath: KeyPath<Self, Value>, update: @escaping (Value) -> Void) -> Subscription where Value: Equatable {
+    public func subscribe<Value>(toValueAtKeyPath keyPath: KeyPath<Self, Value>, update: @escaping (Value) -> Void) -> Subscription {
         let publisher = self.publishedValue(forKeyPathUpdates: keyPath)
         return publisher.subscribe(update)
     }
