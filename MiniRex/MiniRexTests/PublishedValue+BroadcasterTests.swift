@@ -21,7 +21,7 @@ class PublishedValue_BroadcasterTests: XCTestCase {
         let filterOutExpectation = expectation(description: "Filtered one out")
         let filterInExpectation = expectation(description: "Filtered one in")
         let broadcastFilter = Broadcaster(
-            withSource: publishedInt.publishedValue,
+            withSource: publishedInt.wrappedValue,
             filterBlock: { (intValue) -> Bool in
                 if !filteredOne {
                     filterOutExpectation.fulfill()

@@ -39,7 +39,7 @@ class PublisherSingleUpdateTests: XCTestCase {
 
         let publishedInteger = PublishedProperty(withInitialValue: initialValue)
         let updateExpectation = expectation(description: "SingleUpdate")
-        let singleUseSubscription = publishedInteger.publishedValue.subscribeToSingleUpdate { (integer) in
+        let singleUseSubscription = publishedInteger.wrappedValue.subscribeToSingleUpdate { (integer) in
             XCTAssertEqual(integer, initialValue)
             updateExpectation.fulfill()
         }

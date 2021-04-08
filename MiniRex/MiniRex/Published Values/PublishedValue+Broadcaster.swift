@@ -34,7 +34,7 @@ extension Published {
             _ = subscription
 
             //  Now just return the subscription to the actual broadcaster.
-            return publishedProperty.publishedValue.subscribe(valueBlock)
+            return publishedProperty.wrappedValue.subscribe(valueBlock)
         }
     }
 }

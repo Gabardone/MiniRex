@@ -17,7 +17,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastInteger = 0
-        let intSubscription = publishedInt.publishedValue.subscribe { (integer) in
+        let intSubscription = publishedInt.wrappedValue.subscribe { (integer) in
             updateCount += 1
             lastInteger = integer
         }
@@ -41,6 +41,52 @@ class PublishedPropertyTests: XCTestCase {
     }
 
 
+    func testPublishedPropertyEquatableWrapper() {
+        struct TestStruct {
+            @PublishedProperty var publishedInt: MiniRex.Published<Int>
+
+            var value: Int {
+                get {
+                    return _publishedInt.value
+                }
+
+                set {
+                    _publishedInt.value = newValue
+                }
+            }
+
+            init(intValue: Int) {
+                self._publishedInt = PublishedProperty(withInitialValue: intValue)
+            }
+        }
+        var testStruct = TestStruct(intValue: 0)
+
+        var updateCount = 0
+        var lastInteger = 0
+        let intSubscription = testStruct.publishedInt.subscribe { (integer) in
+            updateCount += 1
+            lastInteger = integer
+        }
+
+        XCTAssertEqual(updateCount, 1)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastInteger, 0)
+
+        testStruct.value = 7
+
+        XCTAssertEqual(testStruct.value, 7)
+        XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastInteger, 7)
+
+        testStruct.value = 7
+
+        //  Should be the same as before since the new value was the same.
+        XCTAssertEqual(updateCount, 2)  //  Should have gotten the initial update since there's no async publishers involved.
+        XCTAssertEqual(lastInteger, 7)
+
+        intSubscription.invalidate()
+    }
+
+
     func testPublishedPropertyAnyObject() {
         let testObject1 = NonEquatableTestObject(0)
         let testObject2 = NonEquatableTestObject(1)
@@ -48,7 +94,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastTestObject = testObject1
-        let testObjectSubscription = publishedTestObject.publishedValue.subscribe { (testObject) in
+        let testObjectSubscription = publishedTestObject.wrappedValue.subscribe { (testObject) in
             updateCount += 1
             lastTestObject = testObject
         }
@@ -79,7 +125,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastTestObject = testObject1
-        let testObjectSubscription = publishedTestObject.publishedValue.subscribe { (testObject) in
+        let testObjectSubscription = publishedTestObject.wrappedValue.subscribe { (testObject) in
             updateCount += 1
             lastTestObject = testObject
         }
@@ -108,7 +154,7 @@ class PublishedPropertyTests: XCTestCase {
 
         var updateCount = 0
         var lastValue = NonEquatableNonObject(intValue: -1)
-        let subscription = publishedNonEquatableNonObject.publishedValue.subscribe { (value) in
+        let subscription = publishedNonEquatableNonObject.wrappedValue.subscribe { (value) in
             updateCount += 1
             lastValue = value
         }

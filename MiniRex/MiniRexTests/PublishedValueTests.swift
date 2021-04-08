@@ -18,7 +18,7 @@ class PublishedValueTests: XCTestCase {
         let initializationExpecation = expectation(description: "Initialization block called")
         let updateExpectation = expectation(description: "Update block called")
 
-        let subscription = publishedIntProperty.publishedValue.subscribe(initialValueBlock: { (initialValue) in
+        let subscription = publishedIntProperty.wrappedValue.subscribe(initialValueBlock: { (initialValue) in
             initializationExpecation.fulfill()
         }) { (updatedValue) in
             updateExpectation.fulfill()

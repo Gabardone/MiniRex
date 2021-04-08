@@ -11,13 +11,16 @@ import os
 
 
 /**
- A simple type to pack up together a property and a published value for it. Direct access to the property should usually
- be left to the immediate environment, while its publisher can be used to vend as API without establishing
+ A simple type to pack up together a property and a published value for it. Direct access to the property should
+ usually be left to the immediate environment, while its publisher can be used to vend as API without establishing
  implementation dependencies.
 
- Making it into a struct wouldn't work as the act of subscribing/unsubscribing involves a change in the state of the
- type's instance. Besides the publish/subscribe pattern implies reference semantics.
+ The type implements what's needed to be used as a Swift property wrapper for the quite common case where we want
+ internal storage with direct private manipulation of a value and external publishing of the value. It doesn't
+ implement a projected value for its stored value since it would necessarily pick the generic implementation of the
+ value property at the time of compilation which does not check for equality.
  */
+@propertyWrapper
 final public class PublishedProperty<Value>: RootPublisher<Published<Value>> {
 
     /**
@@ -44,7 +47,7 @@ final public class PublishedProperty<Value>: RootPublisher<Published<Value>> {
      new subscribers with an initial value. Keep it around only as long as you need them. Its generated subscriptions
      don't hold a strong reference to anything.
      */
-    public var publishedValue: Published<Value> {
+    public var wrappedValue: Published<Value> {
         return Published<Value>(withSubscribeBlock: { (updateBlock) -> Subscription in
             let result = super.subscriptionBlock(updateBlock)
 

@@ -62,7 +62,7 @@ class PublisherDispatchTests: XCTestCase {
 
         //  Build up the publisher that dispatches to our queue.
         let publishedProperty = PublishedProperty<Int>(withInitialValue: 7)
-        let dispatchedProperty = publishedProperty.publishedValue.dispatch(updateQueue: updateQueue)
+        let dispatchedProperty = publishedProperty.wrappedValue.dispatch(updateQueue: updateQueue)
 
         //  Update from subscription tests all the things.
         let subscription = dispatchedProperty.subscribe { (integer) in
