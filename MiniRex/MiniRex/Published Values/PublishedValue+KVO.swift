@@ -59,7 +59,7 @@ extension Published {
 
             default:
                 //  Programmer error, most likely.
-                preconditionFailure("Unknown type for new value posted on KVO notification with change \(String(describing: update.change))")
+                preconditionFailure("Unexpected type \(type(of: update.change![.newKey])) instead of \(Update.self) for new value posted on KVO notification with change \(String(describing: update.change))")
             }
         }
         self.init(withSource: rawKVOPublisher, valueTransformationBlock: transformationBlock)
